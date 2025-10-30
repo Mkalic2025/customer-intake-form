@@ -7,111 +7,147 @@
 <style>
   :root {
     --brand-navy:#1f2a44;
-    --brand-mid:#2f3d63;
     --brand-accent:#f26522;
     --line:#dfe3eb;
-    --text:#111;
-    --muted:#6b7280;
+    --header-bg:#f8f9fc;
   }
-  * { box-sizing:border-box; }
   body {
-    font-family:"Arial Nova", Arial, Helvetica, sans-serif;
-    color:var(--text); margin:0; padding:24px; background:#fff;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0; padding: 24px; background: #fff; color: #111;
   }
-  .wrap { max-width:980px; margin:0 auto; }
+  .wrap { max-width: 980px; margin: 0 auto; }
   header {
-    display:flex; align-items:center; gap:18px;
-    margin-bottom:22px;
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 18px;
   }
-  header img {
-    height:1.6cm; width:auto; max-width:7cm;
-  }
-  h1 { font-size:22px; margin:0; font-weight:700; color:var(--brand-navy);}
-  .note {font-size:13px; color:var(--muted); margin-top:4px;}
-  .bar {
-    background:var(--brand-accent);
-    color:#fff; padding:10px 12px; font-weight:700;
-    margin:22px 0 0; border-radius:3px;
+  header img { height: 40px; }
+  h1 { font-size: 22px; margin: 0; font-weight: 700; color: var(--brand-navy);}
+  .note { font-size: 13px; color: #6b7280; margin-top: 4px;}
+  .section-header {
+    background: var(--header-bg);
+    padding: 14px 16px;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--brand-accent);
+    border: 1px solid var(--line);
+    margin-top: 28px;
+    margin-bottom: 16px; /* Added gap between header and table */
   }
   table {
-    width:100%; border-collapse:collapse; font-size:13px; margin-bottom:12px;
+    width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 12px;
   }
   th, td {
-    border:1px solid var(--line); padding:8px 10px; vertical-align:middle;
+    border: 1px solid var(--line); padding: 8px 10px; vertical-align: middle;
   }
   thead th {
-    background:var(--brand-navy); color:#fff; font-weight:700;
-    text-align:left;
+    background: var(--brand-navy); color: #fff; font-weight: 700;
+    text-align: left;
   }
   input, select {
-    width:100%; padding:6px 8px;
-    border:1px solid #cfd6e4; border-radius:4px;
-    font-family:"Arial Nova", Arial, Helvetica, sans-serif;
-    font-size:13px;
+    width: 100%; padding: 6px 8px;
+    border: 1px solid #cfd6e4; border-radius: 4px;
+    font-size: 13px;
   }
-  input:focus, select:focus {outline:none; border-color:var(--brand-accent);}
-  @media(max-width:768px){
-    body{padding:14px;}
-    th, td{font-size:12px;}
-    header{flex-direction:column; align-items:flex-start;}
-    header img{height:1.2cm;}
+  input:focus, select:focus { outline: none; border-color: var(--brand-accent);}
+  button {
+    background: var(--brand-accent); color: #fff; border: none;
+    padding: 12px 20px; font-size: 15px; border-radius: 4px;
+    cursor: pointer; margin-top: 20px;
   }
+  button:hover { background: #d9541c; }
 </style>
 </head>
-
 <body>
 <div class="wrap">
   <header>
-    <img src="https://seekvectorlogo.com/wp-content/uploads/2019/05/aggreko-vector-logo.png" alt="Aggreko Logo">
     <div>
-      <h1>Customer Project Intake – Hybrid</h1>
-      <div class="note">Renewables + Thermal</div>
+      <h1>Hybrid Proposals (Renewables + Thermal)</h1>
+      <div class="note">Please complete all applicable sections. Leave blank if not applicable.</div>
     </div>
+    <img src="https://seekvectorlogo.com/wp-content/uploads/2019/05/aggreko-vector-logo.png" alt="Aggreko Logo">
   </header>
 
-  <div class="bar">Customer & Contacts</div>
-  <table>
-    <thead><tr><th>Description</th><th>Capacity / Unit</th><th>Customer to Populate</th></tr></thead>
-    <tbody>
-      <tr><td>Customer company *</td><td>–</td><td><input type="text" placeholder="Enter company"></td></tr>
-      <tr><td>Primary contact name *</td><td>–</td><td><input type="text" placeholder="Enter full name"></td></tr>
-      <tr><td>Email *</td><td>–</td><td><input type="email" placeholder="name@company.com"></td></tr>
-      <tr><td>Phone number</td><td>–</td><td><input type="text" placeholder="+61 xxx xxx xxx"></td></tr>
-    </tbody>
-  </table>
+  <form id="intakeForm">
+    <!-- Customer Details -->
+    <div class="section-header">Customer Details</div>
+    <table>
+      <thead><tr><th>Description</th><th>Customer to Populate</th></tr></thead>
+      <tbody>
+        <tr><td>Customer company *</td><td><input type="text" name="customerCompany" required></td></tr>
+        <tr><td>Primary contact name *</td><td><input type="text" name="contactName" required></td></tr>
+        <tr><td>Email *</td><td><input type="email" name="contactEmail" required></td></tr>
+      </tbody>
+    </table>
 
-  <div class="bar">Summary of Requirements</div>
-  <table>
-    <thead><tr><th>Description</th><th>Capacity / Unit</th><th>Customer to Populate</th></tr></thead>
-    <tbody>
-      <tr><td>Site</td><td>Name & Location</td><td><input type="text" placeholder="e.g. Leonora process plant"></td></tr>
-      <tr><td>Contract Term</td><td>Years</td><td><input type="number" placeholder="e.g. 10"></td></tr>
-      <tr><td>Contract Term Extension</td><td>Years</td><td><input type="number" placeholder="e.g. 2"></td></tr>
-      <tr><td>Target COD Date *</td><td>DD/MM/YYYY</td><td><input type="date"></td></tr>
-    </tbody>
-  </table>
+    <!-- Project, Site & Contract -->
+    <div class="section-header">Project, Site & Contract</div>
+    <table>
+      <thead><tr><th>Description</th><th>Customer to Populate</th></tr></thead>
+      <tbody>
+        <tr><td>Site</td><td><input type="text" name="siteName"></td></tr>
+        <tr><td>Contract Term</td><td><input type="number" name="contractTerm"></td></tr>
+        <tr><td>Contract Term Extension</td><td><input type="number" name="contractExtension"></td></tr>
+        <tr><td>Target COD Date *</td><td><input type="date" name="targetCOD" required></td></tr>
+      </tbody>
+    </table>
 
-  <div class="bar">Power & Energy</div>
-  <table>
-    <thead><tr><th>Description</th><th>Capacity / Unit</th><th>Customer to Populate</th></tr></thead>
-    <tbody>
-      <tr><td>CMD (Contracted Maximum Demand) *</td><td>MW</td><td><input type="number" placeholder="e.g. 45"></td></tr>
-      <tr><td>Redundancy *</td><td>–</td>
-        <td><select><option value="">Select…</option><option>N+1</option><option>N+2</option><option>Other</option></select></td>
-      </tr>
-      <tr><td>Average Demand</td><td>MW</td><td><input type="number"></td></tr>
-      <tr><td>Fuel Type *</td><td>–</td>
-        <td><select><option value="">Select fuel…</option><option>Diesel</option><option>Gas</option><option>LNG</option><option>Other</option></select></td>
-      </tr>
-      <tr><td>Assumed Fuel Price *</td><td>$</td><td><input type="text" placeholder="e.g. $/L or $/GJ"></td></tr>
-      <tr><td>Maximum Temperature *</td><td>°C</td><td><input type="number"></td></tr>
-      <tr><td>Altitude</td><td>m</td><td><input type="number"></td></tr>
-      <tr><td>Voltage</td><td>V</td><td><input type="text"></td></tr>
-      <tr><td>Accommodation</td><td>–</td>
-        <td><select><option value="">Select…</option><option>Customer</option><option>Aggreko</option><option>Shared</option><option>Not required</option></select></td>
-      </tr>
-    </tbody>
-  </table>
+    <!-- Power & Energy -->
+    <div class="section-header">Power & Energy</div>
+    <table>
+      <thead><tr><th>Description</th><th>Customer to Populate</th></tr></thead>
+      <tbody>
+        <tr><td>CMD (Contracted Maximum Demand) *</td><td><input type="number" name="cmdMW" required></td></tr>
+        <tr><td>Redundancy *</td><td>
+          <select name="redundancy" required>
+            <option value="">Select…</option><option>N+1</option><option>N+2</option><option>Other</option>
+          </select>
+        </td></tr>
+        <tr><td>Average Demand</td><td><input type="number" name="avgDemandMW"></td></tr>
+        <tr><td>Fuel Type *</td><td>
+          <select name="fuelType" required>
+            <option value="">Select fuel…</option><option>Diesel</option><option>Gas</option><option>LNG</option><option>Other</option>
+          </select>
+        </td></tr>
+        <tr><td>Assumed Fuel Price *</td><td><input type="text" name="fuelPrice" required></td></tr>
+        <tr><td>Maximum Temperature *</td><td><input type="number" name="maxTemp" required></td></tr>
+        <tr><td>Altitude</td><td><input type="number" name="altitude"></td></tr>
+        <tr><td>Voltage</td><td><input type="text" name="voltage"></td></tr>
+        <tr><td>Accommodation</td><td>
+          <select name="accommodation">
+            <option value="">Select…</option><option>Customer</option><option>Aggreko</option><option>Shared</option><option>Not required</option>
+          </select>
+        </td></tr>
+      </tbody>
+    </table>
+
+    <button type="submit">Submit</button>
+  </form>
 </div>
+
+<script>
+document.getElementById('intakeForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const formData = new FormData(this);
+  const jsonData = Object.fromEntries(formData.entries());
+
+  try {
+    const response = await fetch('YOUR_POWER_AUTOMATE_ENDPOINT', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(jsonData)
+    });
+
+    if (response.ok) {
+      alert('Form submitted successfully!');
+      this.reset();
+    } else {
+      alert('Error submitting form. Please try again.');
+    }
+  } catch (error) {
+    alert('Network error. Please check your connection.');
+  }
+});
+</script>
 </body>
 </html>
+``
