@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Project Intake Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f9f9f9;
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    form {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #444;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px 20px;
+      background: #ff6600;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #e65c00;
+    }
+  </style>
+</head>
+<body>
+  <h2>Customer Project Intake Form</h2>
+  <form id="intakeForm">
+    <label for="siteName">Site Name & Location:</label>
+    <input type="text" id="siteName" name="siteName" required>
+
+    <label for="contractTerm">Contract Term (Years):</label>
+    <input type="number" id="contractTerm" name="contractTerm" min="1" max="20" required>
+
+    <label for="fuelType">Fuel Type:</label>
+    <select id="fuelType" name="fuelType" required>
+      <option value="">Select...</option>
+      <option value="Diesel">Diesel</option>
+      <option value="Gas">Gas</option>
+      <option value="Hybrid">Hybrid</option>
+    </select>
+
+    <label for="fuelPrice">Assumed Fuel Price ($/L):</label>
+    <input type="number" id="fuelPrice" name="fuelPrice" step="0.01" required>
+
+    <label for="landAvailability">Land Availability (Area + Status):</label>
+    <input type="text" id="landAvailability" name="landAvailability">
+
+    <label for="maxTemp">Maximum Temperature (°C):</label>
+    <input type="number" id="maxTemp" name="maxTemp">
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    document.getElementById('intakeForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      const jsonData = Object.fromEntries(formData.entries());
+
+      try {
+        const response = await fetch('YOUR_LOGIC_APP_ENDPOINT', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(jsonData)
+        });
+
+        if (response.ok) {
+          alert('Form submitted successfully!');
+          this.reset();
+        } else {
+          alert('Error submitting form. Please try again.');
+        }
+      } catch (error) {
+        alert('Network error. Please check your connection.');
+      }
+    });
+  </script>
+</body>
+</html>
