@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Aggreko – Customer Project Intake (Hybrid)</title>
+<title>Aggreko – Customer Project Intake Form</title>
 <style>
   :root {
     --brand-navy:#1f2a44;
@@ -18,11 +18,11 @@
   .wrap { max-width: 980px; margin: 0 auto; }
   header {
     display: flex; justify-content: space-between; align-items: flex-start;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
   }
-  header img { height: 80px; margin-left: 40px; }
+  header img { height: 110px; margin-left: 40px; }
   .title {
-    font-size: 32px; font-weight: 700; color: var(--brand-navy);
+    font-size: 28px; font-weight: 700; color: var(--brand-navy);
     margin-bottom: 6px;
   }
   .subtitle {
@@ -44,12 +44,13 @@
     border-collapse: collapse;
     font-size: 13px;
     margin-bottom: 12px;
-    table-layout: fixed; /* Ensures consistent column widths */
+    table-layout: fixed;
   }
   th, td {
     border: 1px solid var(--line);
-    padding: 8px 10px;
+    padding: 8px;
     vertical-align: middle;
+    height: 36px; /* Smaller uniform row height */
   }
   thead th {
     background: var(--brand-navy);
@@ -57,17 +58,17 @@
     font-weight: 700;
     text-align: left;
   }
-  /* Column widths */
   th:first-child, td:first-child {
-    width: 35%; /* Description column */
+    width: 35%;
   }
   th:last-child, td:last-child {
-    width: 65%; /* Customer to Populate column */
+    width: 65%;
   }
   input, select, textarea {
-    width: 95%; /* Prevent overflow */
+    width: 90%;
     padding: 6px 8px;
-    margin: 4px 0;
+    margin: 0 auto;
+    display: block;
     border: 1px solid #cfd6e4;
     border-radius: 4px;
     font-size: 13px;
@@ -100,10 +101,10 @@
 <div class="wrap">
   <header>
     <div>
-      <div class="title">Customer Project Intake – Hybrid</div>
+      <div class="title">Customer Project Intake Form</div>
       <div class="subtitle">Renewables + Thermal</div>
     </div>
-    <img src="https://seekvectorlogo.com/wp-content/uploads/2019/05/aggreko-vector-logo.png" alt="Aggreko Logo">
+    https://seekvectorlogo.com/wp-content/uploads/2019/05/aggreko-vector-logo.png
   </header>
 
   <form id="intakeForm">
@@ -197,4 +198,5 @@ document.getElementById('intakeForm').addEventListener('submit', async function(
 });
 </script>
 </body>
+</html>
 </html>
