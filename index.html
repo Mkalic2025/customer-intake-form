@@ -17,12 +17,18 @@
   }
   .wrap { max-width: 980px; margin: 0 auto; }
   header {
-    display: flex; justify-content: space-between; align-items: center;
-    margin-bottom: 18px;
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 40px;
   }
-  header img { height: 40px; }
-  h1 { font-size: 22px; margin: 0; font-weight: 700; color: var(--brand-navy);}
-  .note { font-size: 13px; color: #6b7280; margin-top: 4px;}
+  header img { height: 80px; }
+  .title {
+    font-size: 28px; font-weight: 700; color: var(--brand-navy);
+    margin-bottom: 6px;
+  }
+  .subtitle {
+    font-size: 18px; font-weight: 400; font-family: "Arial Nova", Arial, sans-serif;
+    color: #333;
+  }
   .section-header {
     background: var(--header-bg);
     padding: 14px 16px;
@@ -31,7 +37,7 @@
     color: var(--brand-accent);
     border: 1px solid var(--line);
     margin-top: 28px;
-    margin-bottom: 16px; /* Added gap between header and table */
+    margin-bottom: 16px;
   }
   table {
     width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 12px;
@@ -43,26 +49,30 @@
     background: var(--brand-navy); color: #fff; font-weight: 700;
     text-align: left;
   }
-  input, select {
+  input, select, textarea {
     width: 100%; padding: 6px 8px;
     border: 1px solid #cfd6e4; border-radius: 4px;
     font-size: 13px;
   }
-  input:focus, select:focus { outline: none; border-color: var(--brand-accent);}
-  button {
-    background: var(--brand-accent); color: #fff; border: none;
+  textarea { resize: vertical; min-height: 60px; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--brand-accent);}
+  .submit-btn {
+    background: var(--brand-navy); color: #fff; border: none;
     padding: 12px 20px; font-size: 15px; border-radius: 4px;
     cursor: pointer; margin-top: 20px;
   }
-  button:hover { background: #d9541c; }
+  .submit-btn:hover { background: #162038; }
+  .privacy {
+    font-size: 12px; color: #6b7280; margin-top: 20px; line-height: 1.4;
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
     <div>
-      <h1>Hybrid Proposals (Renewables + Thermal)</h1>
-      <div class="note">Please complete all applicable sections. Leave blank if not applicable.</div>
+      <div class="title">Customer Project Intake – Hybrid</div>
+      <div class="subtitle">Renewables + Thermal</div>
     </div>
     <img src="https://seekvectorlogo.com/wp-content/uploads/2019/05/aggreko-vector-logo.png" alt="Aggreko Logo">
   </header>
@@ -120,7 +130,16 @@
       </tbody>
     </table>
 
-    <button type="submit">Submit</button>
+    <!-- Additional Project Details -->
+    <div class="section-header">Additional Project Details</div>
+    <textarea name="additionalDetails" placeholder="Free text"></textarea>
+
+    <button type="submit" class="submit-btn">Submit Project Intake Form</button>
+
+    <div class="privacy">
+      <strong>Privacy &amp; Confidentiality</strong><br>
+      This email and any information provided in response may contain confidential and/or personal information. If you are not the intended recipient, please notify the sender immediately and delete this message. Any unauthorised review, use, disclosure, or distribution is prohibited. Information you provide will be used to assess project requirements and budgetary pricing and may be stored in Aggreko systems in accordance with Aggreko’s privacy practices. © Aggreko.
+    </div>
   </form>
 </div>
 
@@ -150,4 +169,3 @@ document.getElementById('intakeForm').addEventListener('submit', async function(
 </script>
 </body>
 </html>
-``
