@@ -20,9 +20,9 @@
     display: flex; justify-content: space-between; align-items: flex-start;
     margin-bottom: 40px;
   }
-  header img { height: 80px; }
+  header img { height: 80px; margin-left: 40px; }
   .title {
-    font-size: 28px; font-weight: 700; color: var(--brand-navy);
+    font-size: 32px; font-weight: 700; color: var(--brand-navy);
     margin-bottom: 6px;
   }
   .subtitle {
@@ -40,30 +40,59 @@
     margin-bottom: 16px;
   }
   table {
-    width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 12px;
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-bottom: 12px;
+    table-layout: fixed; /* Ensures consistent column widths */
   }
   th, td {
-    border: 1px solid var(--line); padding: 8px 10px; vertical-align: middle;
+    border: 1px solid var(--line);
+    padding: 8px 10px;
+    vertical-align: middle;
   }
   thead th {
-    background: var(--brand-navy); color: #fff; font-weight: 700;
+    background: var(--brand-navy);
+    color: #fff;
+    font-weight: 700;
     text-align: left;
   }
+  /* Column widths */
+  th:first-child, td:first-child {
+    width: 35%; /* Description column */
+  }
+  th:last-child, td:last-child {
+    width: 65%; /* Customer to Populate column */
+  }
   input, select, textarea {
-    width: 100%; padding: 6px 8px;
-    border: 1px solid #cfd6e4; border-radius: 4px;
+    width: 95%; /* Prevent overflow */
+    padding: 6px 8px;
+    margin: 4px 0;
+    border: 1px solid #cfd6e4;
+    border-radius: 4px;
     font-size: 13px;
+    font-family: "Arial Nova", Arial, sans-serif;
+    box-sizing: border-box;
   }
   textarea { resize: vertical; min-height: 60px; }
   input:focus, select:focus, textarea:focus { outline: none; border-color: var(--brand-accent);}
   .submit-btn {
-    background: var(--brand-navy); color: #fff; border: none;
-    padding: 12px 20px; font-size: 15px; border-radius: 4px;
-    cursor: pointer; margin-top: 20px;
+    background: var(--brand-navy);
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    font-size: 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background 0.3s ease;
   }
-  .submit-btn:hover { background: #162038; }
+  .submit-btn:hover { background: var(--brand-accent); }
   .privacy {
-    font-size: 12px; color: #6b7280; margin-top: 20px; line-height: 1.4;
+    font-size: 12px;
+    color: #6b7280;
+    margin-top: 20px;
+    line-height: 1.4;
   }
 </style>
 </head>
@@ -134,7 +163,7 @@
     <div class="section-header">Additional Project Details</div>
     <textarea name="additionalDetails" placeholder="Free text"></textarea>
 
-    <button type="submit" class="submit-btn">Submit Project Intake Form</button>
+    <button type="submit" class="submit-btn">Submit Form</button>
 
     <div class="privacy">
       <strong>Privacy &amp; Confidentiality</strong><br>
