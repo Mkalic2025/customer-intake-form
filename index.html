@@ -22,7 +22,8 @@
   }
   header img { height: 110px; margin-left: 40px; }
   .title {
-    font-size: 28px; font-weight: 700; color: var(--brand-navy);
+    font-size: 28px; font-weight: 700; font-family: "Arial Nova", Arial, sans-serif;
+    color: var(--brand-navy);
     margin-bottom: 6px;
   }
   .subtitle {
@@ -48,15 +49,24 @@
   }
   th, td {
     border: 1px solid var(--line);
-    padding: 8px;
+    padding: 6px 8px;
     vertical-align: middle;
-    height: 36px; /* Smaller uniform row height */
+    height: 34px; /* Uniform row height */
   }
   thead th {
     background: var(--brand-navy);
     color: #fff;
     font-weight: 700;
+    font-size: 12pt; /* Updated size */
     text-align: left;
+    text-indent: 0.1em; /* Same indent */
+    font-family: "Arial Nova", Arial, sans-serif;
+  }
+  td:first-child {
+    font-family: "Arial Nova", Arial, sans-serif;
+    font-size: 11pt; /* Description text size */
+    text-align: left;
+    text-indent: 0.1em;
   }
   th:first-child, td:first-child {
     width: 35%;
@@ -66,7 +76,7 @@
   }
   input, select, textarea {
     width: 90%;
-    padding: 6px 8px;
+    padding: 4px 6px; /* Reduced padding */
     margin: 0 auto;
     display: block;
     border: 1px solid #cfd6e4;
@@ -83,6 +93,8 @@
     border: none;
     padding: 12px 20px;
     font-size: 15px;
+    font-family: "Arial Nova", Arial, sans-serif;
+    font-weight: 700; /* Bold */
     border-radius: 4px;
     cursor: pointer;
     margin-top: 20px;
@@ -104,7 +116,7 @@
       <div class="title">Customer Project Intake Form</div>
       <div class="subtitle">Renewables + Thermal</div>
     </div>
-    https://seekvectorlogo.com/wp-content/uploads/2019/05/aggreko-vector-logo.png
+    <img src="https://seekvectorlogo.com/wp-content/uploads/2019/05/aggreko-vector-logo.png" alt="Aggreko Logo">
   </header>
 
   <form id="intakeForm">
@@ -160,6 +172,18 @@
       </tbody>
     </table>
 
+    <!-- Renewables -->
+    <div class="section-header">Renewables</div>
+    <table>
+      <thead><tr><th>Description</th><th>Customer to Populate</th></tr></thead>
+      <tbody>
+        <tr><td>Wind</td><td><input type="text" name="windCapacity" placeholder="Capacity (MWp)"></td></tr>
+        <tr><td>Solar PV</td><td><input type="text" name="solarCapacity" placeholder="Capacity (MWp)"></td></tr>
+        <tr><td>Battery Energy Storage (BESS)</td><td><input type="text" name="bessCapacity" placeholder="Capacity (MWh)"></td></tr>
+        <tr><td>Renewable Energy Fraction (REF%)</td><td><input type="number" name="refPercent" step="0.01"></td></tr>
+      </tbody>
+    </table>
+
     <!-- Additional Project Details -->
     <div class="section-header">Additional Project Details</div>
     <textarea name="additionalDetails" placeholder="Free text"></textarea>
@@ -198,5 +222,4 @@ document.getElementById('intakeForm').addEventListener('submit', async function(
 });
 </script>
 </body>
-</html>
 </html>
