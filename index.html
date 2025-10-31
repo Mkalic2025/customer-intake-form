@@ -10,7 +10,7 @@
     :root{
       --brand-navy: #0B1F39;
       --brand-navy-2: #1E293B;
-      --brand-grey-100: #F2F4F8;
+      --brand-grey-100: #F2F4F8;   /* section header background */
       --brand-grey-200: #E5E7EB;
       --brand-grey-300: #DCDCDC;
       --brand-text: #0F172A;
@@ -23,12 +23,12 @@
       --font-size: 14px;
       --line: 1.5;
 
-      --space-40pt: 54px;   /* ~40pt spacing after header block */
-      --tight-title-gap: 12px; /* tighter than default */
-      --lr-cell-pad: 10px;  /* halved left/right padding */
+      --space-40pt: 54px;      /* ~40pt spacing under header block */
+      --tight-title-gap: 12px; /* tighter gap from title to first table */
+      --lr-cell-pad: 10px;     /* halved left/right padding */
       --cap-col-width: 16%;
-      --desc-col-width: 44%;
-      --cust-col-width: 40%;
+      --desc-col-width: 42%;   /* make Description and Customer equal widths */
+      --cust-col-width: 42%;
     }
 
     html, body { height: 100%; }
@@ -80,14 +80,15 @@
       font-size: 14px;
     }
 
-    /* ===== Section headers ===== */
+    /* ===== Section headers (orange text, same light grey background) ===== */
     .section-title{
       margin: 16px 0 8px 0;
       padding: 10px 12px;
-      background: var(--brand-grey-100);
+      background: var(--brand-grey-100);        /* unchanged background */
       border: 1px solid var(--brand-grey-200);
       border-radius: var(--radius);
       font-weight: 700;
+      color: var(--aggreko-orange);             /* orange title text */
     }
 
     /* ===== Tables (branded) ===== */
@@ -215,8 +216,7 @@
 
     <!-- Header: Logo FIRST (top-right), Title left -->
     <header class="form-header">
-      <!-- Update src to your actual logo path -->
-      <img class="aggreko-logo" src="./assets/aggreko-logo-orange.svg" alt="Aggreko" />
+      <img class="aggreko-logo" src="https://seekvectorlogo.com/wp-content/uploads/2019/05/aggreko-vector-logo.png" alt="Aggreko logo" />
       <div class="title-wrap">
         <h1 class="title">Customer Project Intake – Hybrid</h1>
         <h2 class="subtitle">Hybrid Proposals (Renewables + Thermal)</h2>
@@ -227,7 +227,6 @@
 
     <!-- Form posts JSON to Power Automate -->
     <form id="intake-form" novalidate>
-
       <!-- Customer & Contacts -->
       <h3 class="section-title">Customer &amp; Contacts</h3>
       <table aria-label="Customer & Contacts">
@@ -287,21 +286,22 @@
           <tr>
             <td>Contract Term</td>
             <td>Years</td>
+            <!-- number field keeps 'e.g.' example -->
             <td><input type="number" name="contract_term" placeholder="e.g. 10" /></td>
           </tr>
 
           <tr>
             <td>Contract Term Extension</td>
             <td>Years</td>
+            <!-- number field keeps 'e.g.' example -->
             <td><input type="number" name="contract_term_extension" placeholder="e.g. 2" /></td>
           </tr>
 
           <tr>
             <td>Target COD Date</td>
             <td>DD/MM/YYYY</td>
-            <td>
-              <input type="text" name="target_cod_date" placeholder="dd/mm/yyyy" />
-            </td>
+            <!-- TEXT field: no 'e.g.' -->
+            <td><input type="text" name="target_cod_date" placeholder="dd/mm/yyyy" /></td>
           </tr>
 
           <tr>
@@ -389,6 +389,7 @@
                   <option>LNG</option>
                   <option>Other</option>
                 </select>
+                <!-- TEXT field: no 'e.g.' -->
                 <input type="text" name="assumed_fuel_price" style="flex:1" placeholder="$1.95/L or $12.5/GJ" />
               </div>
             </td>
@@ -397,6 +398,7 @@
           <tr>
             <td>Fuel Facility</td>
             <td>Description / Delivered?</td>
+            <!-- TEXT field: no 'e.g.' -->
             <td><input type="text" name="fuel_facility" placeholder="Delivery method, storage, ownership, etc." /></td>
           </tr>
 
@@ -432,6 +434,7 @@
           <tr>
             <td>Voltage</td>
             <td>V</td>
+            <!-- TEXT field: no 'e.g.' -->
             <td><input type="text" name="voltage" placeholder="11,000" /></td>
           </tr>
 
@@ -448,11 +451,10 @@
               </select>
             </td>
           </tr>
-
         </tbody>
       </table>
 
-      <!-- Additional Project Details (not sent to flow unless you want a key added) -->
+      <!-- Additional Project Details -->
       <h3 class="section-title">Additional Project Details</h3>
       <div class="notes-wrap">
         <label class="sr-only" for="additional_details">Additional Project Details</label>
@@ -498,12 +500,10 @@
         statusEl.textContent = "";
         statusEl.className = "status";
 
-        // Build Land Availability combined string
         const landArea = val("land_area_m2");
         const landStatus = val("land_status");
         const landAvailability = [landArea ? (landArea + " m²") : "", landStatus].filter(Boolean).join(", ");
 
-        // Map to your schema (all strings)
         const payload = {
           customerCompany: val("customer_company"),
           contactName: val("primary_contact_name"),
@@ -526,16 +526,14 @@
           fuelFacility: val("fuel_facility"),
           landAvailability: landAvailability,
           maxTemp: val("maximum_temperature")
-          // Notes purposely excluded (not in your schema)
+          // Additional Project Details omitted unless you provide a schema key
         };
 
         try {
           setBusy(true);
           const res = await fetch(FLOW_URL, {
             method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)
           });
 
@@ -556,4 +554,5 @@
       });
     })();
   </script>
-</
+</body>
+</html>
