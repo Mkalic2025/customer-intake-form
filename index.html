@@ -382,7 +382,8 @@
                   <option>LNG</option>
                   <option>Other</option>
                 </select>
-                <input type="text" name="assumed_fuel_price" style="flex:1" placeholder="e.g. $1.95/L or $12.5/GJ" />
+                <!-- TEXT FIELD: removed 'e.g.' -->
+                <input type="text" name="assumed_fuel_price" style="flex:1" placeholder="$1.95/L or $12.5/GJ" />
               </div>
             </td>
           </tr>
@@ -398,7 +399,7 @@
             <td>Area + Status</td>
             <td>
               <div style="display:flex; gap:8px;">
-                <input type="number" step="any" name="land_area_m2" placeholder="Area (m²), e.g. 25,000" style="flex:1" />
+                <input type="number" step="any" name="land_area_m2" placeholder="e.g. 25,000" style="flex:1" />
                 <select name="land_status" style="flex:0 0 220px">
                   <option value="">Select status…</option>
                   <option>Confirmed</option>
@@ -425,7 +426,8 @@
           <tr>
             <td>Voltage</td>
             <td>V</td>
-            <td><input type="text" name="voltage" placeholder="e.g. 11,000" /></td>
+            <!-- TEXT FIELD: removed 'e.g.' -->
+            <td><input type="text" name="voltage" placeholder="11,000" /></td>
           </tr>
 
           <tr>
@@ -467,4 +469,3 @@
   </main>
 </body>
 </html>
-``
