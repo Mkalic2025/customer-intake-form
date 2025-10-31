@@ -187,6 +187,13 @@
       color: #FFFFFF;
     }
 
+    .status{
+      margin-top: 8px;
+      font-size: 13px;
+    }
+    .status.ok{ color: #166534; }      /* green-700 */
+    .status.err{ color: #B91C1C; }     /* red-700 */
+
     .disclaimer{
       color: #6B7280;
       font-size: 12px;
@@ -218,8 +225,8 @@
 
     <p>Note: Please complete all applicable sections. If a field does not apply to your project, feel free to leave it blank.</p>
 
-    <!-- Form posts to Power Automate -->
-    <form method="post" action="https://default5cb01ea241604f87afc65e72e6b82a.d1.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/fa0187c8ce9349c5b2891dd20cdfecc7/triggers/manual/paths/invoke?api-version=1">
+    <!-- Form posts JSON to Power Automate -->
+    <form id="intake-form" novalidate>
 
       <!-- Customer & Contacts -->
       <h3 class="section-title">Customer &amp; Contacts</h3>
@@ -382,7 +389,6 @@
                   <option>LNG</option>
                   <option>Other</option>
                 </select>
-                <!-- TEXT FIELD: removed 'e.g.' -->
                 <input type="text" name="assumed_fuel_price" style="flex:1" placeholder="$1.95/L or $12.5/GJ" />
               </div>
             </td>
@@ -426,7 +432,6 @@
           <tr>
             <td>Voltage</td>
             <td>V</td>
-            <!-- TEXT FIELD: removed 'e.g.' -->
             <td><input type="text" name="voltage" placeholder="11,000" /></td>
           </tr>
 
@@ -447,7 +452,7 @@
         </tbody>
       </table>
 
-      <!-- Additional Project Details -->
+      <!-- Additional Project Details (not sent to flow unless you want a key added) -->
       <h3 class="section-title">Additional Project Details</h3>
       <div class="notes-wrap">
         <label class="sr-only" for="additional_details">Additional Project Details</label>
@@ -456,7 +461,8 @@
 
       <!-- Submit -->
       <div class="form-actions">
-        <button type="submit" class="btn-submit">Submit Form</button>
+        <button type="submit" class="btn-submit" id="submitBtn">Submit Form</button>
+        <div id="status" class="status" aria-live="polite"></div>
       </div>
     </form>
 
@@ -467,5 +473,87 @@
     </section>
 
   </main>
-</body>
-</html>
+
+  <script>
+    (function () {
+      const form = document.getElementById('intake-form');
+      const submitBtn = document.getElementById('submitBtn');
+      const statusEl = document.getElementById('status');
+      const FLOW_URL = "https://default5cb01ea241604f87afc65e72e6b82a.d1.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/fa0187c8ce9349c5b2891dd20cdfecc7/triggers/manual/paths/invoke?api-version=1";
+
+      function val(name) {
+        const el = form.elements[name];
+        if (!el) return "";
+        if (el.tagName === "SELECT") return el.value || "";
+        return (el.value || "").toString().trim();
+      }
+
+      function setBusy(isBusy) {
+        submitBtn.disabled = isBusy;
+        submitBtn.textContent = isBusy ? "Submitting…" : "Submit Form";
+      }
+
+      form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        statusEl.textContent = "";
+        statusEl.className = "status";
+
+        // Build Land Availability combined string
+        const landArea = val("land_area_m2");
+        const landStatus = val("land_status");
+        const landAvailability = [landArea ? (landArea + " m²") : "", landStatus].filter(Boolean).join(", ");
+
+        // Map to your schema (all strings)
+        const payload = {
+          customerCompany: val("customer_company"),
+          contactName: val("primary_contact_name"),
+          contactEmail: val("email"),
+          siteName: val("site"),
+          contractTerm: val("contract_term"),
+          contractExtension: val("contract_term_extension"),
+          targetCOD: val("target_cod_date"),
+          cmdMW: val("cmd"),
+          redundancy: val("redundancy"),
+          avgDemandMW: val("average_demand"),
+          wind: val("wind_pref"),
+          windCapacityMWp: val("wind_capacity"),
+          solarPV: val("solar_pref"),
+          solarCapacityMWp: val("solar_capacity"),
+          bess: val("bess_pref"),
+          refPercent: val("ref_percent"),
+          fuelType: val("fuel_type"),
+          fuelPrice: val("assumed_fuel_price"),
+          fuelFacility: val("fuel_facility"),
+          landAvailability: landAvailability,
+          maxTemp: val("maximum_temperature")
+          // Notes purposely excluded (not in your schema)
+        };
+
+        try {
+          setBusy(true);
+          const res = await fetch(FLOW_URL, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+          });
+
+          if (!res.ok) {
+            const txt = await res.text().catch(() => "");
+            throw new Error("Flow returned " + res.status + " " + res.statusText + (txt ? (": " + txt) : ""));
+          }
+
+          statusEl.textContent = "Submitted successfully.";
+          statusEl.classList.add("ok");
+          form.reset();
+        } catch (err) {
+          statusEl.textContent = "Submission failed: " + (err && err.message ? err.message : err);
+          statusEl.classList.add("err");
+        } finally {
+          setBusy(false);
+        }
+      });
+    })();
+  </script>
+</
