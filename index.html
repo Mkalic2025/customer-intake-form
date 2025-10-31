@@ -6,7 +6,7 @@
   <title>Customer Project Intake – Hybrid</title>
 
   <style>
-    /* ===== Brand tokens (as per branded version) ===== */
+    /* ===== Brand tokens (unchanged) ===== */
     :root{
       --brand-navy: #0B1F39;
       --brand-navy-2: #1E293B;
@@ -23,11 +23,11 @@
       --font-size: 14px;
       --line: 1.5;
 
-      --space-40pt: 54px;      /* ~40pt spacing under header block */
-      --tight-title-gap: 12px; /* tighter gap from title to first table */
-      --lr-cell-pad: 10px;     /* halved left/right padding */
+      --space-24pt: 32px;  /* ≈24pt: gap between title block and the Note */
+      --logo-space-50pt: 67px; /* ≈50pt: space under the logo only */
+      --lr-cell-pad: 10px;     /* halved L/R padding */
       --cap-col-width: 16%;
-      --desc-col-width: 42%;   /* make Description and Customer equal widths */
+      --desc-col-width: 42%;   /* equal widths for Description & Customer */
       --cust-col-width: 42%;
     }
 
@@ -50,13 +50,13 @@
       box-sizing: border-box;
     }
 
-    /* ===== Header: logo FIRST top-right; title left; 40pt spacing under ===== */
+    /* ===== Header (logo FIRST top-right; title left) ===== */
     .form-header{
       display: grid;
       grid-template-columns: 1fr auto;
       align-items: start;
       gap: 16px;
-      padding-bottom: var(--space-40pt);
+      padding-bottom: var(--space-24pt); /* gap to the Note paragraph = ~24pt */
     }
     .aggreko-logo{
       grid-column: 2;
@@ -65,30 +65,32 @@
       display: block;
       max-width: 220px;
       height: auto;
+      /* NEW: space under the logo only (≈50pt) */
+      margin-bottom: var(--logo-space-50pt);
     }
     .title-wrap{ grid-column: 1; }
     .title{
-      margin: 0 0 var(--tight-title-gap) 0;
+      margin: 0 0 12px 0;       /* keep tighter gap inside title block */
       text-align: left;
       font-weight: 700;
     }
     .subtitle{
-      margin: 0 0 var(--tight-title-gap) 0;
+      margin: 0;                /* let header padding control gap to Note */
       text-align: left;
       font-weight: 600;
       color: #374151;
       font-size: 14px;
     }
 
-    /* ===== Section headers (orange text, same light grey background) ===== */
+    /* ===== Section headers (orange text, light grey background) ===== */
     .section-title{
       margin: 16px 0 8px 0;
       padding: 10px 12px;
-      background: var(--brand-grey-100);        /* unchanged background */
+      background: var(--brand-grey-100);
       border: 1px solid var(--brand-grey-200);
       border-radius: var(--radius);
       font-weight: 700;
-      color: var(--aggreko-orange);             /* orange title text */
+      color: var(--aggreko-orange);
     }
 
     /* ===== Tables (branded) ===== */
@@ -113,11 +115,12 @@
       padding: 10px var(--lr-cell-pad);
       text-align: left;
       border-right: 1px solid rgba(255,255,255,0.12);
+      vertical-align: middle; /* ensure header cells are centered vertically */
     }
     thead th:last-child{ border-right: none; }
 
     tbody td, tbody th{
-      padding: 12px var(--lr-cell-pad); /* reduced L/R padding */
+      padding: 12px var(--lr-cell-pad);
       border-top: 1px solid var(--brand-grey-300);
       vertical-align: top;
       text-align: left;
@@ -125,7 +128,14 @@
       background: #FFFFFF;
     }
 
-    /* ===== Inputs/selects/textarea (halved L/R padding + font) ===== */
+    /* NEW: Left align + vertically center ONLY the 1st (Description) and 2nd (Capacity) columns */
+    tbody tr td:nth-child(1),
+    tbody tr td:nth-child(2){
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    /* ===== Inputs/selects/textarea (unchanged except for halved L/R padding) ===== */
     input[type="text"],
     input[type="email"],
     input[type="number"],
@@ -151,21 +161,18 @@
       box-shadow: 0 0 0 3px rgba(255,106,0,0.15);
     }
 
-    /* ===== Helper text in cells ===== */
     .row-help{
       margin: 6px 0 6px;
       font-size: 12px;
       color: #6B7280;
     }
 
-    /* ===== Notes (same width & font) ===== */
     .notes-field{
       min-height: 140px;
       resize: vertical;
     }
 
-    /* ===== Submit button (Arial Nova bold; hover/active orange) ===== */
-    .form-actions{ margin: 16px 0 32px 0; } /* extra space before disclaimer */
+    .form-actions{ margin: 16px 0 32px 0; }
     .btn-submit{
       display: inline-block;
       font-family: var(--font-body);
@@ -192,8 +199,8 @@
       margin-top: 8px;
       font-size: 13px;
     }
-    .status.ok{ color: #166534; }      /* green-700 */
-    .status.err{ color: #B91C1C; }     /* red-700 */
+    .status.ok{ color: #166534; }
+    .status.err{ color: #B91C1C; }
 
     .disclaimer{
       color: #6B7280;
@@ -216,13 +223,17 @@
 
     <!-- Header: Logo FIRST (top-right), Title left -->
     <header class="form-header">
-      <img class="aggreko-logo" src="https://seekvectorlogo.com/wp-content/uploads/2019/05/aggreko-vector-logo.png" alt="Aggreko logo" />
+      <img
+        class="aggreko-logo"
+        alt="Aggreko"
+        src="https://seekvectorlogo.com/wp-content/uploads/2019/05/aggreko-vector-logo.png" />
       <div class="title-wrap">
         <h1 class="title">Customer Project Intake – Hybrid</h1>
         <h2 class="subtitle">Hybrid Proposals (Renewables + Thermal)</h2>
       </div>
     </header>
 
+    <!-- Gap to this note is ~24pt by header padding -->
     <p>Note: Please complete all applicable sections. If a field does not apply to your project, feel free to leave it blank.</p>
 
     <!-- Form posts JSON to Power Automate -->
@@ -286,21 +297,18 @@
           <tr>
             <td>Contract Term</td>
             <td>Years</td>
-            <!-- number field keeps 'e.g.' example -->
             <td><input type="number" name="contract_term" placeholder="e.g. 10" /></td>
           </tr>
 
           <tr>
             <td>Contract Term Extension</td>
             <td>Years</td>
-            <!-- number field keeps 'e.g.' example -->
             <td><input type="number" name="contract_term_extension" placeholder="e.g. 2" /></td>
           </tr>
 
           <tr>
             <td>Target COD Date</td>
             <td>DD/MM/YYYY</td>
-            <!-- TEXT field: no 'e.g.' -->
             <td><input type="text" name="target_cod_date" placeholder="dd/mm/yyyy" /></td>
           </tr>
 
@@ -389,7 +397,6 @@
                   <option>LNG</option>
                   <option>Other</option>
                 </select>
-                <!-- TEXT field: no 'e.g.' -->
                 <input type="text" name="assumed_fuel_price" style="flex:1" placeholder="$1.95/L or $12.5/GJ" />
               </div>
             </td>
@@ -398,7 +405,6 @@
           <tr>
             <td>Fuel Facility</td>
             <td>Description / Delivered?</td>
-            <!-- TEXT field: no 'e.g.' -->
             <td><input type="text" name="fuel_facility" placeholder="Delivery method, storage, ownership, etc." /></td>
           </tr>
 
@@ -434,7 +440,6 @@
           <tr>
             <td>Voltage</td>
             <td>V</td>
-            <!-- TEXT field: no 'e.g.' -->
             <td><input type="text" name="voltage" placeholder="11,000" /></td>
           </tr>
 
@@ -526,7 +531,6 @@
           fuelFacility: val("fuel_facility"),
           landAvailability: landAvailability,
           maxTemp: val("maximum_temperature")
-          // Additional Project Details omitted unless you provide a schema key
         };
 
         try {
