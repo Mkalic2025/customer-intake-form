@@ -2,311 +2,651 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Customer Intake Form</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Customer Project Intake – Hybrid</title>
 
   <style>
+    /* ===== Brand tokens (unchanged) ===== */
     :root{
-      --brand:#ff6a00; /* Aggreko orange feel */
-      --brand-dark:#d45500;
-      --bg:#f6f7f9;
-      --text:#1f2937;
-      --muted:#6b7280;
-      --ok:#0b7a37;
-      --err:#b00020;
-      --card:#ffffff;
-      --border:#e5e7eb;
-      --focus:#2563eb;
-      --font: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      --brand-navy: #0B1F39;
+      --brand-navy-2: #1E293B;
+      --brand-grey-100: #F2F4F8;   /* section header background */
+      --brand-grey-200: #E5E7EB;
+      --brand-grey-300: #DCDCDC;
+      --brand-text: #0F172A;
+      --aggreko-orange: #FF6A00;
+
+      --container-max: 1040px;
+      --radius: 6px;
+
+      --font-body: "Arial Nova", Arial, "Segoe UI", Tahoma, sans-serif;
+      --font-size: 14px;
+      --line: 1.5;
+
+      --space-24pt: 32px;      /* ≈24pt: gap between title block and Note */
+      --logo-space-50pt: 67px; /* ≈50pt: space under the logo only */
+      --lr-cell-pad: 10px;     /* halved L/R padding */
+
+      /* ==== UPDATED COLUMN WIDTHS ==== */
+      --desc-col-width: 35%;
+      --cap-col-width: 15%;
+      --cust-col-width: 50%;
     }
-    * { box-sizing: border-box; }
+
     html, body { height: 100%; }
     body{
-      margin:0;
-      font-family: var(--font);
-      color: var(--text);
-      background: linear-gradient(180deg, var(--bg), #ffffff);
-    }
-    header{
-      padding: 24px 16px;
-      background:#101828;
-      color:#fff;
-      border-bottom: 4px solid var(--brand);
-    }
-    .wrap{
-      max-width: 880px;
-      margin: 24px auto 48px auto;
-      padding: 0 16px;
-    }
-    h1{ margin: 0; font-size: clamp(20px, 2.6vw, 28px); line-height: 1.2; }
-    p.sub{ color:#cbd5e1; margin-top:8px; margin-bottom:0; }
-
-    .card{
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 24px;
-      box-shadow: 0 6px 20px rgba(16,24,40,.06);
+      margin: 0;
+      background: #FFFFFF;
+      color: var(--brand-text);
+      font-family: var(--font-body);
+      font-size: var(--font-size);
+      line-height: var(--line);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
-    fieldset{ border: none; padding: 0; margin: 0 0 16px 0; }
-    .row{ display: grid; grid-template-columns: 1fr; gap: 16px; }
-    @media(min-width: 720px){
-      .row-2 { grid-template-columns: 1fr 1fr; }
-      .row-3 { grid-template-columns: 1fr 1fr 1fr; }
+    .page{
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: 24px 20px 56px;
+      box-sizing: border-box;
     }
 
-    label{ display:inline-block; font-weight: 600; margin-bottom: 6px; }
-    .req::after{ content:" *"; color: var(--brand); font-weight: 700; }
+    /* ===== Header (logo FIRST top-right; title left) ===== */
+    .form-header{
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: start;
+      gap: 16px;
+      padding-bottom: var(--space-24pt); /* gap to the Note paragraph = ~24pt */
+    }
+    .aggreko-logo{
+      grid-column: 2;
+      justify-self: end;
+      align-self: start;
+      display: block;
+      max-width: 220px;
+      height: auto;
+      /* Space under the logo only (≈50pt) */
+      margin-bottom: var(--logo-space-50pt);
+    }
+    .title-wrap{ grid-column: 1; }
+    .title{
+      margin: 0 0 12px 0;
+      text-align: left;
+      font-weight: 700;
+    }
+    .subtitle{
+      margin: 0;
+      text-align: left;
+      font-weight: 600;
+      color: #374151;
+      font-size: 14px;
+    }
 
-    input[type="text"],
-    input[type="number"],
-    input[type="email"],
-    textarea,
-    select{
+    /* ===== Section headers (orange text, light grey background) ===== */
+    .section-title{
+      margin: 16px 0 8px 0;
+      padding: 10px 12px;
+      background: var(--brand-grey-100);
+      border: 1px solid var(--brand-grey-200);
+      border-radius: var(--radius);
+      font-weight: 700;
+      color: var(--aggreko-orange);
+    }
+
+    /* ===== Tables (branded) ===== */
+    table{
       width: 100%;
-      padding: 12px 14px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      background: #fff;
-      font-size: 15px;
-      color: var(--text);
-      outline: none;
-      transition: border-color .15s ease, box-shadow .15s ease;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 0 0 16px 0;
+      border: 1px solid var(--brand-grey-300);
+      border-radius: var(--radius);
+      overflow: hidden;
+      table-layout: fixed;
     }
-    input::placeholder, textarea::placeholder { color: #9ca3af; }
-    input:focus, textarea:focus, select:focus{
-      border-color: var(--focus);
-      box-shadow: 0 0 0 3px rgba(37,99,235,.15);
-    }
-    .help{ font-size: 12px; color: var(--muted); margin-top: 6px; }
+    colgroup col.col-desc { width: var(--desc-col-width); }
+    colgroup col.col-cap  { width: var(--cap-col-width); }
+    colgroup col.col-cust { width: var(--cust-col-width); }
 
-    .actions{ display:flex; gap:12px; align-items:center; margin-top:8px; }
-    button{
-      background: var(--brand);
-      color:#fff;
-      font-weight:700;
-      border:none;
-      padding:12px 18px;
-      border-radius:10px;
-      cursor:pointer;
-      transition: background .15s ease, transform .02s ease;
+    thead th{
+      background: var(--brand-navy);
+      color: #FFFFFF;
+      font-weight: 700;
+      padding: 10px var(--lr-cell-pad);
+      text-align: left;
+      border-right: 1px solid rgba(255,255,255,0.12);
+      vertical-align: middle; /* header cells vertically centered */
     }
-    button:hover{ background: var(--brand-dark); }
-    button:active{ transform: translateY(1px); }
-    .btn-secondary{ background:#eef2ff; color:#1e40af; }
+    thead th:last-child{ border-right: none; }
+
+    tbody td, tbody th{
+      padding: 12px var(--lr-cell-pad);
+      border-top: 1px solid var(--brand-grey-300);
+      vertical-align: top;
+      text-align: left;
+      box-sizing: border-box;
+      background: #FFFFFF;
+    }
+
+    /* Left align + vertically center ONLY Description & Capacity columns */
+    tbody tr td:nth-child(1),
+    tbody tr td:nth-child(2){
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    /* ===== Inputs/selects/textarea (halved L/R padding + font) ===== */
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    input[type="tel"],
+    input[type="url"],
+    input[type="date"],
+    select,
+    textarea{
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px var(--lr-cell-pad);
+      border: 1px solid #D1D5DB;
+      border-radius: var(--radius);
+      background: #FFFFFF;
+      color: var(--brand-text);
+      font-family: var(--font-body);
+      font-size: var(--font-size);
+      line-height: 1.4;
+      outline: none;
+    }
+    input:focus, select:focus, textarea:focus{
+      border-color: var(--aggreko-orange);
+      box-shadow: 0 0 0 3px rgba(255,106,0,0.15);
+    }
+
+    .row-help{
+      margin: 6px 0 6px;
+      font-size: 12px;
+      color: #6B7280;
+    }
+
+    .notes-field{
+      min-height: 140px;
+      resize: vertical;
+    }
+
+    .form-actions{ margin: 16px 0 32px 0; }
+    .btn-submit{
+      display: inline-block;
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 1.2;
+      padding: 12px 18px;
+      border: 1px solid var(--brand-navy-2);
+      color: #FFFFFF;
+      background: var(--brand-navy-2);
+      border-radius: var(--radius);
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn-submit:hover,
+    .btn-submit:focus,
+    .btn-submit:active{
+      background: var(--aggreko-orange);
+      border-color: var(--aggreko-orange);
+      color: #FFFFFF;
+    }
 
     .status{
-      margin-top:12px; padding:10px 12px; border-radius:10px;
-      display:none; border:1px solid transparent; line-height:1.35; white-space:pre-wrap;
+      margin-top: 8px;
+      font-size: 13px;
     }
-    .status.show{ display:block; }
-    .status.ok{ color:var(--ok); background:#ecfdf3; border-color:#a7f3d0; }
-    .status.err{ color:var(--err); background:#ffefef; border-color:#ffc9c9; }
+    .status.ok{ color: #166534; }
+    .status.err{ color: #B91C1C; }
 
-    footer{ color:var(--muted); text-align:center; font-size:12px; padding:16px; }
+    .disclaimer{
+      color: #6B7280;
+      font-size: 12px;
+      line-height: 1.5;
+      margin-top: 0;
+    }
 
-    /* Honeypot to reduce spam */
-    .hp{ position:absolute !important; left:-99999px !important; width:1px; height:1px; overflow:hidden; }
+    .sr-only{
+      position: absolute !important;
+      height: 1px; width: 1px;
+      overflow: hidden;
+      clip: rect(1px, 1px, 1px, 1px);
+      white-space: nowrap;
+    }
   </style>
 </head>
 <body>
-  <header>
-    <div class="wrap">
-      <h1>Customer Intake Form</h1>
-      <p class="sub">Provide minimum details to register a site opportunity. Fields with * are required. “TBC” is allowed when values are unknown.</p>
-    </div>
-  </header>
+  <main class="page">
 
-  <main class="wrap">
-    <section class="card">
-      <form id="customer-intake-form" novalidate>
-        <!-- Required -->
-        <fieldset class="row row-2">
-          <div>
-            <label for="siteName" class="req">Site Name</label>
-            <input id="siteName" name="siteName" type="text" placeholder="e.g., Finniss Power Station" required />
-            <div class="help">Project or facility name.</div>
-          </div>
-          <div>
-            <label for="location" class="req">Location</label>
-            <input id="location" name="location" type="text" placeholder="e.g., NT, Australia" required />
-            <div class="help">Town/region + state/territory/country.</div>
-          </div>
-        </fieldset>
+    <!-- Header: Logo FIRST (top-right), Title left -->
+    <header class="form-header">
+      <img class="aggreko-logo" src="https://seekvectorlogo.com/wp-content/uploads/2019/05/aggreko-vector-logo.png" alt="Aggreko" />
+      <div class="title-wrap">
+        <h1 class="title">Customer Project Intake – Hybrid</h1>
+        <h2 class="subtitle">Hybrid Proposals (Renewables + Thermal)</h2>
+      </div>
+    </header>
 
-        <!-- Contract & Fuel -->
-        <fieldset class="row row-3">
-          <div>
-            <label for="contractTermYears">Contract Term (Years)</label>
-            <input id="contractTermYears" name="contractTermYears" type="text" inputmode="decimal" placeholder="e.g., 10 or TBC" />
-            <div class="help">Enter a number or “TBC”.</div>
-          </div>
-          <div>
-            <label for="fuelType" class="req">Fuel Type</label>
-            <input id="fuelType" name="fuelType" type="text" placeholder="e.g., diesel, gas, HVO" required />
-          </div>
-          <div>
-            <label for="fuelPrice">Assumed Fuel Price</label>
-            <input id="fuelPrice" name="fuelPrice" type="text" inputmode="decimal" placeholder="e.g., 1.28 or TBC" />
-          </div>
-        </fieldset>
+    <!-- Gap to this note is ~24pt by header padding -->
+    <p>Note: Please complete all applicable sections. If a field does not apply to your project, feel free to leave it blank.</p>
 
-        <!-- Land & Climate -->
-        <fieldset class="row row-2">
-          <div>
-            <label for="landAvailability">Land Availability (Area + Status)</label>
-            <input id="landAvailability" name="landAvailability" type="text" placeholder="e.g., 5 ha available, easement TBC" />
-          </div>
-          <div>
-            <label for="maxTemperatureC">Maximum Temperature (°C)</label>
-            <input id="maxTemperatureC" name="maxTemperatureC" type="text" inputmode="decimal" placeholder="e.g., 46 or TBC" />
-          </div>
-        </fieldset>
+    <!-- Form posts JSON to Power Automate -->
+    <form id="intake-form" novalidate>
+      <!-- Customer & Contacts -->
+      <h3 class="section-title">Customer &amp; Contacts</h3>
+      <table aria-label="Customer & Contacts">
+        <colgroup>
+          <col class="col-desc" />
+          <col class="col-cap" />
+          <col class="col-cust" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Capacity / Unit</th>
+            <th>Customer to Populate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Customer company *</td>
+            <td>–</td>
+            <td><input type="text" name="customer_company" required /></td>
+          </tr>
+          <tr>
+            <td>Primary contact name *</td>
+            <td>–</td>
+            <td><input type="text" name="primary_contact_name" required /></td>
+          </tr>
+          <tr>
+            <td>Email *</td>
+            <td>–</td>
+            <td><input type="email" name="email" required /></td>
+          </tr>
+        </tbody>
+      </table>
 
-        <!-- Optional contact -->
-        <fieldset class="row row-2">
-          <div>
-            <label for="contactName">Contact Name</label>
-            <input id="contactName" name="contactName" type="text" placeholder="e.g., John Smith" />
-          </div>
-          <div>
-            <label for="contactEmail">Contact Email</label>
-            <input id="contactEmail" name="contactEmail" type="email" placeholder="e.g., name@company.com" />
-          </div>
-        </fieldset>
+      <!-- Summary of Requirements -->
+      <h3 class="section-title">Summary of Requirements</h3>
+      <table aria-label="Summary of Requirements">
+        <colgroup>
+          <col class="col-desc" />
+          <col class="col-cap" />
+          <col class="col-cust" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Capacity / Unit</th>
+            <th>Customer to Populate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Site</td>
+            <td>Name &amp; Location</td>
+            <td><input type="text" name="site" /></td>
+          </tr>
 
-        <fieldset>
-          <label for="notes">Notes</label>
-          <textarea id="notes" name="notes" rows="4" placeholder="Any additional context, timelines, or constraints…"></textarea>
-        </fieldset>
+          <tr>
+            <td>Contract Term</td>
+            <td>Years</td>
+            <td><input type="number" name="contract_term" placeholder="e.g. 10" /></td>
+          </tr>
 
-        <!-- Honeypot -->
-        <div class="hp" aria-hidden="true">
-          <label for="company">Company</label>
-          <input id="company" name="company" type="text" tabindex="-1" autocomplete="off" />
-        </div>
+          <tr>
+            <td>Contract Term Extension</td>
+            <td>Years</td>
+            <td><input type="number" name="contract_term_extension" placeholder="e.g. 2" /></td>
+          </tr>
 
-        <div class="actions">
-          <button type="submit" id="submitBtn">Submit</button>
-          <button type="reset" class="btn-secondary">Reset</button>
-        </div>
-        <div id="submit-status" class="status" role="status" aria-live="polite"></div>
-      </form>
+          <tr>
+            <td>Target COD Date</td>
+            <td>DD/MM/YYYY</td>
+            <td><input type="text" name="target_cod_date" placeholder="dd/mm/yyyy" /></td>
+          </tr>
+
+          <tr>
+            <td>CMD (Contracted Maximum Demand)</td>
+            <td>MW</td>
+            <td><input type="number" step="any" name="cmd" placeholder="e.g. 45" /></td>
+          </tr>
+
+          <tr>
+            <td>Redundancy</td>
+            <td>N+1 or N+2</td>
+            <td>
+              <select name="redundancy">
+                <option value="">Select…</option>
+                <option>N+1</option>
+                <option>N+2</option>
+                <option>Other</option>
+              </select>
+            </td>
+          </tr>
+
+          <tr>
+            <td>Average Demand</td>
+            <td>MW</td>
+            <td><input type="number" step="any" name="average_demand" placeholder="e.g. 28" /></td>
+          </tr>
+
+          <tr>
+            <td>Wind</td>
+            <td>MWp</td>
+            <td>
+              <select name="wind_pref">
+                <option value="">Select…</option>
+                <option>Optimised</option>
+                <option>Will specify below</option>
+              </select>
+              <div class="row-help">If specifying, enter capacity:</div>
+              <input type="number" step="any" name="wind_capacity" placeholder="e.g. 12" />
+            </td>
+          </tr>
+
+          <tr>
+            <td>Solar PV</td>
+            <td>MWp</td>
+            <td>
+              <select name="solar_pref">
+                <option value="">Select…</option>
+                <option>Optimised</option>
+                <option>Will specify below</option>
+              </select>
+              <div class="row-help">If specifying, enter capacity:</div>
+              <input type="number" step="any" name="solar_capacity" placeholder="e.g. 17" />
+            </td>
+          </tr>
+
+          <tr>
+            <td>Battery Energy Storage (BESS)</td>
+            <td>Yes / No</td>
+            <td>
+              <select name="bess_pref">
+                <option value="">Select…</option>
+                <option>Optimised</option>
+                <option>Yes</option>
+                <option>No</option>
+                <option>Considering</option>
+              </select>
+            </td>
+          </tr>
+
+          <tr>
+            <td>Renewable Energy Fraction (REF%)</td>
+            <td>%</td>
+            <td><input type="number" step="any" name="ref_percent" placeholder="e.g. 30" /></td>
+          </tr>
+
+          <tr>
+            <td>Fuel Type + Assumed Price</td>
+            <td>Type + $/L or $/GJ</td>
+            <td>
+              <div style="display:flex; gap:8px;">
+                <select name="fuel_type" style="flex:0 0 160px">
+                  <option value="">Select fuel…</option>
+                  <option>Diesel</option>
+                  <option>Gas</option>
+                  <option>LNG</option>
+                  <option>Other</option>
+                </select>
+                <input type="text" name="assumed_fuel_price" style="flex:1" placeholder="$1.95/L or $12.5/GJ" />
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td>Fuel Facility</td>
+            <td>Description / Delivered?</td>
+            <td><input type="text" name="fuel_facility" placeholder="Delivery method, storage, ownership, etc." /></td>
+          </tr>
+
+          <tr>
+            <td>Land Availability</td>
+            <td>Area + Status</td>
+            <td>
+              <div style="display:flex; gap:8px;">
+                <input type="number" step="any" name="land_area_m2" placeholder="e.g. 25,000" style="flex:1" />
+                <select name="land_status" style="flex:0 0 220px">
+                  <option value="">Select status…</option>
+                  <option>Confirmed</option>
+                  <option>In principle</option>
+                  <option>Negotiation</option>
+                  <option>Unknown</option>
+                </select>
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td>Maximum Temperature</td>
+            <td>°C</td>
+            <td><input type="number" step="any" name="maximum_temperature" placeholder="e.g. 48" /></td>
+          </tr>
+
+          <tr>
+            <td>Altitude</td>
+            <td>m</td>
+            <td><input type="number" step="any" name="altitude" placeholder="e.g. 420" /></td>
+          </tr>
+
+          <tr>
+            <td>Voltage</td>
+            <td>V</td>
+            <td><input type="text" name="voltage" placeholder="11,000" /></td>
+          </tr>
+
+          <tr>
+            <td>Accommodation</td>
+            <td>Scope / Responsibility</td>
+            <td>
+              <select name="accommodation">
+                <option value="">Select…</option>
+                <option>Customer</option>
+                <option>Aggreko</option>
+                <option>Shared</option>
+                <option>Not required</option>
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Additional Project Details -->
+      <h3 class="section-title">Additional Project Details</h3>
+      <div class="notes-wrap">
+        <label class="sr-only" for="additional_details">Additional Project Details</label>
+        <textarea id="additional_details" name="additional_details" class="notes-field" placeholder="Free text"></textarea>
+      </div>
+
+      <!-- Submit -->
+      <div class="form-actions">
+        <button type="submit" class="btn-submit" id="submitBtn">Submit Form</button>
+        <div id="status" class="status" aria-live="polite"></div>
+      </div>
+    </form>
+
+    <!-- Disclaimer -->
+    <section class="disclaimer">
+      <p><strong>Privacy &amp; Confidentiality</strong><br />
+      This email and any information provided in response may contain confidential and/or personal information. If you are not the intended recipient, please notify the sender immediately and delete this message. Any unauthorised review, use, disclosure, or distribution is prohibited. Information you provide will be used to assess project requirements and budgetary pricing and may be stored in Aggreko systems in accordance with Aggreko’s privacy practices. © Aggreko.</p>
     </section>
 
-    <footer>
-      <p>Powered by Microsoft Power Automate HTTP Request trigger — GitHub Pages</p>
-    </footer>
   </main>
 
   <script>
-    // ===== CONFIG =====
-    // IMPORTANT: real & characters (NOT &amp;) in the URL.
-    const FLOW_URL = "https://default5cb01ea241604f87afc65e72e6b82a.d1.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/0f422bbcb71f4f06a6e42ee74aa5b776/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=uoPMJp8FLgPGZgu_yZtEchRN65A-105UHltuzQnn_Ko";
+    (function () {
+      const form = document.getElementById('intake-form');
+      const submitBtn = document.getElementById('submitBtn');
+      const statusEl = document.getElementById('status');
+      const FLOW_URL = "https://default5cb01ea241604f87afc65e72e6b82a.d1.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/fa0187c8ce9349c5b2891dd20cdfecc7/triggers/manual/paths/invoke?api-version=1";
 
-    // Optional shared token; set a header check in the Flow if you use this.
-    const SHARED_FORM_TOKEN = "";
+      function val(name) {
+        const el = form.elements[name];
+        if (!el) return "";
+        if (el.tagName === "SELECT") return el.value || "";
+        return (el.value || "").toString().trim();
+      }
 
-    // ===== UTIL =====
-    function sanitizeTBC(value) {
-      const v = (value ?? "").trim();
-      if (!v) return "TBC";
-      const n = Number(v);
-      return Number.isFinite(n) ? n : v; // number if numeric, else string (e.g., "TBC")
-    }
-    function setStatus(msg, ok=true){
-      const el = document.getElementById("submit-status");
-      el.textContent = msg;
-      el.className = "status show " + (ok ? "ok" : "err");
-    }
-    function clearStatus(){
-      const el = document.getElementById("submit-status");
-      el.textContent = "";
-      el.className = "status";
-    }
-    function validateRequired(ids){
-      let first = null;
-      for (const id of ids){
-        const input = document.getElementById(id);
-        const val = (input.value || "").trim();
-        if (!val){
-          input.setAttribute("aria-invalid","true");
-          input.style.borderColor = "#ef4444";
-          if (!first) first = input;
-        } else {
-          input.removeAttribute("aria-invalid");
-          input.style.borderColor = "var(--border)";
+      function setBusy(isBusy) {
+        submitBtn.disabled = isBusy;
+        submitBtn.textContent = isBusy ? "Submitting…" : "Submit Form";
+      }
+
+      form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        statusEl.textContent = "";
+        statusEl.className = "status";
+
+        const landArea = val("land_area_m2");
+        const landStatus = val("land_status");
+        const landAvailability = [landArea ? (landArea + " m²") : "", landStatus].filter(Boolean).join(", ");
+
+        const payload = {
+          customerCompany: val("customer_company"),
+          contactName: val("primary_contact_name"),
+          contactEmail: val("email"),
+          siteName: val("site"),
+          contractTerm: val("contract_term"),
+          contractExtension: val("contract_term_extension"),
+          targetCOD: val("target_cod_date"),
+          cmdMW: val("cmd"),
+          redundancy: val("redundancy"),
+          avgDemandMW: val("average_demand"),
+          wind: val("wind_pref"),
+          windCapacityMWp: val("wind_capacity"),
+          solarPV: val("solar_pref"),
+          solarCapacityMWp: val("solar_capacity"),
+          bess: val("bess_pref"),
+          refPercent: val("ref_percent"),
+          fuelType: val("fuel_type"),
+          fuelPrice: val("assumed_fuel_price"),
+          fuelFacility: val("fuel_facility"),
+          landAvailability: landAvailability,
+          maxTemp: val("maximum_temperature")
+          // Additional notes omitted unless you add a schema key
+        };
+
+        try {
+          setBusy(true);
+          const res = await fetch(FLOW_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+
+          if (!res.ok) {
+            const txt = await res.text().catch(() => "");
+            throw new Error("Flow returned " + res.status + " " + res.statusText + (txt ? (": " + txt) : ""));
+          }
+
+          statusEl.textContent = "Submitted successfully.";
+          statusEl.classList.add("ok");
+          form.reset();
+        } catch (err) {
+          statusEl.textContent = "Submission failed: " + (err && err.message ? err.message : err);
+          statusEl.classList.add("err");
+        } finally {
+          setBusy(false);
         }
-      }
-      if (first){ first.focus(); return false; }
-      return true;
+      });
+    })();
+<!-- Put this just before </body> on your existing page. Do not change your HTML layout. -->
+<script>
+// === CONFIG: your Flow URL (use & not &amp;) ===
+const FLOW_URL = "https://default5cb01ea241604f87afc65e72e6b82a.d1.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/0f422bbcb71f4f06a6e42ee74aa5b776/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=uoPMJp8FLgPGZgu_yZtEchRN65A-105UHltuzQnn_Ko";
+
+// (Optional) If you add a header check in Flow: headers('X-Form-Token') == 'YOUR_SECRET'
+const SHARED_FORM_TOKEN = "";
+
+// Helper: serialize all form controls with a `name`
+function formToObject(form) {
+  const data = {};
+  const fields = form.querySelectorAll("input, select, textarea");
+  fields.forEach(el => {
+    if (!el.name) return;
+    if (el.type === "checkbox") {
+      data[el.name] = el.checked;
+    } else if (el.type === "radio") {
+      if (el.checked) data[el.name] = el.value;
+    } else {
+      data[el.name] = el.value?.trim?.() ?? el.value;
     }
+  });
+  return data;
+}
 
-    // ===== SUBMIT =====
-    document.getElementById("customer-intake-form").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      clearStatus();
+// Helper: message area (optional). Add <div id="submit-status"></div> where you want messages.
+function setStatus(msg, ok = true) {
+  let el = document.getElementById("submit-status");
+  if (!el) {
+    el = document.createElement("div");
+    el.id = "submit-status";
+    // No styling to avoid changing your layout.
+    document.body.appendChild(el);
+  }
+  el.textContent = msg;
+  el.style.color = ok ? "green" : "crimson";
+}
 
-      // Honeypot
-      if (document.getElementById("company").value.trim() !== ""){
-        setStatus("Submission blocked (spam detected).", false);
-        return;
-      }
+(function attachHandler() {
+  // Prefer a specific form id if you have one; otherwise pick the first form on the page.
+  const form = document.getElementById("customer-intake-form") || document.querySelector("form");
+  if (!form) return console.error("No form found on page. Add id='customer-intake-form' or keep one form.");
 
-      // Required
-      if (!validateRequired(["siteName","location","fuelType"])){
-        setStatus("Please complete all required fields.", false);
-        return;
-      }
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    setStatus("Submitting…", true);
 
-      const submitBtn = document.getElementById("submitBtn");
-      submitBtn.disabled = true;
-      submitBtn.textContent = "Submitting…";
+    // Read values without changing layout or markup
+    const payload = formToObject(form);
 
-      const payload = {
-        siteName: document.getElementById("siteName").value.trim(),
-        location: document.getElementById("location").value.trim(),
-        contractTermYears: sanitizeTBC(document.getElementById("contractTermYears").value),
-        fuelType: document.getElementById("fuelType").value.trim(),
-        fuelPrice: sanitizeTBC(document.getElementById("fuelPrice").value),
-        landAvailability: document.getElementById("landAvailability").value.trim() || "TBC",
-        maxTemperatureC: sanitizeTBC(document.getElementById("maxTemperatureC").value),
-        contactName: document.getElementById("contactName").value.trim(),
-        contactEmail: document.getElementById("contactEmail").value.trim(),
-        notes: document.getElementById("notes").value.trim()
-      };
-
-      try{
-        const headers = { "Content-Type": "application/json" };
-        if (SHARED_FORM_TOKEN) headers["X-Form-Token"] = SHARED_FORM_TOKEN;
-
-        const res = await fetch(FLOW_URL, {
-          method: "POST",
-          headers,
-          body: JSON.stringify(payload)
-        });
-
-        let data, text;
-        try { data = await res.json(); } catch { text = await res.text(); }
-
-        if (!res.ok){
-          const msg = (data && (data.message || data.error || JSON.stringify(data))) || text || ("HTTP " + res.status);
-          throw new Error(msg);
+    // Optional normalization for fields you allow as numbers or "TBC"
+    // If you prefer raw strings exactly as typed, comment this out.
+    ["contractTermYears","fuelPrice","maxTemperatureC"].forEach(k => {
+      if (k in payload) {
+        const v = (payload[k] ?? "").trim();
+        if (!v) payload[k] = "TBC";
+        else {
+          const n = Number(v);
+          payload[k] = Number.isFinite(n) ? n : v; // send number if numeric, else keep text (e.g., "TBC")
         }
-
-        const okMsg = (data && (data.message || data.status || "Submitted successfully.")) || "Submitted successfully.";
-        setStatus(okMsg, true);
-        e.target.reset();
-      } catch(err){
-        setStatus("Submission failed: " + (err?.message || String(err)), false);
-        console.error(err);
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = "Submit";
       }
     });
-  </script>
+
+    const submitBtn = form.querySelector("[type=submit]");
+    if (submitBtn) submitBtn.disabled = true;
+
+    try {
+      const headers = { "Content-Type": "application/json" };
+      if (SHARED_FORM_TOKEN) headers["X-Form-Token"] = SHARED_FORM_TOKEN;
+
+      const res = await fetch(FLOW_URL, {
+        method: "POST",
+        headers,
+        body: JSON.stringify(payload)
+      });
+
+      let data, text;
+      try { data = await res.json(); } catch { text = await res.text(); }
+      if (!res.ok) throw new Error((data && (data.message || data.error)) || text || `HTTP ${res.status}`);
+
+      setStatus((data && (data.message || "Submitted successfully")) || "Submitted successfully", true);
+      form.reset();
+    } catch (err) {
+      console.error(err);
+      setStatus("Submission failed: " + (err?.message || String(err)), false);
+    } finally {
+      if (submitBtn) submitBtn.disabled = false;
+    }
+  });
+})();
+</script>
 </body>
 </html>
