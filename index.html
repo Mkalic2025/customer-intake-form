@@ -5,133 +5,200 @@
   <title>Customer Project Intake Form</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
   <style>
+    /* ===========================
+       Self-hosted fonts
+       =========================== */
+    @font-face{
+      font-family:"Arial Nova";
+      src:url("./assets/fonts/ArialNova-Regular.woff2") format("woff2");
+      font-weight:400; font-style:normal; font-display:swap;
+    }
+    @font-face{
+      font-family:"Arial Nova";
+      src:url("./assets/fonts/ArialNova-Bold.woff2") format("woff2");
+      font-weight:700; font-style:normal; font-display:swap;
+    }
+
     :root{
       --orange:#ff6a00;
       --navy:#0b1a2b;
       --border:#dfe3eb;
       --muted:#6b7280;
-      --text:#0f172a;
+      --text:#111111;
       --radius:8px;
-      --font:"Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      --section-bg:#f7f8fb; /* light grey section bar */
+      --section-bg:#f7f8fb;
       --section-border:#e5e8f0;
+
+      --font-regular:"Arial Nova", Arial, Helvetica, sans-serif;
+      --font-bold:"Arial Nova", Arial, Helvetica, sans-serif;
     }
+
     *{ box-sizing:border-box; }
-    body{ margin:0; color:var(--text); font-family:var(--font); background:#fff; }
+    body{
+      margin:0; color:var(--text); background:#fff;
+      font-family:var(--font-regular); font-weight:400;
+    }
     main{ max-width:1000px; margin:20px auto 48px; padding:0 14px; }
 
-    /* Header with right-aligned logo at the very top */
-    .topbar{ display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
-    h1{ margin:0 0 6px; font-size:26px; }
-    .subtitle{ color:#374151; margin:0 0 12px; font-weight:600; }
-    .logo img{ max-width:130px; height:auto; display:block; }
-    .note{ color:#475569; margin:8px 0 18px; }
+    /* ===== Logo FIRST ===== */
+    .logo-row{ display:flex; justify-content:flex-end; }
+    .logo-row img{ max-width:260px; height:auto; display:block; } /* doubled size */
 
-    /* Section title: full-width light-grey bar with orange text (aligns with tables) */
+    /* ===== Title + Subtitle (together) ===== */
+    .title-block{ margin-top:10px; }
+    .title{
+      font-family:var(--font-bold); font-weight:700;
+      font-size:22pt; line-height:1.25; color:#111111;
+      margin:0; padding:0;
+    }
+    .subtitle{
+      font-family:var(--font-bold); font-weight:700;
+      font-size:13pt; /* 1pt smaller */
+      color:#111111;  /* same as title */
+      margin:0; padding-top:2px;
+    }
+    .pad-after-title-block{ height:18pt; } /* after subtitle */
+
+    .note{
+      color:#475569; margin:0;
+      font-family:var(--font-regular); font-weight:400;
+      font-size:9pt; line-height:1.45;
+    }
+    .pad-after-note{ height:14pt; }
+
+    /* ===== Section headers ===== */
     .section-bar{
       width:100%;
       background:var(--section-bg);
       border:1px solid var(--section-border);
       color:var(--orange);
-      font-weight:700;
+      font-family:var(--font-bold); font-weight:700;
+      font-size:13pt;
       padding:10px 12px;
       border-radius:var(--radius);
       margin:18px 0 10px;
     }
 
-    /* Three-column tables */
-    table{ width:100%; border-collapse:separate; border-spacing:0; margin-bottom:16px; }
+    /* ===== Tables (consistent widths) ===== */
+    table{
+      width:100%; border-collapse:separate; border-spacing:0;
+      margin-bottom:16px; table-layout:fixed;
+      font-family:var(--font-regular); font-weight:400;
+    }
+    /* Enforce same widths for every table via colgroup */
+    colgroup col.col-desc  { width:30%; }
+    colgroup col.col-unit  { width:15%; }
+    colgroup col.col-input { width:55%; }
+
     thead th{
-      background:var(--navy); color:#fff;
-      padding:12px 10px; font-weight:700;
+      background:var(--navy); color:#ffffff;
+      padding:12px 10px;
+      font-family:var(--font-bold); font-weight:700;
+      font-size:12pt;
       border-right:1px solid rgba(255,255,255,.12);
-      text-align:left;                /* header left-aligned */
-      vertical-align:middle;          /* header vertically centered */
+      text-align:left; vertical-align:middle;
     }
     thead th:last-child{ border-right:none; }
+
+    /* Uniform row height & alignment */
+    tbody tr{ height:46px; }
     tbody td{
       border:1px solid var(--border); border-top:none;
-      padding:10px; background:#fff;
-      vertical-align:middle;          /* cells vertically centered */
+      padding:10px; background:#ffffff;
+      vertical-align:middle;
+      text-align:left;
+      font-family:var(--font-regular); font-weight:400;
+      font-size:10pt; color:#000000;
     }
-
-    /* ⬇️ Style rule requested:
-       left-align & vertical-center for Description + Capacity / Unit columns */
-    /* Description column (1st col) */
-    tbody td:nth-child(1){ text-align:left; }
-    thead th:nth-child(1){ text-align:left; }
-    /* Capacity / Unit column (2nd col) */
-    tbody td:nth-child(2){ text-align:left; }
-    thead th:nth-child(2){ text-align:left; }
-
-    /* Customer to Populate column can remain default (inputs fill width) */
-    .unit{ white-space:nowrap; width:220px; color:#64748b; }
 
     /* Inputs */
     input[type="text"], input[type="email"], input[type="date"], select, textarea{
-      width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:8px; font-size:14px;
-      outline:none; background:#fff;
+      width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:8px;
+      font-family:var(--font-regular); font-weight:400;
+      font-size:11pt; color:#000; background:#fff; outline:none; line-height:1.3;
     }
-    input:focus, select:focus, textarea:focus{ border-color:#2563eb; box-shadow:0 0 0 3px rgba(37,99,235,.15); }
-    textarea{ resize:vertical; min-height:80px; }
-    .muted{ color:var(--muted); font-size:12px; margin-top:6px; }
-    .req::after{ content:" *"; color:var(--orange); font-weight:700; }
+    input:focus, select:focus, textarea:focus{
+      border-color:#2563eb; box-shadow:0 0 0 3px rgba(37,99,235,.15);
+    }
+    textarea{ resize:vertical; min-height:100px; }
+
+    .muted{ color:var(--muted); font-size:10pt; margin-top:6px; }
+    .req::after{ content:" *"; color:var(--orange); font-family:var(--font-bold); font-weight:700; }
     .invalid{ border-color:#ef4444 !important; box-shadow:0 0 0 2px rgba(239,68,68,.12); }
+
+    /* Two-input grid wrapper INSIDE the td (keeps table layout intact) */
+    .input-grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
 
     /* Actions & status */
     .actions{ display:flex; gap:12px; align-items:center; margin-top:12px; }
-    button{
-      background:var(--orange); color:#fff; border:none; padding:10px 14px; border-radius:8px;
-      font-weight:700; cursor:pointer;
+    #submitBtn{
+      background:var(--navy); color:#fff; border:none; padding:12px 22px; border-radius:8px;
+      font-family:var(--font-bold); font-weight:700; font-size:12pt; cursor:pointer;
+      transition: background .15s ease;
     }
-    button[disabled]{ opacity:.7; cursor:not-allowed; }
-    #submit-status{ white-space:pre-wrap; }
-    .ok{ color:#0b7a37; }
-    .err{ color:#b00020; }
+    #submitBtn:hover, #submitBtn:active{ background:var(--orange); }
+    #submit-status{ white-space:pre-wrap; font-size:11pt; }
+    .ok{ color:#0b7a37; } .err{ color:#b00020; }
 
-    footer{ color:#64748b; font-size:12px; margin-top:24px; }
+    /* Footer */
+    footer{ color:#111; margin-top:24px; }
+    .footer-text{
+      font-family:var(--font-regular); font-weight:400; font-size:8pt;
+      line-height:1.5; color:#111;
+    }
+    .footer-text b{ font-family:var(--font-bold); font-weight:700; }
   </style>
 </head>
 <body>
   <main>
-    <div class="topbar">
-      <div>
-        <h1>Customer Project Intake Form</h1>
-        <div class="subtitle">Renewables • Thermal</div>
-      </div>
-      <div class="logo">
-        <img src="https://seekvectorlogo.com/wp-content/uploads/2019/05/aggreko-vector-logo.png" alt="Aggreko logo" />
-      </div>
+    <!-- Logo first -->
+    <div class="logo-row">
+      https://seekvectorlogo.com/wp-content/uploads/2019/05/aggreko-vector-logo.png
     </div>
-    <div class="note">Note: Please complete all applicable sections. If a field does not apply to your project, feel free to leave it blank.</div>
+
+    <!-- Title & subtitle -->
+    <div class="title-block">
+      <h1 class="title">Customer Project Intake Form</h1>
+      <div class="subtitle">Thermal and Hybrid</div>
+    </div>
+    <div class="pad-after-title-block"></div>
+
+    <p class="note">
+      Note: Please complete all applicable sections. If a field does not apply to your project, and is not compulsory, please leave it blank.
+    </p>
+    <div class="pad-after-note"></div>
 
     <form id="customer-intake-form" novalidate>
       <!-- ============== Customer Details ============== -->
       <div class="section-bar">Customer Details</div>
       <table>
+        <colgroup>
+          <col class="col-desc"><col class="col-unit"><col class="col-input">
+        </colgroup>
         <thead>
           <tr>
             <th>Description</th>
-            <th class="unit">Capacity / Unit</th>
+            <th>Capacity / Unit</th>
             <th>Customer to Populate</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td><span class="req">Customer company</span></td>
-            <td class="unit">–</td>
-            <td><input type="text" id="customerCompany" name="customerCompany" required aria-required="true" placeholder="Company name" /></td>
+            <td>–</td>
+            <td><input type="text" id="customerCompany" name="customerCompany" required aria-required="true" /></td>
           </tr>
           <tr>
             <td><span class="req">Primary contact name</span></td>
-            <td class="unit">–</td>
-            <td><input type="text" id="contactName" name="contactName" required aria-required="true" placeholder="Full name" /></td>
+            <td>–</td>
+            <td><input type="text" id="contactName" name="contactName" required aria-required="true" /></td>
           </tr>
           <tr>
             <td><span class="req">Email</span></td>
-            <td class="unit">–</td>
-            <td><input type="email" id="contactEmail" name="contactEmail" required aria-required="true" placeholder="name@company.com" /></td>
+            <td>–</td>
+            <td><input type="email" id="contactEmail" name="contactEmail" required aria-required="true" /></td>
           </tr>
         </tbody>
       </table>
@@ -139,37 +206,40 @@
       <!-- ============== Project, Site & Contract ============== -->
       <div class="section-bar">Project, Site &amp; Contract</div>
       <table>
+        <colgroup>
+          <col class="col-desc"><col class="col-unit"><col class="col-input">
+        </colgroup>
         <thead>
           <tr>
             <th>Description</th>
-            <th class="unit">Capacity / Unit</th>
+            <th>Capacity / Unit</th>
             <th>Customer to Populate</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td><span class="req">Site</span></td>
-            <td class="unit">Name &amp; Location</td>
+            <td>Name &amp; Location</td>
             <td>
-              <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-                <input type="text" id="siteName" name="siteName" required aria-required="true" placeholder="Site / Project name" />
-                <input type="text" id="siteLocation" name="siteLocation" required aria-required="true" placeholder="Town/Region, State/Territory" />
+              <div class="input-grid-2">
+                <input type="text" id="siteName" name="siteName" required aria-required="true" />
+                <input type="text" id="siteLocation" name="siteLocation" required aria-required="true" />
               </div>
             </td>
           </tr>
           <tr>
             <td><span class="req">Contract Term</span></td>
-            <td class="unit">Years</td>
-            <td><input type="text" id="contractTerm" name="contractTerm" required aria-required="true" placeholder="e.g., 10 or TBC" /></td>
+            <td>Years</td>
+            <td><input type="text" id="contractTerm" name="contractTerm" required aria-required="true" /></td>
           </tr>
           <tr>
             <td>Contract Term Extension</td>
-            <td class="unit">Years</td>
-            <td><input type="text" id="contractExtension" name="contractExtension" placeholder="e.g., 5 or TBC" /></td>
+            <td>Years</td>
+            <td><input type="text" id="contractExtension" name="contractExtension" /></td>
           </tr>
           <tr>
             <td><span class="req">Target COD Date</span></td>
-            <td class="unit">DD/MM/YYYY</td>
+            <td>DD/MM/YYYY</td>
             <td><input type="date" id="targetCOD" name="targetCOD" required aria-required="true" /></td>
           </tr>
         </tbody>
@@ -178,22 +248,25 @@
       <!-- ============== Power & Energy ============== -->
       <div class="section-bar">Power &amp; Energy</div>
       <table>
+        <colgroup>
+          <col class="col-desc"><col class="col-unit"><col class="col-input">
+        </colgroup>
         <thead>
           <tr>
             <th>Description</th>
-            <th class="unit">Capacity / Unit</th>
+            <th>Capacity / Unit</th>
             <th>Customer to Populate</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td><span class="req">CMD (Contracted Maximum Demand)</span></td>
-            <td class="unit">MW</td>
-            <td><input type="text" id="cmdMW" name="cmdMW" required aria-required="true" placeholder="e.g., 20 or TBC" /></td>
+            <td>MW</td>
+            <td><input type="text" id="cmdMW" name="cmdMW" required aria-required="true" /></td>
           </tr>
           <tr>
             <td><span class="req">Redundancy</span></td>
-            <td class="unit">N+1 or N+2</td>
+            <td>N+1 or N+2</td>
             <td>
               <select id="redundancy" name="redundancy" required aria-required="true">
                 <option value="">Select…</option>
@@ -205,12 +278,12 @@
           </tr>
           <tr>
             <td>Average Demand</td>
-            <td class="unit">MW</td>
-            <td><input type="text" id="avgDemandMW" name="avgDemandMW" placeholder="e.g., 12 or TBC" /></td>
+            <td>MW</td>
+            <td><input type="text" id="avgDemandMW" name="avgDemandMW" /></td>
           </tr>
           <tr>
             <td><span class="req">Fuel Type</span></td>
-            <td class="unit">Type</td>
+            <td>Type</td>
             <td>
               <select id="fuelType" name="fuelType" required aria-required="true">
                 <option value="">Select fuel…</option>
@@ -223,23 +296,47 @@
           </tr>
           <tr>
             <td>Assumed Fuel Price</td>
-            <td class="unit">$/L or $/GJ</td>
-            <td><input type="text" id="fuelPrice" name="fuelPrice" placeholder="e.g., 1.28 or TBC" /></td>
+            <td>$/L or $/GJ</td>
+            <td><input type="text" id="fuelPrice" name="fuelPrice" /></td>
           </tr>
           <tr>
             <td>Fuel Facility</td>
-            <td class="unit">Description / Delivered?</td>
+            <td>Description / Delivered?</td>
             <td><input type="text" id="fuelFacility" name="fuelFacility" placeholder="e.g., Onsite tanks, delivered fuel" /></td>
           </tr>
           <tr>
             <td><span class="req">Land Availability</span></td>
-            <td class="unit">Area + Status</td>
+            <td>Area + Status</td>
             <td><input type="text" id="landAvailability" name="landAvailability" required aria-required="true" placeholder="e.g., 5 ha / In principle" /></td>
           </tr>
           <tr>
             <td><span class="req">Maximum Temperature</span></td>
-            <td class="unit">°C</td>
-            <td><input type="text" id="maxTemp" name="maxTemp" required aria-required="true" placeholder="e.g., 46 or TBC" /></td>
+            <td>°C</td>
+            <td><input type="text" id="maxTemp" name="maxTemp" required aria-required="true" /></td>
+          </tr>
+          <!-- Newly reinstated rows -->
+          <tr>
+            <td>Altitude</td>
+            <td>m</td>
+            <td><input type="text" id="altitudeM" name="altitudeM" /></td>
+          </tr>
+          <tr>
+            <td>Voltage</td>
+            <td>V</td>
+            <td><input type="text" id="voltageV" name="voltageV" /></td>
+          </tr>
+          <tr>
+            <td>Accommodation</td>
+            <td>Scope / Responsibility</td>
+            <td>
+              <select id="accommodation" name="accommodation">
+                <option value="">Select…</option>
+                <option>Customer</option>
+                <option>Aggreko</option>
+                <option>Shared</option>
+                <option>Not required</option>
+              </select>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -247,47 +344,50 @@
       <!-- ============== Renewables ============== -->
       <div class="section-bar">Renewables</div>
       <table>
+        <colgroup>
+          <col class="col-desc"><col class="col-unit"><col class="col-input">
+        </colgroup>
         <thead>
           <tr>
             <th>Description</th>
-            <th class="unit">Capacity / Unit</th>
+            <th>Capacity / Unit</th>
             <th>Customer to Populate</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>Wind</td>
-            <td class="unit">Capacity (MWp)</td>
+            <td>Capacity (MWp)</td>
             <td>
-              <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+              <div class="input-grid-2">
                 <select id="wind" name="wind">
                   <option value="">Select…</option>
                   <option>Optimised</option>
                   <option>Will specify</option>
                   <option>Not applicable</option>
                 </select>
-                <input type="text" id="windCapacityMWp" name="windCapacityMWp" placeholder="Capacity (MWp)" />
+                <input type="text" id="windCapacityMWp" name="windCapacityMWp" />
               </div>
             </td>
           </tr>
           <tr>
             <td>Solar PV</td>
-            <td class="unit">Capacity (MWp)</td>
+            <td>Capacity (MWp)</td>
             <td>
-              <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+              <div class="input-grid-2">
                 <select id="solarPV" name="solarPV">
                   <option value="">Select…</option>
                   <option>Optimised</option>
                   <option>Will specify</option>
                   <option>Not applicable</option>
                 </select>
-                <input type="text" id="solarCapacityMWp" name="solarCapacityMWp" placeholder="Capacity (MWp)" />
+                <input type="text" id="solarCapacityMWp" name="solarCapacityMWp" />
               </div>
             </td>
           </tr>
           <tr>
             <td>Battery Energy Storage (BESS)</td>
-            <td class="unit">–</td>
+            <td>–</td>
             <td>
               <select id="bess" name="bess">
                 <option value="">Select…</option>
@@ -300,8 +400,8 @@
           </tr>
           <tr>
             <td>Renewable Energy Fraction (REF%)</td>
-            <td class="unit">%</td>
-            <td><input type="text" id="refPercent" name="refPercent" placeholder="e.g., 45 or TBC" /></td>
+            <td>%</td>
+            <td><input type="text" id="refPercent" name="refPercent" /></td>
           </tr>
         </tbody>
       </table>
@@ -316,7 +416,9 @@
       </div>
 
       <footer>
-        <p><strong>Privacy &amp; Confidentiality.</strong> Information you provide will be used to assess project requirements and budgetary pricing and may be stored in Aggreko systems in accordance with Aggreko’s privacy practices. © Aggreko.</p>
+        <p class="footer-text">
+          <b>Privacy &amp; Confidentiality.</b> Information you provide will be used to assess project requirements and budgetary pricing and may be stored in Aggreko systems in accordance with Aggreko’s privacy practices. © Aggreko.
+        </p>
       </footer>
     </form>
   </main>
@@ -331,7 +433,7 @@
       const s = (v ?? "").toString().trim();
       if (!s) return "";
       const n = Number(s.replace(/,/g,""));
-      return Number.isFinite(n) ? n : s; // keep "TBC", etc.
+      return Number.isFinite(n) ? n : s;
     }
     function text(v){ return (v ?? "").toString().trim(); }
     function dateDDMMYYYY(yyyy_mm_dd){
@@ -346,7 +448,7 @@
       el.className = ok ? "ok" : "err";
     }
 
-    // Required validation (same set as you specified)
+    // Required validation
     function validateRequired(){
       const ids = [
         "customerCompany","contactName","contactEmail",
@@ -390,7 +492,7 @@
       return true;
     }
 
-    // Submit (unchanged logic/payload)
+    // Submit
     document.getElementById("customer-intake-form").addEventListener("submit", async (e)=>{
       e.preventDefault();
       if (!validateRequired()) return;
@@ -400,7 +502,7 @@
       btn.disabled = true;
 
       const payload = {
-        // ===== EXACT Excel column names =====
+        // Existing mapped columns (as before)
         customerCompany: text(document.getElementById("customerCompany").value),
         contactName: text(document.getElementById("contactName").value),
         contactEmail: text(document.getElementById("contactEmail").value),
@@ -428,7 +530,15 @@
         fuelFacility: text(document.getElementById("fuelFacility").value),
 
         landAvailability: text(document.getElementById("landAvailability").value),
-        maxTemp: numOrText(document.getElementById("maxTemp").value)
+        maxTemp: numOrText(document.getElementById("maxTemp").value),
+
+        // Newly included optional fields (add columns in Excel + map if you want to store them)
+        altitudeM: numOrText(document.getElementById("altitudeM").value),
+        voltageV: text(document.getElementById("voltageV").value),
+        accommodation: text(document.getElementById("accommodation").value),
+
+        // Notes are not currently mapped to Excel—enable later if needed:
+        // notes: text(document.getElementById("notes").value)
       };
 
       try{
