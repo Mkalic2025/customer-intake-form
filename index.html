@@ -23,12 +23,14 @@
       --font-size: 14px;
       --line: 1.5;
 
-      --space-24pt: 32px;  /* ≈24pt: gap between title block and the Note */
+      --space-24pt: 32px;      /* ≈24pt: gap between title block and Note */
       --logo-space-50pt: 67px; /* ≈50pt: space under the logo only */
       --lr-cell-pad: 10px;     /* halved L/R padding */
-      --cap-col-width: 16%;
-      --desc-col-width: 42%;   /* equal widths for Description & Customer */
-      --cust-col-width: 42%;
+
+      /* ==== UPDATED COLUMN WIDTHS ==== */
+      --desc-col-width: 35%;
+      --cap-col-width: 15%;
+      --cust-col-width: 50%;
     }
 
     html, body { height: 100%; }
@@ -65,17 +67,17 @@
       display: block;
       max-width: 220px;
       height: auto;
-      /* NEW: space under the logo only (≈50pt) */
+      /* Space under the logo only (≈50pt) */
       margin-bottom: var(--logo-space-50pt);
     }
     .title-wrap{ grid-column: 1; }
     .title{
-      margin: 0 0 12px 0;       /* keep tighter gap inside title block */
+      margin: 0 0 12px 0;
       text-align: left;
       font-weight: 700;
     }
     .subtitle{
-      margin: 0;                /* let header padding control gap to Note */
+      margin: 0;
       text-align: left;
       font-weight: 600;
       color: #374151;
@@ -115,7 +117,7 @@
       padding: 10px var(--lr-cell-pad);
       text-align: left;
       border-right: 1px solid rgba(255,255,255,0.12);
-      vertical-align: middle; /* ensure header cells are centered vertically */
+      vertical-align: middle; /* header cells vertically centered */
     }
     thead th:last-child{ border-right: none; }
 
@@ -128,14 +130,14 @@
       background: #FFFFFF;
     }
 
-    /* NEW: Left align + vertically center ONLY the 1st (Description) and 2nd (Capacity) columns */
+    /* Left align + vertically center ONLY Description & Capacity columns */
     tbody tr td:nth-child(1),
     tbody tr td:nth-child(2){
       text-align: left;
       vertical-align: middle;
     }
 
-    /* ===== Inputs/selects/textarea (unchanged except for halved L/R padding) ===== */
+    /* ===== Inputs/selects/textarea (halved L/R padding + font) ===== */
     input[type="text"],
     input[type="email"],
     input[type="number"],
@@ -223,10 +225,7 @@
 
     <!-- Header: Logo FIRST (top-right), Title left -->
     <header class="form-header">
-      <img
-        class="aggreko-logo"
-        alt="Aggreko"
-        src="https://seekvectorlogo.com/wp-content/uploads/2019/05/aggreko-vector-logo.png" />
+      <img class="aggreko-logo" src="https://seekvectorlogo.com/wp-content/uploads/2019/05/aggreko-vector-logo.png" alt="Aggreko" />
       <div class="title-wrap">
         <h1 class="title">Customer Project Intake – Hybrid</h1>
         <h2 class="subtitle">Hybrid Proposals (Renewables + Thermal)</h2>
@@ -531,6 +530,7 @@
           fuelFacility: val("fuel_facility"),
           landAvailability: landAvailability,
           maxTemp: val("maximum_temperature")
+          // Additional notes omitted unless you add a schema key
         };
 
         try {
