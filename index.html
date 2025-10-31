@@ -6,34 +6,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <style>
-    /* Minimal, neutral styling to keep your table-driven layout */
-    body { font-family: Segoe UI, Roboto, Helvetica, Arial, sans-serif; margin: 0; color: #111; }
-    header { background:#111827; color:#fff; padding:16px 12px; border-bottom: 3px solid #ff6a00; }
+    /* Neutral styling, table-driven layout preserved */
+    body { font-family: Segoe UI, Roboto, Helvetica, Arial, sans-serif; margin:0; color:#111; }
+    header { background:#111827; color:#fff; padding:16px 12px; border-bottom:3px solid #ff6a00; }
     main { max-width: 980px; margin: 20px auto; padding: 0 12px 40px; }
     h1 { margin: 0 0 4px; font-size: 22px; }
     h2 { margin: 24px 0 10px; font-size: 18px; }
-    table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
-    th, td { border: 1px solid #e5e7eb; padding: 10px; vertical-align: top; }
-    th { background: #f8fafc; text-align: left; }
-    .unit { color:#6b7280; white-space: nowrap; width: 180px; }
-    input[type="text"], input[type="email"], input[type="number"], input[type="date"], select, textarea {
-      width: 100%; padding: 8px 10px; border:1px solid #d1d5db; border-radius: 6px; font-size: 14px;
+    table { width:100%; border-collapse:collapse; margin-bottom:16px; }
+    th, td { border:1px solid #e5e7eb; padding:10px; vertical-align:top; }
+    th { background:#f8fafc; text-align:left; }
+    .unit { color:#6b7280; white-space:nowrap; width:180px; }
+    input[type="text"], input[type="email"], input[type="date"], select, textarea {
+      width:100%; padding:8px 10px; border:1px solid #d1d5db; border-radius:6px; font-size:14px;
     }
-    textarea { resize: vertical; min-height: 80px; }
-    .row { display: grid; gap: 8px; }
+    textarea { resize:vertical; min-height:80px; }
+    .row { display:grid; gap:8px; }
     .row-2 { grid-template-columns: 1fr 1fr; }
     .row-3 { grid-template-columns: 1fr 1fr 1fr; }
-    .muted { color:#6b7280; font-size: 12px; }
-    .actions { display:flex; gap:10px; align-items:center; margin-top: 8px; }
+    .muted { color:#6b7280; font-size:12px; }
+    .actions { display:flex; gap:10px; align-items:center; margin-top:8px; }
     button { background:#ff6a00; color:#fff; border:none; padding:10px 14px; border-radius:6px; font-weight:600; cursor:pointer; }
-    button[disabled] { opacity:.7; cursor:not-allowed; }
-    .status { margin-top: 10px; white-space: pre-wrap; }
-    .ok { color: #0b7a37; }
-    .err { color: #b00020; }
-    footer { color:#6b7280; font-size:12px; margin-top: 28px; }
+    button[disabled]{ opacity:.7; cursor:not-allowed; }
+    .status { margin-top:10px; white-space:pre-wrap; }
+    .ok { color:#0b7a37; }
+    .err { color:#b00020; }
+    footer { color:#6b7280; font-size:12px; margin-top:28px; }
     .req::after { content:" *"; color:#ff6a00; }
-    .invalid { border-color:#ef4444 !important; box-shadow: 0 0 0 2px rgba(239,68,68,.15); }
-    ul.errors { margin: 6px 0 0 18px; color:#b00020; }
+    .invalid { border-color:#ef4444 !important; box-shadow:0 0 0 2px rgba(239,68,68,.15); }
+    ul.errors { margin:6px 0 0 18px; color:#b00020; }
   </style>
 </head>
 <body>
@@ -58,17 +58,23 @@
           <tr>
             <td><span class="req">Customer company</span></td>
             <td class="unit">–</td>
-            <td><input type="text" id="customerCompany" name="customerCompany" required placeholder="Company name" aria-required="true" /></td>
+            <td>
+              <input type="text" id="customerCompany" name="customerCompany" required placeholder="Company name" aria-required="true" />
+            </td>
           </tr>
           <tr>
             <td><span class="req">Primary contact name</span></td>
             <td class="unit">–</td>
-            <td><input type="text" id="primaryContactName" name="primaryContactName" required placeholder="Full name" aria-required="true" /></td>
+            <td>
+              <input type="text" id="contactName" name="contactName" required placeholder="Full name" aria-required="true" />
+            </td>
           </tr>
           <tr>
             <td><span class="req">Email</span></td>
             <td class="unit">–</td>
-            <td><input type="email" id="email" name="email" required placeholder="name@company.com" aria-required="true" /></td>
+            <td>
+              <input type="email" id="contactEmail" name="contactEmail" required placeholder="name@company.com" aria-required="true" />
+            </td>
           </tr>
         </tbody>
       </table>
@@ -92,27 +98,36 @@
                 <input type="text" id="siteName" name="siteName" placeholder="Site name" required aria-required="true" />
                 <input type="text" id="siteLocation" name="siteLocation" placeholder="Town/Region, State/Territory" required aria-required="true" />
               </div>
+              <div class="muted">Only <em>Site Name</em> goes to Excel; Location is displayed here and can be included later if you add a column.</div>
             </td>
           </tr>
           <tr>
             <td><span class="req">Contract Term</span></td>
             <td class="unit">Years</td>
-            <td><input type="text" id="contractTermYears" name="contractTermYears" placeholder="e.g., 10 or TBC" required aria-required="true" /></td>
+            <td>
+              <input type="text" id="contractTerm" name="contractTerm" placeholder="e.g., 10 or TBC" required aria-required="true" />
+            </td>
           </tr>
           <tr>
             <td>Contract Term Extension</td>
             <td class="unit">Years</td>
-            <td><input type="text" id="contractTermExtensionYears" name="contractTermExtensionYears" placeholder="e.g., 5 or TBC" /></td>
+            <td>
+              <input type="text" id="contractExtension" name="contractExtension" placeholder="e.g., 5 or TBC" />
+            </td>
           </tr>
           <tr>
             <td><span class="req">Target COD Date</span></td>
             <td class="unit">DD/MM/YYYY</td>
-            <td><input type="date" id="targetCODDate" name="targetCODDate" required aria-required="true" /></td>
+            <td>
+              <input type="date" id="targetCOD" name="targetCOD" required aria-required="true" />
+            </td>
           </tr>
           <tr>
             <td><span class="req">CMD (Contracted Maximum Demand)</span></td>
             <td class="unit">MW</td>
-            <td><input type="text" id="cmdMW" name="cmdMW" placeholder="e.g., 20 or TBC" required aria-required="true" /></td>
+            <td>
+              <input type="text" id="cmdMW" name="cmdMW" placeholder="e.g., 20 or TBC" required aria-required="true" />
+            </td>
           </tr>
           <tr>
             <td><span class="req">Redundancy</span></td>
@@ -129,19 +144,21 @@
           <tr>
             <td>Average Demand</td>
             <td class="unit">MW</td>
-            <td><input type="text" id="avgDemandMW" name="avgDemandMW" placeholder="e.g., 12 or TBC" /></td>
+            <td>
+              <input type="text" id="avgDemandMW" name="avgDemandMW" placeholder="e.g., 12 or TBC" />
+            </td>
           </tr>
           <tr>
             <td>Wind</td>
             <td class="unit">MWp</td>
             <td>
               <div class="row row-2">
-                <select id="windMode" name="windMode">
+                <select id="wind" name="wind">
                   <option value="">Select…</option>
                   <option>Optimised</option>
                   <option>Will specify</option>
                 </select>
-                <input type="text" id="windMWp" name="windMWp" placeholder="If specifying, enter capacity" />
+                <input type="text" id="windCapacityMWp" name="windCapacityMWp" placeholder="If specifying, enter capacity" />
               </div>
             </td>
           </tr>
@@ -150,17 +167,17 @@
             <td class="unit">MWp</td>
             <td>
               <div class="row row-2">
-                <select id="solarMode" name="solarMode">
+                <select id="solarPV" name="solarPV">
                   <option value="">Select…</option>
                   <option>Optimised</option>
                   <option>Will specify</option>
                 </select>
-                <input type="text" id="solarMWp" name="solarMWp" placeholder="If specifying, enter capacity" />
+                <input type="text" id="solarCapacityMWp" name="solarCapacityMWp" placeholder="If specifying, enter capacity" />
               </div>
             </td>
           </tr>
           <tr>
-            <td>Battery Energy Storage (BESS)</td>
+            <td>BESS</td>
             <td class="unit">Yes / No</td>
             <td>
               <select id="bess" name="bess">
@@ -175,11 +192,13 @@
           <tr>
             <td>Renewable Energy Fraction (REF%)</td>
             <td class="unit">%</td>
-            <td><input type="text" id="refPercent" name="refPercent" placeholder="e.g., 45 or TBC" /></td>
+            <td>
+              <input type="text" id="refPercent" name="refPercent" placeholder="e.g., 45 or TBC" />
+            </td>
           </tr>
           <tr>
-            <td><span class="req">Fuel Type + Assumed Price (Type)</span></td>
-            <td class="unit">Type + $/L or $/GJ</td>
+            <td><span class="req">Fuel Type</span></td>
+            <td class="unit">Type</td>
             <td>
               <div class="row row-3">
                 <select id="fuelType" name="fuelType" required aria-required="true">
@@ -189,7 +208,7 @@
                   <option>LNG</option>
                   <option>Other</option>
                 </select>
-                <input type="text" id="fuelPrice" name="fuelPrice" placeholder="e.g., 1.28 or TBC" />
+                <input type="text" id="fuelPrice" name="fuelPrice" placeholder="Assumed price (e.g., 1.28 or TBC)" />
                 <select id="fuelPriceUnit" name="fuelPriceUnit">
                   <option value="">Unit…</option>
                   <option>$/L</option>
@@ -201,7 +220,9 @@
           <tr>
             <td>Fuel Facility</td>
             <td class="unit">Description / Delivered?</td>
-            <td><input type="text" id="fuelFacility" name="fuelFacility" placeholder="e.g., Onsite tanks, delivered fuel" /></td>
+            <td>
+              <input type="text" id="fuelFacility" name="fuelFacility" placeholder="e.g., Onsite tanks, delivered fuel" />
+            </td>
           </tr>
           <tr>
             <td><span class="req">Land Availability</span></td>
@@ -217,34 +238,14 @@
                   <option>Unknown</option>
                 </select>
               </div>
+              <div class="muted">These two inputs are combined and sent to Excel as a single “landAvailability” value.</div>
             </td>
           </tr>
           <tr>
             <td><span class="req">Maximum Temperature</span></td>
             <td class="unit">°C</td>
-            <td><input type="text" id="maxTemperatureC" name="maxTemperatureC" placeholder="e.g., 46 or TBC" required aria-required="true" /></td>
-          </tr>
-          <tr>
-            <td>Altitude</td>
-            <td class="unit">m</td>
-            <td><input type="text" id="altitudeM" name="altitudeM" placeholder="e.g., 400 or TBC" /></td>
-          </tr>
-          <tr>
-            <td>Voltage</td>
-            <td class="unit">V</td>
-            <td><input type="text" id="voltageV" name="voltageV" placeholder="e.g., 11kV or TBC" /></td>
-          </tr>
-          <tr>
-            <td>Accommodation</td>
-            <td class="unit">Scope / Responsibility</td>
             <td>
-              <select id="accommodation" name="accommodation">
-                <option value="">Select…</option>
-                <option>Customer</option>
-                <option>Aggreko</option>
-                <option>Shared</option>
-                <option>Not required</option>
-              </select>
+              <input type="text" id="maxTemp" name="maxTemp" placeholder="e.g., 46 or TBC" required aria-required="true" />
             </td>
           </tr>
         </tbody>
@@ -262,96 +263,77 @@
 
       <!-- Privacy -->
       <footer>
-        <p><strong>Privacy &amp; Confidentiality.</strong> This email and any information provided in response may contain confidential and/or personal information. If you are not the intended recipient, please notify the sender immediately and delete this message. Any unauthorised review, use, disclosure, or distribution is prohibited. Information you provide will be used to assess project requirements and budgetary pricing and may be stored in Aggreko systems in accordance with Aggreko’s privacy practices. © Aggreko.</p>
+        <p><strong>Privacy &amp; Confidentiality.</strong> Information you provide will be used to assess project requirements and budgetary pricing and may be stored in Aggreko systems in accordance with Aggreko’s privacy practices. © Aggreko.</p>
       </footer>
     </form>
   </main>
 
   <script>
     // ===== CONFIG =====
-    // Use real ampersands (&) here. Do NOT change to &amp;.
+    // IMPORTANT: Use real ampersands (&) in the URL.
     const FLOW_URL = "https://default5cb01ea241604f87afc65e72e6b82a.d1.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/0f422bbcb71f4f06a6e42ee74aa5b776/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=uoPMJp8FLgPGZgu_yZtEchRN65A-105UHltuzQnn_Ko";
 
     // ===== HELPERS =====
-    function toNumberOrText(value) {
-      const v = (value ?? "").toString().trim();
-      if (!v) return "";
-      const n = Number(v.replace(/,/g, ""));
-      return Number.isFinite(n) ? n : v; // keep text like "TBC"
+    function numOrText(v) {
+      const s = (v ?? "").toString().trim();
+      if (!s) return "";
+      const n = Number(s.replace(/,/g,""));
+      return Number.isFinite(n) ? n : s;
     }
-    function formatDateDDMMYYYY(value) {
-      if (!value) return "";
-      const [yyyy, mm, dd] = value.split("-");
-      if (!yyyy || !mm || !dd) return value;
-      return `${dd}/${mm}/${yyyy}`;
+    function formatDateDDMMYYYY(yyyy_mm_dd) {
+      if (!yyyy_mm_dd) return "";
+      const [y,m,d] = yyyy_mm_dd.split("-");
+      if (!y || !m || !d) return yyyy_mm_dd;
+      return `${d}/${m}/${y}`;
     }
-    function setStatus(msg, ok = true) {
+    function setStatus(msg, ok=true) {
       const el = document.getElementById("submit-status");
       el.textContent = msg;
       el.className = "status " + (ok ? "ok" : "err");
     }
-
-    // Hard validation for compulsory fields
     function validateRequired() {
-      const requiredIds = [
-        // Customer basics
-        "customerCompany", "primaryContactName", "email",
-        // Site (both fields)
-        "siteName", "siteLocation",
-        // Contract term
-        "contractTermYears",
-        // Target COD
-        "targetCODDate",
-        // CMD
+      const ids = [
+        "customerCompany","contactName","contactEmail",
+        "siteName","siteLocation",
+        "contractTerm",
+        "targetCOD",
         "cmdMW",
-        // Redundancy
         "redundancy",
-        // Fuel type
         "fuelType",
-        // Land availability (both fields)
-        "landArea", "landStatus",
-        // Max temperature
-        "maxTemperatureC"
+        "landArea","landStatus",
+        "maxTemp"
       ];
-
-      const missing = [];
-      let firstInvalid = null;
-
-      requiredIds.forEach(id => {
+      let first = null, missing = [];
+      const nameMap = {
+        customerCompany:"Customer company",
+        contactName:"Primary contact name",
+        contactEmail:"Email",
+        siteName:"Site name",
+        siteLocation:"Site location",
+        contractTerm:"Contract term",
+        targetCOD:"Target COD date",
+        cmdMW:"CMD (MW)",
+        redundancy:"Redundancy",
+        fuelType:"Fuel type",
+        landArea:"Land area",
+        landStatus:"Land status",
+        maxTemp:"Maximum temperature (°C)"
+      };
+      ids.forEach(id=>{
         const el = document.getElementById(id);
-        if (!el) return;
-        const val = (el.value ?? "").toString().trim();
-        const invalid = (el.tagName === "SELECT") ? (val === "") : (val.length === 0);
+        const val = (el?.value ?? "").toString().trim();
+        const invalid = (el?.tagName==="SELECT") ? (val==="") : (val.length===0);
         if (invalid) {
-          missing.push(id);
-          el.classList.add("invalid");
-          if (!firstInvalid) firstInvalid = el;
+          el?.classList.add("invalid");
+          missing.push(nameMap[id]||id);
+          if (!first) first = el;
         } else {
-          el.classList.remove("invalid");
+          el?.classList.remove("invalid");
         }
       });
-
-      // Build friendly messages for the top-of-form status area
-      const nameMap = {
-        customerCompany: "Customer company",
-        primaryContactName: "Primary contact name",
-        email: "Email",
-        siteName: "Site name",
-        siteLocation: "Site location",
-        contractTermYears: "Contract term (years)",
-        targetCODDate: "Target COD date",
-        cmdMW: "CMD (MW)",
-        redundancy: "Redundancy",
-        fuelType: "Fuel type",
-        landArea: "Land area",
-        landStatus: "Land status",
-        maxTemperatureC: "Maximum temperature (°C)"
-      };
-
       if (missing.length) {
-        const msgs = missing.map(k => `• ${nameMap[k] || k}`).join("\n");
-        setStatus("Please complete the required fields:\n" + msgs, false);
-        if (firstInvalid) firstInvalid.focus();
+        setStatus("Please complete the required fields:\n• " + missing.join("\n• "), false);
+        first?.focus();
         return false;
       }
       return true;
@@ -366,52 +348,38 @@
       const btn = document.getElementById("submitBtn");
       btn.disabled = true;
 
+      // Combine Land Availability values for the single Excel column
+      const landAvailability = [document.getElementById("landArea").value.trim(), document.getElementById("landStatus").value.trim()]
+        .filter(Boolean).join(" / ");
+
       const payload = {
-        // Customer & Contacts
+        // === EXACT column names for Excel ===
         customerCompany: document.getElementById("customerCompany").value.trim(),
-        primaryContactName: document.getElementById("primaryContactName").value.trim(),
-        email: document.getElementById("email").value.trim(),
+        contactName: document.getElementById("contactName").value.trim(),
+        contactEmail: document.getElementById("contactEmail").value.trim(),
 
-        // Site
-        siteName: document.getElementById("siteName").value.trim(),
-        siteLocation: document.getElementById("siteLocation").value.trim(),
+        siteName: document.getElementById("siteName").value.trim(), // (location kept separate/not sent unless you add a column)
+        contractTerm: document.getElementById("contractTerm").value.trim(),
+        contractExtension: document.getElementById("contractExtension").value.trim(),
+        targetCOD: formatDateDDMMYYYY(document.getElementById("targetCOD").value),
 
-        // Terms & dates
-        contractTermYears: toNumberOrText(document.getElementById("contractTermYears").value),
-        contractTermExtensionYears: toNumberOrText(document.getElementById("contractTermExtensionYears").value),
-        targetCODDate: formatDateDDMMYYYY(document.getElementById("targetCODDate").value),
-
-        // Loads & config
-        cmdMW: toNumberOrText(document.getElementById("cmdMW").value),
+        cmdMW: numOrText(document.getElementById("cmdMW").value),
         redundancy: document.getElementById("redundancy").value,
-        avgDemandMW: toNumberOrText(document.getElementById("avgDemandMW").value),
+        avgDemandMW: numOrText(document.getElementById("avgDemandMW").value),
 
-        // Renewables
-        windMode: document.getElementById("windMode").value,
-        windMWp: toNumberOrText(document.getElementById("windMWp").value),
-        solarMode: document.getElementById("solarMode").value,
-        solarMWp: toNumberOrText(document.getElementById("solarMWp").value),
+        wind: document.getElementById("wind").value,
+        windCapacityMWp: numOrText(document.getElementById("windCapacityMWp").value),
+        solarPV: document.getElementById("solarPV").value,
+        solarCapacityMWp: numOrText(document.getElementById("solarCapacityMWp").value),
         bess: document.getElementById("bess").value,
-        refPercent: toNumberOrText(document.getElementById("refPercent").value),
+        refPercent: numOrText(document.getElementById("refPercent").value),
 
-        // Fuel
         fuelType: document.getElementById("fuelType").value,
-        fuelPrice: toNumberOrText(document.getElementById("fuelPrice").value),
-        fuelPriceUnit: document.getElementById("fuelPriceUnit").value,
+        fuelPrice: numOrText(document.getElementById("fuelPrice").value),
         fuelFacility: document.getElementById("fuelFacility").value.trim(),
 
-        // Land & environment
-        landArea: document.getElementById("landArea").value.trim(),
-        landStatus: document.getElementById("landStatus").value,
-        maxTemperatureC: toNumberOrText(document.getElementById("maxTemperatureC").value),
-        altitudeM: toNumberOrText(document.getElementById("altitudeM").value),
-        voltageV: document.getElementById("voltageV").value.trim(),
-
-        // Logistics
-        accommodation: document.getElementById("accommodation").value,
-
-        // Notes
-        notes: document.getElementById("notes").value.trim()
+        landAvailability: landAvailability,
+        maxTemp: numOrText(document.getElementById("maxTemp").value)
       };
 
       try {
