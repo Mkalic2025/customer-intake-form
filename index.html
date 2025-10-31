@@ -1,234 +1,470 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Aggreko – Customer Project Intake Form</title>
-<style>
-  :root {
-    --brand-navy:#1f2a44;
-    --brand-accent:#f26522;
-    --line:#dfe3eb;
-    --header-bg:#f8f9fc;
-  }
-  body {
-    font-family:"Arial Nova", Arial, Helvetica, sans-serif;
-    margin:0; padding:24px; background:#fff; color:#111;
-  }
-  .wrap { max-width:980px; margin:0 auto; }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Customer Project Intake – Hybrid</title>
 
-  /* Header */
-  header {
-    display:flex; justify-content:space-between; align-items:flex-start;
-    margin-bottom:20px;
-  }
-  header img {
-    height:110px; margin-bottom:10px; margin-top:10px;
-  }
-  .title {
-    font-size:28px; font-weight:700; color:var(--brand-navy);
-    margin:0 0 4px 0;
-  }
-  .subtitle {
-    font-size:18px; font-weight:400; color:#333; margin-bottom:10px;
-  }
+  <style>
+    /* ===== Brand tokens (as per branded version) ===== */
+    :root{
+      --brand-navy: #0B1F39;
+      --brand-navy-2: #1E293B;
+      --brand-grey-100: #F2F4F8;
+      --brand-grey-200: #E5E7EB;
+      --brand-grey-300: #DCDCDC;
+      --brand-text: #0F172A;
+      --aggreko-orange: #FF6A00;
 
-  /* Section Headers */
-  .section-header {
-    background:var(--header-bg);
-    padding:14px 16px;
-    font-weight:700;
-    font-size:16px;
-    color:var(--brand-accent);
-    border:1px solid var(--line);
-    margin-top:20px;
-    margin-bottom:10px;
-  }
+      --container-max: 1040px;
+      --radius: 6px;
 
-  /* Tables */
-  table {
-    width:100%;
-    border-collapse:collapse;
-    font-size:13px;
-    margin-bottom:12px;
-    table-layout:fixed;
-  }
-  th, td {
-    border:1px solid var(--line);
-    padding:5px 6px;
-    vertical-align:middle;
-    height:34px;
-  }
-  thead th {
-    background:var(--brand-navy);
-    color:#fff;
-    font-weight:700;
-    font-size:12pt;
-    text-align:left;
-    text-indent:0.1em;
-  }
-  th:first-child, td:first-child { width:35%; }
-  th:nth-child(2), td:nth-child(2) { width:15%; text-align:center; }
-  th:last-child, td:last-child { width:50%; }
+      --font-body: "Arial Nova", Arial, "Segoe UI", Tahoma, sans-serif;
+      --font-size: 14px;
+      --line: 1.5;
 
-  input, select, textarea {
-    width:95%;
-    padding:3px 5px;
-    border:1px solid #cfd6e4;
-    border-radius:4px;
-    font-size:13px;
-    font-family:"Arial Nova", Arial, sans-serif;
-    box-sizing:border-box;
-    display:block;
-    margin:auto;
-  }
-  textarea {
-    resize:vertical; min-height:60px;
-  }
-  input:focus, select:focus, textarea:focus {
-    outline:none; border-color:var(--brand-accent);
-  }
-
-  /* Submit Button */
-  .submit-btn {
-    background:var(--brand-navy);
-    color:#fff;
-    border:none;
-    padding:12px 20px;
-    font-size:15px;
-    font-family:"Arial Nova", Arial, sans-serif;
-    font-weight:700;
-    border-radius:4px;
-    cursor:pointer;
-    margin-top:20px;
-    transition:background 0.3s ease;
-  }
-  .submit-btn:hover { background:var(--brand-accent); }
-
-  /* Privacy Notice */
-  .privacy {
-    font-size:12px;
-    color:#6b7280;
-    margin-top:20px;
-    line-height:1.4;
-  }
-</style>
-</head>
-
-<body>
-<div class="wrap">
-  <header>
-    <div></div>
-    <img src="https://seekvectorlogo.com/wp-content/uploads/2019/05/aggreko-vector-logo.png" alt="Aggreko Logo">
-  </header>
-
-  <div class="title">Customer Project Intake Form</div>
-  <div class="subtitle">Renewables + Thermal</div>
-
-  <form id="intakeForm">
-
-    <!-- Customer Details -->
-    <div class="section-header">Customer Details</div>
-    <table>
-      <thead><tr><th>Description</th><th>Capacity / Unit</th><th>Customer to Populate</th></tr></thead>
-      <tbody>
-        <tr><td>Customer company *</td><td>–</td><td><input type="text" name="customerCompany" required></td></tr>
-        <tr><td>Primary contact name *</td><td>–</td><td><input type="text" name="contactName" required></td></tr>
-        <tr><td>Email *</td><td>–</td><td><input type="email" name="contactEmail" required></td></tr>
-      </tbody>
-    </table>
-
-    <!-- Project, Site & Contract -->
-    <div class="section-header">Project, Site & Contract</div>
-    <table>
-      <thead><tr><th>Description</th><th>Capacity / Unit</th><th>Customer to Populate</th></tr></thead>
-      <tbody>
-        <tr><td>Site</td><td>Name & Location</td><td><input type="text" name="siteName"></td></tr>
-        <tr><td>Contract Term</td><td>Years</td><td><input type="number" name="contractTerm"></td></tr>
-        <tr><td>Contract Term Extension</td><td>Years</td><td><input type="number" name="contractExtension"></td></tr>
-        <tr><td>Target COD Date *</td><td>DD/MM/YYYY</td><td><input type="date" name="targetCOD" required></td></tr>
-      </tbody>
-    </table>
-
-    <!-- Power & Energy -->
-    <div class="section-header">Power & Energy</div>
-    <table>
-      <thead><tr><th>Description</th><th>Capacity / Unit</th><th>Customer to Populate</th></tr></thead>
-      <tbody>
-        <tr><td>CMD (Contracted Maximum Demand) *</td><td>MW</td><td><input type="number" name="cmdMW" required></td></tr>
-        <tr><td>Redundancy *</td><td>–</td><td>
-          <select name="redundancy" required>
-            <option value="">Select…</option><option>N+1</option><option>N+2</option><option>Other</option>
-          </select>
-        </td></tr>
-        <tr><td>Average Demand</td><td>MW</td><td><input type="number" name="avgDemandMW"></td></tr>
-        <tr><td>Fuel Type *</td><td>–</td><td>
-          <select name="fuelType" required>
-            <option value="">Select fuel…</option><option>Diesel</option><option>Gas</option><option>LNG</option><option>Other</option>
-          </select>
-        </td></tr>
-        <tr><td>Assumed Fuel Price *</td><td>$</td><td><input type="text" name="fuelPrice" required></td></tr>
-        <tr><td>Maximum Temperature *</td><td>°C</td><td><input type="number" name="maxTemp" required></td></tr>
-        <tr><td>Altitude</td><td>m</td><td><input type="number" name="altitude"></td></tr>
-        <tr><td>Voltage</td><td>V</td><td><input type="text" name="voltage"></td></tr>
-        <tr><td>Accommodation</td><td>–</td><td>
-          <select name="accommodation">
-            <option value="">Select…</option><option>Customer</option><option>Aggreko</option><option>Shared</option><option>Not required</option>
-          </select>
-        </td></tr>
-      </tbody>
-    </table>
-
-    <!-- Renewables -->
-    <div class="section-header">Renewables</div>
-    <table>
-      <thead><tr><th>Description</th><th>Capacity / Unit</th><th>Customer to Populate</th></tr></thead>
-      <tbody>
-        <tr><td>Wind</td><td>MWp</td><td><input type="text" name="windCapacity" placeholder="Capacity (MWp)"></td></tr>
-        <tr><td>Solar PV</td><td>MWp</td><td><input type="text" name="solarCapacity" placeholder="Capacity (MWp)"></td></tr>
-        <tr><td>Battery Energy Storage (BESS)</td><td>MWh</td><td><input type="text" name="bessCapacity" placeholder="Capacity (MWh)"></td></tr>
-        <tr><td>Renewable Energy Fraction (REF%)</td><td>%</td><td><input type="number" name="refPercent" step="0.01"></td></tr>
-      </tbody>
-    </table>
-
-    <!-- Additional Project Details -->
-    <div class="section-header">Additional Project Details</div>
-    <table>
-      <tbody><tr><td colspan="3"><textarea name="additionalDetails" placeholder="Free text"></textarea></td></tr></tbody>
-    </table>
-
-    <button type="submit" class="submit-btn">Submit Form</button>
-
-    <div class="privacy">
-      <strong>Privacy &amp; Confidentiality</strong><br>
-      This email and any information provided in response may contain confidential and/or personal information. If you are not the intended recipient, please notify the sender immediately and delete this message. Any unauthorised review, use, disclosure, or distribution is prohibited. Information you provide will be used to assess project requirements and budgetary pricing and may be stored in Aggreko systems in accordance with Aggreko’s privacy practices. © Aggreko.
-    </div>
-  </form>
-</div>
-
-<script>
-document.getElementById('intakeForm').addEventListener('submit', async function(e) {
-  e.preventDefault();
-  const formData = new FormData(this);
-  const jsonData = Object.fromEntries(formData.entries());
-
-  try {
-    const response = await fetch('YOUR_POWER_AUTOMATE_ENDPOINT', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(jsonData)
-    });
-
-    if (response.ok) {
-      alert('Form submitted successfully!');
-      this.reset();
-    } else {
-      alert('Error submitting form. Please try again.');
+      --space-40pt: 54px;   /* ~40pt spacing after header block */
+      --tight-title-gap: 12px; /* tighter than default */
+      --lr-cell-pad: 10px;  /* halved left/right padding */
+      --cap-col-width: 16%;
+      --desc-col-width: 44%;
+      --cust-col-width: 40%;
     }
-  } catch (error) {
-    alert('Network error. Please check your connection.');
-  }
-});
-</script>
+
+    html, body { height: 100%; }
+    body{
+      margin: 0;
+      background: #FFFFFF;
+      color: var(--brand-text);
+      font-family: var(--font-body);
+      font-size: var(--font-size);
+      line-height: var(--line);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .page{
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: 24px 20px 56px;
+      box-sizing: border-box;
+    }
+
+    /* ===== Header: logo FIRST top-right; title left; 40pt spacing under ===== */
+    .form-header{
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: start;
+      gap: 16px;
+      padding-bottom: var(--space-40pt);
+    }
+    .aggreko-logo{
+      grid-column: 2;
+      justify-self: end;
+      align-self: start;
+      display: block;
+      max-width: 220px;
+      height: auto;
+    }
+    .title-wrap{ grid-column: 1; }
+    .title{
+      margin: 0 0 var(--tight-title-gap) 0;
+      text-align: left;
+      font-weight: 700;
+    }
+    .subtitle{
+      margin: 0 0 var(--tight-title-gap) 0;
+      text-align: left;
+      font-weight: 600;
+      color: #374151;
+      font-size: 14px;
+    }
+
+    /* ===== Section headers ===== */
+    .section-title{
+      margin: 16px 0 8px 0;
+      padding: 10px 12px;
+      background: var(--brand-grey-100);
+      border: 1px solid var(--brand-grey-200);
+      border-radius: var(--radius);
+      font-weight: 700;
+    }
+
+    /* ===== Tables (branded) ===== */
+    table{
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 0 0 16px 0;
+      border: 1px solid var(--brand-grey-300);
+      border-radius: var(--radius);
+      overflow: hidden;
+      table-layout: fixed;
+    }
+    colgroup col.col-desc { width: var(--desc-col-width); }
+    colgroup col.col-cap  { width: var(--cap-col-width); }
+    colgroup col.col-cust { width: var(--cust-col-width); }
+
+    thead th{
+      background: var(--brand-navy);
+      color: #FFFFFF;
+      font-weight: 700;
+      padding: 10px var(--lr-cell-pad);
+      text-align: left;
+      border-right: 1px solid rgba(255,255,255,0.12);
+    }
+    thead th:last-child{ border-right: none; }
+
+    tbody td, tbody th{
+      padding: 12px var(--lr-cell-pad); /* reduced L/R padding */
+      border-top: 1px solid var(--brand-grey-300);
+      vertical-align: top;
+      text-align: left;
+      box-sizing: border-box;
+      background: #FFFFFF;
+    }
+
+    /* ===== Inputs/selects/textarea (halved L/R padding + font) ===== */
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    input[type="tel"],
+    input[type="url"],
+    input[type="date"],
+    select,
+    textarea{
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px var(--lr-cell-pad);
+      border: 1px solid #D1D5DB;
+      border-radius: var(--radius);
+      background: #FFFFFF;
+      color: var(--brand-text);
+      font-family: var(--font-body);
+      font-size: var(--font-size);
+      line-height: 1.4;
+      outline: none;
+    }
+    input:focus, select:focus, textarea:focus{
+      border-color: var(--aggreko-orange);
+      box-shadow: 0 0 0 3px rgba(255,106,0,0.15);
+    }
+
+    /* ===== Helper text in cells ===== */
+    .row-help{
+      margin: 6px 0 6px;
+      font-size: 12px;
+      color: #6B7280;
+    }
+
+    /* ===== Notes (same width & font) ===== */
+    .notes-field{
+      min-height: 140px;
+      resize: vertical;
+    }
+
+    /* ===== Submit button (Arial Nova bold; hover/active orange) ===== */
+    .form-actions{ margin: 16px 0 32px 0; } /* extra space before disclaimer */
+    .btn-submit{
+      display: inline-block;
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 1.2;
+      padding: 12px 18px;
+      border: 1px solid var(--brand-navy-2);
+      color: #FFFFFF;
+      background: var(--brand-navy-2);
+      border-radius: var(--radius);
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn-submit:hover,
+    .btn-submit:focus,
+    .btn-submit:active{
+      background: var(--aggreko-orange);
+      border-color: var(--aggreko-orange);
+      color: #FFFFFF;
+    }
+
+    .disclaimer{
+      color: #6B7280;
+      font-size: 12px;
+      line-height: 1.5;
+      margin-top: 0;
+    }
+
+    .sr-only{
+      position: absolute !important;
+      height: 1px; width: 1px;
+      overflow: hidden;
+      clip: rect(1px, 1px, 1px, 1px);
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+
+    <!-- Header: Logo FIRST (top-right), Title left -->
+    <header class="form-header">
+      <!-- Update src to your actual logo path -->
+      <img class="aggreko-logo" src="./assets/aggreko-logo-orange.svg" alt="Aggreko" />
+      <div class="title-wrap">
+        <h1 class="title">Customer Project Intake – Hybrid</h1>
+        <h2 class="subtitle">Hybrid Proposals (Renewables + Thermal)</h2>
+      </div>
+    </header>
+
+    <p>Note: Please complete all applicable sections. If a field does not apply to your project, feel free to leave it blank.</p>
+
+    <!-- Form posts to Power Automate -->
+    <form method="post" action="https://default5cb01ea241604f87afc65e72e6b82a.d1.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/fa0187c8ce9349c5b2891dd20cdfecc7/triggers/manual/paths/invoke?api-version=1">
+
+      <!-- Customer & Contacts -->
+      <h3 class="section-title">Customer &amp; Contacts</h3>
+      <table aria-label="Customer & Contacts">
+        <colgroup>
+          <col class="col-desc" />
+          <col class="col-cap" />
+          <col class="col-cust" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Capacity / Unit</th>
+            <th>Customer to Populate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Customer company *</td>
+            <td>–</td>
+            <td><input type="text" name="customer_company" required /></td>
+          </tr>
+          <tr>
+            <td>Primary contact name *</td>
+            <td>–</td>
+            <td><input type="text" name="primary_contact_name" required /></td>
+          </tr>
+          <tr>
+            <td>Email *</td>
+            <td>–</td>
+            <td><input type="email" name="email" required /></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Summary of Requirements -->
+      <h3 class="section-title">Summary of Requirements</h3>
+      <table aria-label="Summary of Requirements">
+        <colgroup>
+          <col class="col-desc" />
+          <col class="col-cap" />
+          <col class="col-cust" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Capacity / Unit</th>
+            <th>Customer to Populate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Site</td>
+            <td>Name &amp; Location</td>
+            <td><input type="text" name="site" /></td>
+          </tr>
+
+          <tr>
+            <td>Contract Term</td>
+            <td>Years</td>
+            <td><input type="number" name="contract_term" placeholder="e.g. 10" /></td>
+          </tr>
+
+          <tr>
+            <td>Contract Term Extension</td>
+            <td>Years</td>
+            <td><input type="number" name="contract_term_extension" placeholder="e.g. 2" /></td>
+          </tr>
+
+          <tr>
+            <td>Target COD Date</td>
+            <td>DD/MM/YYYY</td>
+            <td>
+              <input type="text" name="target_cod_date" placeholder="dd/mm/yyyy" />
+            </td>
+          </tr>
+
+          <tr>
+            <td>CMD (Contracted Maximum Demand)</td>
+            <td>MW</td>
+            <td><input type="number" step="any" name="cmd" placeholder="e.g. 45" /></td>
+          </tr>
+
+          <tr>
+            <td>Redundancy</td>
+            <td>N+1 or N+2</td>
+            <td>
+              <select name="redundancy">
+                <option value="">Select…</option>
+                <option>N+1</option>
+                <option>N+2</option>
+                <option>Other</option>
+              </select>
+            </td>
+          </tr>
+
+          <tr>
+            <td>Average Demand</td>
+            <td>MW</td>
+            <td><input type="number" step="any" name="average_demand" placeholder="e.g. 28" /></td>
+          </tr>
+
+          <tr>
+            <td>Wind</td>
+            <td>MWp</td>
+            <td>
+              <select name="wind_pref">
+                <option value="">Select…</option>
+                <option>Optimised</option>
+                <option>Will specify below</option>
+              </select>
+              <div class="row-help">If specifying, enter capacity:</div>
+              <input type="number" step="any" name="wind_capacity" placeholder="e.g. 12" />
+            </td>
+          </tr>
+
+          <tr>
+            <td>Solar PV</td>
+            <td>MWp</td>
+            <td>
+              <select name="solar_pref">
+                <option value="">Select…</option>
+                <option>Optimised</option>
+                <option>Will specify below</option>
+              </select>
+              <div class="row-help">If specifying, enter capacity:</div>
+              <input type="number" step="any" name="solar_capacity" placeholder="e.g. 17" />
+            </td>
+          </tr>
+
+          <tr>
+            <td>Battery Energy Storage (BESS)</td>
+            <td>Yes / No</td>
+            <td>
+              <select name="bess_pref">
+                <option value="">Select…</option>
+                <option>Optimised</option>
+                <option>Yes</option>
+                <option>No</option>
+                <option>Considering</option>
+              </select>
+            </td>
+          </tr>
+
+          <tr>
+            <td>Renewable Energy Fraction (REF%)</td>
+            <td>%</td>
+            <td><input type="number" step="any" name="ref_percent" placeholder="e.g. 30" /></td>
+          </tr>
+
+          <tr>
+            <td>Fuel Type + Assumed Price</td>
+            <td>Type + $/L or $/GJ</td>
+            <td>
+              <div style="display:flex; gap:8px;">
+                <select name="fuel_type" style="flex:0 0 160px">
+                  <option value="">Select fuel…</option>
+                  <option>Diesel</option>
+                  <option>Gas</option>
+                  <option>LNG</option>
+                  <option>Other</option>
+                </select>
+                <input type="text" name="assumed_fuel_price" style="flex:1" placeholder="e.g. $1.95/L or $12.5/GJ" />
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td>Fuel Facility</td>
+            <td>Description / Delivered?</td>
+            <td><input type="text" name="fuel_facility" placeholder="Delivery method, storage, ownership, etc." /></td>
+          </tr>
+
+          <tr>
+            <td>Land Availability</td>
+            <td>Area + Status</td>
+            <td>
+              <div style="display:flex; gap:8px;">
+                <input type="number" step="any" name="land_area_m2" placeholder="Area (m²), e.g. 25,000" style="flex:1" />
+                <select name="land_status" style="flex:0 0 220px">
+                  <option value="">Select status…</option>
+                  <option>Confirmed</option>
+                  <option>In principle</option>
+                  <option>Negotiation</option>
+                  <option>Unknown</option>
+                </select>
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td>Maximum Temperature</td>
+            <td>°C</td>
+            <td><input type="number" step="any" name="maximum_temperature" placeholder="e.g. 48" /></td>
+          </tr>
+
+          <tr>
+            <td>Altitude</td>
+            <td>m</td>
+            <td><input type="number" step="any" name="altitude" placeholder="e.g. 420" /></td>
+          </tr>
+
+          <tr>
+            <td>Voltage</td>
+            <td>V</td>
+            <td><input type="text" name="voltage" placeholder="e.g. 11,000" /></td>
+          </tr>
+
+          <tr>
+            <td>Accommodation</td>
+            <td>Scope / Responsibility</td>
+            <td>
+              <select name="accommodation">
+                <option value="">Select…</option>
+                <option>Customer</option>
+                <option>Aggreko</option>
+                <option>Shared</option>
+                <option>Not required</option>
+              </select>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+
+      <!-- Additional Project Details -->
+      <h3 class="section-title">Additional Project Details</h3>
+      <div class="notes-wrap">
+        <label class="sr-only" for="additional_details">Additional Project Details</label>
+        <textarea id="additional_details" name="additional_details" class="notes-field" placeholder="Free text"></textarea>
+      </div>
+
+      <!-- Submit -->
+      <div class="form-actions">
+        <button type="submit" class="btn-submit">Submit Form</button>
+      </div>
+    </form>
+
+    <!-- Disclaimer -->
+    <section class="disclaimer">
+      <p><strong>Privacy &amp; Confidentiality</strong><br />
+      This email and any information provided in response may contain confidential and/or personal information. If you are not the intended recipient, please notify the sender immediately and delete this message. Any unauthorised review, use, disclosure, or distribution is prohibited. Information you provide will be used to assess project requirements and budgetary pricing and may be stored in Aggreko systems in accordance with Aggreko’s privacy practices. © Aggreko.</p>
+    </section>
+
+  </main>
 </body>
 </html>
+``
