@@ -1,220 +1,312 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Customer Project Intake Form</title>
-<style>
-  @font-face {
-    font-family: "Arial Nova";
-    src: url("./assets/fonts/ArialNova-Regular.woff2") format("woff2");
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: "Arial Nova";
-    src: url("./assets/fonts/ArialNova-Bold.woff2") format("woff2");
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
-  }
+<!-- saved from url=(0076)file:///C:/Users/MariaKali/Downloads/Customer%20Project%20Intake%20Form.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <title>Customer Project Intake Form</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  :root {
-    --orange: #FD6E39; /* Aggreko Orange */
-    --navy: #1C2E39;   /* Aggreko Dark Blue/Grey */
-    --border: #dfe3eb;
-    --section-bg: #f7f8fb;
-    --section-border: #e5e8f0;
-    --font-regular: "Arial Nova", Arial, sans-serif;
-    --font-bold: "Arial Nova", Arial, sans-serif;
-  }
+  <style>
+    /* ===========================
+       Self-hosted fonts
+       =========================== */
+    @font-face{
+      font-family:"Arial Nova";
+      src:url("./assets/fonts/ArialNova-Regular.woff2") format("woff2");
+      font-weight:400; font-style:normal; font-display:swap;
+    }
+    @font-face{
+      font-family:"Arial Nova";
+      src:url("./assets/fonts/ArialNova-Bold.woff2") format("woff2");
+      font-weight:700; font-style:normal; font-display:swap;
+    }
 
-  body {
-    margin: 0;
-    font-family: var(--font-regular);
-    color: #111;
-    background: #fff;
-  }
+    :root{
+      --orange:#ff6a00;
+      --navy:#0b1a2b;
+      --border:#dfe3eb;
+      --muted:#6b7280;
+      --text:#111111;
+      --radius:8px;
+      --section-bg:#f7f8fb;
+      --section-border:#e5e8f0;
 
-  main {
-    max-width: 1000px;
-    margin: 20px auto;
-    padding: 0 14px;
-  }
+      --font-regular:"Arial Nova", Arial, Helvetica, sans-serif;
+      --font-bold:"Arial Nova", Arial, Helvetica, sans-serif;
+    }
 
-  .logo-row {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 24pt;
-  }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0; color:var(--text); background:#fff;
+      font-family:var(--font-regular); font-weight:400;
+    }
+    main{ max-width:1000px; margin:20px auto 48px; padding:0 14px; }
 
-  .logo-row img {
-    max-width: 130px;
-    height: auto;
-  }
+    /* ===== Logo FIRST ===== */
+    .logo-row{ display:flex; justify-content:flex-end; }
+    .logo-row img{ max-width:260px; height:auto; display:block; } /* doubled size */
 
-  .title-block {
-    margin-top: 10px;
-  }
+    /* ===== Title + Subtitle (together) ===== */
+    .title-block{ margin-top:10px; }
+    .title{
+      font-family:var(--font-bold); font-weight:700;
+      font-size:22pt; line-height:1.25; color:#111111;
+      margin:0; padding:0;
+    }
+    .subtitle{
+      font-family:var(--font-bold); font-weight:700;
+      font-size:13pt; /* 1pt smaller */
+      color:#111111;  /* same as title */
+      margin:0; padding-top:2px;
+    }
+    .pad-after-title-block{ height:18pt; } /* after subtitle */
 
-  .title {
-    font-family: var(--font-bold);
-    font-size: 22pt;
-    margin: 0;
-  }
+    .note{
+      color:#475569; margin:0;
+      font-family:var(--font-regular); font-weight:400;
+      font-size:9pt; line-height:1.45;
+    }
+    .pad-after-note{ height:14pt; }
 
-  .subtitle {
-    font-family: var(--font-bold);
-    font-size: 13pt;
-    margin: 0;
-  }
+    /* ===== Section headers ===== */
+    .section-bar{
+      width:100%;
+      background:var(--section-bg);
+      border:1px solid var(--section-border);
+      color:var(--orange);
+      font-family:var(--font-bold); font-weight:700;
+      font-size:13pt;
+      padding:10px 12px;
+      border-radius:var(--radius);
+      margin:18px 0 10px;
+    }
 
-  .note {
-    font-size: 11pt;
-    color: #475569;
-    margin-top: 6px;
-  }
+    /* ===== Tables (consistent widths) ===== */
+    table{
+      width:100%; border-collapse:separate; border-spacing:0;
+      margin-bottom:16px; table-layout:fixed;
+      font-family:var(--font-regular); font-weight:400;
+    }
+    /* Enforce same widths for every table via colgroup */
+    colgroup col.col-desc  { width:30%; }
+    colgroup col.col-unit  { width:15%; }
+    colgroup col.col-input { width:55%; }
 
-  .section-bar {
-    background: var(--section-bg);
-    border: 1px solid var(--section-border);
-    color: var(--orange);
-    font-family: var(--font-bold);
-    font-size: 13pt;
-    padding: 10px 12px;
-    border-radius: 8px;
-    margin: 18px 0 10px;
-  }
+    thead th{
+      background:var(--navy); color:#ffffff;
+      padding:12px 10px;
+      font-family:var(--font-bold); font-weight:700;
+      font-size:12pt;
+      border-right:1px solid rgba(255,255,255,.12);
+      text-align:left; vertical-align:middle;
+    }
+    thead th:last-child{ border-right:none; }
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 18px;
-    table-layout: fixed;
-  }
+    /* Uniform row height & alignment */
+    tbody tr{ height:46px; }
+    tbody td{
+      border:1px solid var(--border); border-top:none;
+      padding:10px; background:#ffffff;
+      vertical-align:middle;
+      text-align:left;
+      font-family:var(--font-regular); font-weight:400;
+      font-size:10pt; color:#000000;
+    }
 
-  thead th {
-    background: var(--navy);
-    color: #fff;
-    padding: 12px 10px;
-    font-family: var(--font-bold);
-    font-size: 12pt;
-    text-align: left;
-  }
+    /* Inputs */
+    input[type="text"], input[type="email"], input[type="date"], select, textarea{
+      width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:8px;
+      font-family:var(--font-regular); font-weight:400;
+      font-size:11pt; color:#000; background:#fff; outline:none; line-height:1.3;
+    }
+    input:focus, select:focus, textarea:focus{
+      border-color:#2563eb; box-shadow:0 0 0 3px rgba(37,99,235,.15);
+    }
+    textarea{ resize:vertical; min-height:100px; }
 
-  tbody tr { height: 46px; }
-  tbody td {
-    border: 1px solid var(--border);
-    padding: 10px;
-    font-size: 11pt;
-    background: #fff;
-  }
+    .muted{ color:var(--muted); font-size:10pt; margin-top:6px; }
+    .req::after{ content:" *"; color:var(--orange); font-family:var(--font-bold); font-weight:700; }
+    .invalid{ border-color:#ef4444 !important; box-shadow:0 0 0 2px rgba(239,68,68,.12); }
 
-  input[type="text"], input[type="email"], input[type="date"], select, textarea {
-    width: 100%;
-    padding: 8px 10px;
-    border: 1px solid #cbd5e1;
-    border-radius: 8px;
-    font-size: 11pt;
-  }
+    /* Two-input grid wrapper INSIDE the td (keeps table layout intact) */
+    .input-grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
 
-  input:focus, select:focus, textarea:focus {
-    border-color: #2563eb;
-    box-shadow: 0 0 0 3px rgba(37,99,235,.15);
-    outline: none;
-  }
+    /* Actions & status */
+    .actions{ display:flex; gap:12px; align-items:center; margin-top:12px; }
+    #submitBtn{
+      background:var(--navy); color:#fff; border:none; padding:12px 22px; border-radius:8px;
+      font-family:var(--font-bold); font-weight:700; font-size:12pt; cursor:pointer;
+      transition: background .15s ease;
+    }
+    #submitBtn:hover, #submitBtn:active{ background:var(--orange); }
+    #submit-status{ white-space:pre-wrap; font-size:11pt; }
+    .ok{ color:#0b7a37; } .err{ color:#b00020; }
 
-  textarea {
-    resize: vertical;
-    min-height: 100px;
-  }
-
-  .submit-btn {
-    background: var(--navy);
-    color: #fff;
-    border: none;
-    padding: 12px 22px;
-    border-radius: 8px;
-    font-family: var(--font-bold);
-    font-size: 12pt;
-    cursor: pointer;
-    margin-top: 16pt;
-    margin-bottom: 20pt;
-  }
-
-  .submit-btn:hover {
-    background: var(--orange);
-  }
-
-  footer p {
-    font-family: "Arial Nova", Arial, sans-serif;
-    font-size: 9pt;
-    color: #1C2E39;
-    line-height: 1.4;
-  }
-
-  footer p b {
-    font-weight: 700;
-  }
-</style>
+    /* Footer */
+    footer{ color:#111; margin-top:24px; }
+    .footer-text{
+      font-family:var(--font-regular); font-weight:400; font-size:8pt;
+      line-height:1.5; color:#111;
+    }
+    .footer-text b{ font-family:var(--font-bold); font-weight:700; }
+  </style>
 </head>
 <body>
-<main>
-  <div class="logo-row">
-    <img src="https://seekvectorlogo.com/wp-content/uploads/2019/05/aggreko-vector-logo.png" alt="Aggreko Logo">
-  </div>
+  <main>
+    <!-- Logo first -->
+    <div class="logo-row"><img src="./Customer Project Intake Form_files/Aggreko-Logo-Vector.svg-.png" alt="Aggreko Logo"></div>
 
-  <div class="title-block">
-    <h1 class="title">Customer Project Intake Form</h1>
-    <div class="subtitle">Thermal and Hybrid</div>
-  </div>
-  <p class="note">Note: Please complete all applicable sections. If a field does not apply to your project, and is not compulsory, please leave it blank.</p>
+    <!-- Title & subtitle -->
+    <div class="title-block">
+      <h1 class="title">Customer Project Intake Form</h1>
+      <div class="subtitle">Thermal and Hybrid</div>
+    </div>
+    <div class="pad-after-title-block"></div>
 
-  <!-- Customer Details -->
-  <div class="section-bar">Customer Details</div>
-  <table>
-    <thead><tr><th>Description</th><th>Capacity / Unit</th><th>Customer to Populate</th></tr></thead>
-    <tbody>
-      <tr><td>Customer company *</td><td>–</td><td><input id="customerCompany" type="text" placeholder="Enter company name"></td></tr>
-      <tr><td>Primary contact name *</td><td>–</td><td><input id="contactName" type="text" placeholder="Enter contact name"></td></tr>
-      <tr><td>Email *</td><td>–</td><td><input id="email" type="email" placeholder="Enter email"></td></tr>
-    </tbody>
-  </table>
+    <p class="note">
+      Note: Please complete all applicable sections. If a field does not apply to your project, and is not compulsory, please leave it blank.
+    </p>
+    <div class="pad-after-note"></div>
 
-  <!-- Project, Site & Contract -->
-  <div class="section-bar">Project, Site & Contract</div>
-  <table>
-    <thead><tr><th>Description</th><th>Capacity / Unit</th><th>Customer to Populate</th></tr></thead>
-    <tbody>
-      <tr><td>Project Name</td><td>–</td><td><input id="projectName" type="text" placeholder="Enter project name"></td></tr>
-      <tr><td>Project / Site Location</td><td>–</td><td><input id="siteLocation" type="text" placeholder="Enter site location"></td></tr>
-      <tr><td>Contract Term *</td><td>Years</td><td><input id="contractTerm" type="text" placeholder="Enter contract term"></td></tr>
-      <tr><td>Target COD Date *</td><td>DD/MM/YYYY</td><td><input id="codDate" type="date"></td></tr>
-    </tbody>
-  </table>
+    <form id="customer-intake-form" novalidate="">
+      <!-- ============== Customer Details ============== -->
+      <div class="section-bar">Customer Details</div>
+      <table>
+        <colgroup>
+          <col class="col-desc"><col class="col-unit"><col class="col-input">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Capacity / Unit</th>
+            <th>Customer to Populate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="req">Customer company</span></td>
+            <td>–</td>
+            <td><input type="text" id="customerCompany" name="customerCompany" required="" aria-required="true"></td>
+          </tr>
+          <tr>
+            <td><span class="req">Primary contact name</span></td>
+            <td>–</td>
+            <td><input type="text" id="contactName" name="contactName" required="" aria-required="true"></td>
+          </tr>
+          <tr>
+            <td><span class="req">Email</span></td>
+            <td>–</td>
+            <td><input type="email" id="contactEmail" name="contactEmail" required="" aria-required="true"></td>
+          </tr>
+        </tbody>
+      </table>
 
-  <!-- Power & Energy -->
-  <div class="section-bar">Power & Energy</div>
-  <table>
-    <thead><tr><th>Description</th><th>Capacity / Unit</th><th>Customer to Populate</th></tr></thead>
-    <tbody>
-      <tr><td>CMD (Contracted Maximum Demand) *</td><td>MW</td><td><input id="cmd" type="text" placeholder="Enter CMD value"></td></tr>
-      <tr><td>Redundancy *</td><td>N+1 or N+2</td><td><select id="redundancy"><option>Select...</option><option>N+1</option><option>N+2</option><option>Other</option></select></td></tr>
-      <tr><td>Fuel Type *</td><td>Type</td><td><select id="fuelType"><option>Select fuel...</option><option>Diesel</option><option>Gas</option><option>LNG</option><option>Other</option></select></td></tr>
-      <tr><td>Assumed Fuel Price</td><td>$L or $/GJ</td><td><input id="fuelPrice" type="text" placeholder="Enter fuel price"></td></tr>
-      <tr><td>Fuel Facility</td><td>Description / Delivered?</td><td><input id="fuelFacility" type="text" placeholder="e.g., Onsite tanks, delivered fuel"></td></tr>
-      <tr>
-        <td>Land Availability *</td>
-        <td>Description / Delivered?</td>
-        <td>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-            <select id="landDescription"><option>Select description...</option><option>Confirmed</option><option>In principle</option><option>Negotiation</option><option>Unknown</option></select>
-            <select id="landDelivered"><option>Delivered?</option><option>Yes</option><option>No</option><option>Unknown</option></select>
-          </div>
-        </td>
-      </tr>
-      <tr><td>Maximum Temperature</td><td>°C</td><td><input id="maxTemp" type="text" placeholder="Enter max temperature"></td></tr>
-      <tr>
+      <!-- ============== Project, Site & Contract ============== -->
+      <div class="section-bar">Project, Site &amp; Contract</div>
+      <table>
+        <colgroup>
+          <col class="col-desc"><col class="col-unit"><col class="col-input">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Capacity / Unit</th>
+            <th>Customer to Populate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="req">Site</span></td>
+            <td>Name &amp; Location</td>
+            <td>
+              <div class="input-grid-2">
+                <input type="text" id="siteName" name="siteName" required="" aria-required="true">
+                <input type="text" id="siteLocation" name="siteLocation" required="" aria-required="true">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="req">Contract Term</span></td>
+            <td>Years</td>
+            <td><input type="text" id="contractTerm" name="contractTerm" required="" aria-required="true"></td>
+          </tr>
+          <tr>
+            <td>Contract Term Extension</td>
+            <td>Years</td>
+            <td><input type="text" id="contractExtension" name="contractExtension"></td>
+          </tr>
+          <tr>
+            <td><span class="req">Target COD Date</span></td>
+            <td>DD/MM/YYYY</td>
+            <td><input type="date" id="targetCOD" name="targetCOD" required="" aria-required="true"></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- ============== Power & Energy ============== -->
+      <div class="section-bar">Power &amp; Energy</div>
+      <table>
+        <colgroup>
+          <col class="col-desc"><col class="col-unit"><col class="col-input">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Capacity / Unit</th>
+            <th>Customer to Populate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="req">CMD (Contracted Maximum Demand)</span></td>
+            <td>MW</td>
+            <td><input type="text" id="cmdMW" name="cmdMW" required="" aria-required="true"></td>
+          </tr>
+          <tr>
+            <td><span class="req">Redundancy</span></td>
+            <td>N+1 or N+2</td>
+            <td>
+              <select id="redundancy" name="redundancy" required="" aria-required="true">
+                <option value="">Select…</option>
+                <option>N+1</option>
+                <option>N+2</option>
+                <option>Other</option>
+              </select>
+            </td>
+          </tr>
+            <td><span class="req">Fuel Type</span></td>
+            <td>Type</td>
+            <td>
+              <select id="fuelType" name="fuelType" required="" aria-required="true">
+                <option value="">Select fuel…</option>
+                <option>Diesel</option>
+                <option>Gas</option>
+                <option>LNG</option>
+                <option>Other</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>Assumed Fuel Price</td>
+            <td>$/L or $/GJ</td>
+            <td><input type="text" id="fuelPrice" name="fuelPrice"></td>
+          </tr>
+          <tr>
+            <td>Fuel Facility</td>
+            <td>Description / Delivered?</td>
+            <td><input type="text" id="fuelFacility" name="fuelFacility" placeholder="e.g., Onsite tanks, delivered fuel"></td>
+          </tr>
+          <tr>
+            <td><span class="req">Land Availability</span></td>
+            <td>Area + Status</td>
+            <td><input type="text" id="landAvailability" name="landAvailability" required="" aria-required="true" placeholder="e.g., 5 ha / In principle"></td>
+          </tr>
+          <tr>
+            <td><span class="req">Maximum Temperature</span></td>
+            <td>°C</td>
+            <td><input type="text" id="maxTemp" name="maxTemp" required="" aria-required="true"></td>
+          </tr>
+ <tr>
         <td>Voltage</td>
         <td>V</td>
         <td>
@@ -228,93 +320,246 @@
           </select>
         </td>
       </tr>
-      <tr><td>Accommodation</td><td>Scope / Responsibility</td><td><select id="accommodation"><option>Select...</option><option>Customer</option><option>Aggreko</option><option>Shared</option><option>Not required</option></select></td></tr>
-    </tbody>
-  </table>
+            <td>Accommodation</td>
+            <td>Scope / Responsibility</td>
+            <td>
+              <select id="accommodation" name="accommodation">
+                <option value="">Select…</option>
+                <option>Customer</option>
+                <option>Aggreko</option>
+                <option>Shared</option>
+                <option>Not required</option>
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
-  <!-- Renewables -->
-  <div class="section-bar">Renewables</div>
-  <table>
-    <thead><tr><th>Description</th><th>Capacity / Unit</th><th>Customer to Populate</th></tr></thead>
-    <tbody>
-      <tr><td>Wind</td><td>Capacity (MWp)</td><td><select id="wind"><option>Select...</option><option>Optimised</option><option>Will specify</option><option>Not applicable</option></select></td></tr>
-      <tr><td>Solar PV</td><td>Capacity (MWp)</td><td><select id="solar"><option>Select...</option><option>Optimised</option><option>Will specify</option><option>Not applicable</option></select></td></tr>
-      <tr><td>Battery Energy Storage (BESS)</td><td>–</td><td><select id="bess"><option>Select...</option><option>Optimised</option><option>Yes</option><option>No</option><option>Considering</option></select></td></tr>
-      <tr><td>Renewable Energy Fraction (REF%)</td><td>%</td><td><input id="ref" type="text" placeholder="Enter REF%"></td></tr>
-    </tbody>
-  </table>
+      <!-- ============== Renewables ============== -->
+      <div class="section-bar">Renewables</div>
+      <table>
+        <colgroup>
+          <col class="col-desc"><col class="col-unit"><col class="col-input">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Capacity / Unit</th>
+            <th>Customer to Populate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Wind</td>
+            <td>Capacity (MWp)</td>
+            <td>
+              <div class="input-grid-2">
+                <select id="wind" name="wind">
+                  <option value="">Select…</option>
+                  <option>Optimised</option>
+                  <option>Will specify</option>
+                  <option>Not applicable</option>
+                </select>
+                <input type="text" id="windCapacityMWp" name="windCapacityMWp">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Solar PV</td>
+            <td>Capacity (MWp)</td>
+            <td>
+              <div class="input-grid-2">
+                <select id="solarPV" name="solarPV">
+                  <option value="">Select…</option>
+                  <option>Optimised</option>
+                  <option>Will specify</option>
+                  <option>Not applicable</option>
+                </select>
+                <input type="text" id="solarCapacityMWp" name="solarCapacityMWp">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Battery Energy Storage (BESS)</td>
+            <td>–</td>
+            <td>
+              <select id="bess" name="bess">
+                <option value="">Select…</option>
+                <option>Optimised</option>
+                <option>Yes</option>
+                <option>No</option>
+                <option>Considering</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>Renewable Energy Fraction (REF%)</td>
+            <td>%</td>
+            <td><input type="text" id="refPercent" name="refPercent"></td>
+          </tr>
+        </tbody>
+      </table>
 
-  <!-- Additional Project Details -->
-  <div class="section-bar">Additional Project Details</div>
-  <textarea id="notes" placeholder="Any additional context, timelines, or constraints..."></textarea>
+      <!-- ============== Additional Project Details ============== -->
+      <div class="section-bar">Additional Project Details</div>
+      <textarea id="notes" name="notes" placeholder="Any additional context, timelines, or constraints…"></textarea>
 
-  <!-- Submit Button -->
-  <button type="button" class="submit-btn" id="submitBtn">Submit Form</button>
-  <div id="submit-status"></div>
+      <div class="actions">
+        <button type="submit" id="submitBtn">Submit Form</button>
+        <div id="submit-status" role="status" aria-live="polite"></div>
+      </div>
 
-  <footer>
-    <p><b>Privacy & Confidentiality:</b> Information you provide will be used to assess project requirements and budgetary pricing and may be stored in Aggreko systems in accordance with Aggreko’s privacy practices. © Aggreko.</p>
-  </footer>
-</main>
+      <footer>
+        <p class="footer-text">
+          <b>Privacy &amp; Confidentiality.</b> Information you provide will be used to assess project requirements and budgetary pricing and may be stored in Aggreko systems in accordance with Aggreko’s privacy practices. © Aggreko.
+        </p>
+      </footer>
+    </form>
+  </main>
 
-<script>
-const FLOW_URL = "https://your-power-automate-flow-url"; // Replace with actual Flow URL
+  <script>
+    // ===== FLOW URL (use & characters, not &amp;) =====
+    const FLOW_URL =
+      "https://default5cb01ea241604f87afc65e72e6b82a.d1.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/0f422bbcb71f4f06a6e42ee74aa5b776/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=uoPMJp8FLgPGZgu_yZtEchRN65A-105UHltuzQnn_Ko";
 
-document.getElementById("submitBtn").addEventListener("click", async () => {
-  const btn = document.getElementById("submitBtn");
-  const statusDiv = document.getElementById("submit-status");
-  btn.disabled = true;
-  statusDiv.textContent = "Submitting...";
-
-  const payload = {
-    customerCompany: document.getElementById("customerCompany").value,
-    contactName: document.getElementById("contactName").value,
-    email: document.getElementById("email").value,
-    projectName: document.getElementById("projectName").value,
-    siteLocation: document.getElementById("siteLocation").value,
-    contractTerm: document.getElementById("contractTerm").value,
-    codDate: document.getElementById("codDate").value,
-    cmd: document.getElementById("cmd").value,
-    redundancy: document.getElementById("redundancy").value,
-    fuelType: document.getElementById("fuelType").value,
-    fuelPrice: document.getElementById("fuelPrice").value,
-    fuelFacility: document.getElementById("fuelFacility").value,
-    landDescription: document.getElementById("landDescription").value,
-    landDelivered: document.getElementById("landDelivered").value,
-    maxTemp: document.getElementById("maxTemp").value,
-    voltageV: document.getElementById("voltageV").value,
-    accommodation: document.getElementById("accommodation").value,
-    wind: document.getElementById("wind").value,
-    solar: document.getElementById("solar").value,
-    bess: document.getElementById("bess").value,
-    ref: document.getElementById("ref").value,
-    notes: document.getElementById("notes").value
-  };
-
-  try {
-    const res = await fetch(FLOW_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
-
-    const textRes = await res.text();
-    let data;
-    try { data = JSON.parse(textRes); } catch { data = null; }
-
-    if (!res.ok) {
-      throw new Error((data && (data.message || data.error)) || textRes || `HTTP ${res.status}`);
+    // Helpers
+    function numOrText(v){
+      const s = (v ?? "").toString().trim();
+      if (!s) return "";
+      const n = Number(s.replace(/,/g,""));
+      return Number.isFinite(n) ? n : s;
+    }
+    function text(v){ return (v ?? "").toString().trim(); }
+    function dateDDMMYYYY(yyyy_mm_dd){
+      if(!yyyy_mm_dd) return "";
+      const [y,m,d] = yyyy_mm_dd.split("-");
+      if(!y||!m||!d) return yyyy_mm_dd;
+      return `${d}/${m}/${y}`;
+    }
+    function setStatus(msg, ok=true){
+      const el = document.getElementById("submit-status");
+      el.textContent = msg;
+      el.className = ok ? "ok" : "err";
     }
 
-    statusDiv.textContent = (data && (data.message || "Form submitted successfully")) || "Form submitted successfully";
-    statusDiv.style.color = "green";
-  } catch (err) {
-    statusDiv.textContent = "Submission failed: " + (err.message || String(err));
-    statusDiv.style.color = "red";
-  } finally {
-    btn.disabled = false;
-  }
-});
-</script>
-</body>
-</html>
+    // Required validation
+    function validateRequired(){
+      const ids = [
+        "customerCompany","contactName","contactEmail",
+        "siteName","siteLocation",
+        "contractTerm",
+        "targetCOD",
+        "cmdMW",
+        "redundancy",
+        "fuelType",
+        "landAvailability",
+        "maxTemp"
+      ];
+      let first=null, missing=[];
+      const label = {
+        customerCompany:"Customer company",
+        contactName:"Primary contact name",
+        contactEmail:"Email",
+        siteName:"Site name",
+        siteLocation:"Site location",
+        contractTerm:"Contract term",
+        targetCOD:"Target COD date",
+        cmdMW:"CMD (MW)",
+        redundancy:"Redundancy",
+        fuelType:"Fuel type",
+        landAvailability:"Land availability",
+        maxTemp:"Maximum temperature (°C)"
+      };
+      ids.forEach(id=>{
+        const el = document.getElementById(id);
+        const val = (el?.value ?? "").toString().trim();
+        const invalid = (el?.tagName==="SELECT") ? (val==="") : (val.length===0);
+        if(invalid){ el?.classList.add("invalid"); missing.push(label[id]||id); if(!first) first = el; }
+        else el?.classList.remove("invalid");
+      });
+      if(missing.length){
+        setStatus("Please complete the required fields:\n• " + missing.join("\n• "), false);
+        first?.focus();
+        return false;
+      }
+      setStatus(""); // clear
+      return true;
+    }
+
+    // Submit
+    document.getElementById("customer-intake-form").addEventListener("submit", async (e)=>{
+      e.preventDefault();
+      if (!validateRequired()) return;
+
+      setStatus("Submitting…", true);
+      const btn = document.getElementById("submitBtn");
+      btn.disabled = true;
+
+      const payload = {
+        // Existing mapped columns (as before)
+        customerCompany: text(document.getElementById("customerCompany").value),
+        contactName: text(document.getElementById("contactName").value),
+        contactEmail: text(document.getElementById("contactEmail").value),
+
+        siteName: text(document.getElementById("siteName").value),
+        siteLocation: text(document.getElementById("siteLocation").value),
+
+        contractTerm: text(document.getElementById("contractTerm").value),
+        contractExtension: text(document.getElementById("contractExtension").value),
+        targetCOD: dateDDMMYYYY(document.getElementById("targetCOD").value),
+
+        cmdMW: numOrText(document.getElementById("cmdMW").value),
+        redundancy: text(document.getElementById("redundancy").value),
+        avgDemandMW: numOrText(document.getElementById("avgDemandMW").value),
+
+        wind: text(document.getElementById("wind").value),
+        windCapacityMWp: numOrText(document.getElementById("windCapacityMWp").value),
+        solarPV: text(document.getElementById("solarPV").value),
+        solarCapacityMWp: numOrText(document.getElementById("solarCapacityMWp").value),
+        bess: text(document.getElementById("bess").value),
+        refPercent: numOrText(document.getElementById("refPercent").value),
+
+        fuelType: text(document.getElementById("fuelType").value),
+        fuelPrice: numOrText(document.getElementById("fuelPrice").value),
+        fuelFacility: text(document.getElementById("fuelFacility").value),
+
+        landAvailability: text(document.getElementById("landAvailability").value),
+        maxTemp: numOrText(document.getElementById("maxTemp").value),
+
+        // Newly included optional fields (add columns in Excel + map if you want to store them)
+        altitudeM: numOrText(document.getElementById("altitudeM").value),
+        voltageV: text(document.getElementById("voltageV").value),
+        accommodation: text(document.getElementById("accommodation").value),
+
+        // Notes are not currently mapped to Excel—enable later if needed:
+        // notes: text(document.getElementById("notes").value)
+      };
+
+      try{
+        const res = await fetch(FLOW_URL, {
+          method:"POST",
+          headers:{ "Content-Type":"application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        const textRes = await res.text();
+        let data; try{ data = JSON.parse(textRes); } catch{ data = null; }
+
+        if(!res.ok){
+          const msg = (data && (data.message || data.error)) || textRes || (`HTTP ${res.status}`);
+          throw new Error(msg);
+        }
+
+        const okMsg = (data && (data.message || "Row added successfully")) || "Row added successfully";
+        setStatus(okMsg, true);
+        e.target.reset();
+      } catch(err){
+        console.error(err);
+        setStatus("Submission failed: " + (err?.message || String(err)), false);
+      } finally {
+        btn.disabled = false;
+      }
+    });
+  </script>
+
+</body></html>
