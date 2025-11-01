@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <!-- saved from url=(0076)file:///C:/Users/MariaKali/Downloads/Customer%20Project%20Intake%20Form.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <div class="logo-row">
+  <img
+    src="https://raw.githubusercontent.com/Mkalic2025/customer-intake-form/0ff3fb501559e9f4f333ff070d26a092b49ff47e/Logo%20Published%20Online.png"
+    alt="Aggreko Logo"
+  >
+</div>
   
   <title>Customer Project Intake Form</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -85,19 +92,21 @@
   height: 30pt;
 }
 
-/* ===== Logo alignment ===== */
-.logo-row {
-  display: flex;
-  justify-content: flex-start; /* right-align logo */
-  margin-left: 0; /* flush to right */
+/* ===== Logo aligned to the top-right of the form ===== */
+.logo-row{
+  display:flex;
+  justify-content:flex-end;   /* right align within the form */
+  align-items:flex-start;     /* top align */
+  padding-bottom:20px;        /* spacing after the logo */
+  margin:0;
 }
 
-.logo-row img {
-  display: block;
-  height: auto;
-  max-width: 195px; /* keep your 1/4 smaller size */
+.logo-row img{
+  display:block;
+  height:auto;
+  max-width:180px;            /* adjust if needed */
 }
-
+``
     .note{
       color:#475569; margin:0;
       font-family:var(--font-regular); font-weight:400;
@@ -197,10 +206,10 @@ thead th:last-child {
 </head>
 <body>
   <main>
-    <!-- Logo first -->
-  <div style="position:absolute; top:0; right:0;">
-    <img src="https://raw.githubusercontent.com/Mkalic2025/customer-intake-form/0ff3fb501559e9f4f333ff070d26a092b49ff47e/Logo%20Published%20Online.png" alt="Aggreko Logo" style="height:60px;">
-</div>
+
+ <!-- Form container: relative so the logo positions to this, not the page -->
+  <div id="form-root" style="position:relative;">
+
     <!-- Title & subtitle -->
     <div class="title-block">
       <h1 class="title">Customer Project Intake Form</h1>
