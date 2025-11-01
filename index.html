@@ -42,15 +42,18 @@
     }
     main{ max-width:1000px; margin:20px auto 48px; padding:0 14px; }
 
-/* ===== Logo FIRST ===== */
-.logo-row {
-  display: flex;
-  justify-content: flex-end;
+/* Logo: right/top aligned with ~20px space after; half-size */
+.logo-row{
+  display:flex;
+  justify-content:flex-end;   /* right align */
+  align-items:flex-start;     /* top align */
+  padding-bottom:20px;        /* ~20px spacing after the logo */
+  margin-bottom:0;            /* use padding for spacing, not margin */
 }
-.logo-row img {
-  max-width: 195px; /* reduced from 260px to ~40% smaller */
-  height: auto;
-  display: block;
+.logo-row img{
+  max-width:130px;            /* half-size logo */
+  height:auto;
+  display:block;
 }
 
 /* ===== Title + Subtitle (together) ===== */
