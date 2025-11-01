@@ -70,7 +70,7 @@
 /* Ensure the form-root has top padding so the logo doesn't overlap the heading */
 #form-root {
   position: relative;
-  padding-top: 20px;
+  padding-top: 8px;
 }
 
 /* Title + Subtitle */
@@ -471,8 +471,10 @@ footer{ color:#111; margin-top:24px; }
 </main>
 
 <script>
+/* FLOW URL set to the value you provided */
 const FLOW_URL = "https://default5cb01ea241604f87afc65e72e6b82a.d1.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/0f422bbcb71f4f06a6e42ee74aa5b776/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=uoPMJp8FLgPGZgu_yZtEchRN65A-105UHltuzQnn_Ko";
 
+/* helpers */
 function numOrText(v){
   const s = (v ?? "").toString().trim();
   if (!s) return "";
@@ -480,18 +482,15 @@ function numOrText(v){
   return Number.isFinite(n) ? n : s;
 }
 function text(v){ return (v ?? "").toString().trim(); }
-function dateDDMMYYYY(yyyy_mm_dd){
-  if(!yyyy_mm_dd) return "";
-  const [y,m,d] = yyyy_mm_dd.split("-");
-  if(!y||!m||!d) return yyyy_mm_dd;
-  return `${d}/${m}/${y}`;
-}
+
 function setStatus(msg, ok=true){
   const el = document.getElementById("submit-status");
+  if (!el) return;
   el.textContent = msg;
   el.className = ok ? "ok" : "err";
 }
 
+/* validation (same required fields as before) */
 function validateRequired(){
   const ids = [
     "customerCompany","contactName","email",
@@ -529,6 +528,7 @@ function validateRequired(){
   return true;
 }
 
+/* submit handler: sends JSON, waits for Flow Response (success or failure) */
 document.getElementById("customer-intake-form").addEventListener("submit", async (e)=>{
   e.preventDefault();
   if (!validateRequired()) return;
@@ -545,7 +545,7 @@ document.getElementById("customer-intake-form").addEventListener("submit", async
     ProjectName: text(document.getElementById("projectName").value),
     SiteLocation: text(document.getElementById("siteLocation").value),
     "Contract Term": text(document.getElementById("contractTerm").value),
-    "Target COD Date": dateDDMMYYYY(document.getElementById("codDate").value),
+    "Target COD Date": document.getElementById("codDate").value,
 
     "CMD (MW)": numOrText(document.getElementById("cmd").value),
     Redundancy: text(document.getElementById("redundancy").value),
@@ -559,12 +559,12 @@ document.getElementById("customer-intake-form").addEventListener("submit", async
     Voltage: text(document.getElementById("voltageV").value),
     Accommodation: text(document.getElementById("accommodation").value),
 
-    Wind: text(document.getElementById("wind").value),
-    "WindCapacity_MWp": numOrText(document.getElementById("windCapacityMWp")?.value),
+    Wind: text(document.getElementById("wind")?.value),
+    WindCapacity_MWp: numOrText(document.getElementById("windCapacityMWp")?.value),
     "Solar PV": text(document.getElementById("solar")?.value),
-    "SolarCapacity_MWp": numOrText(document.getElementById("solarCapacityMWp")?.value),
+    SolarCapacity_MWp: numOrText(document.getElementById("solarCapacityMWp")?.value),
 
-    "Battery Energy Storage System (BESS)": text(document.getElementById("bess").value),
+    "Battery Energy Storage System (BESS)": text(document.getElementById("bess")?.value),
     "Renewable Energy Fraction (REF%)": numOrText(document.getElementById("ref").value),
 
     "Additional Project Details": text(document.getElementById("notes").value)
@@ -578,14 +578,16 @@ document.getElementById("customer-intake-form").addEventListener("submit", async
     });
 
     const textRes = await res.text();
-    let data; try{ data = JSON.parse(textRes); } catch{ data = null; }
+    let data = null;
+    try{ data = JSON.parse(textRes); } catch(e){ data = null; }
 
-    if(!res.ok){
-      const msg = (data && (data.message || data.error)) || textRes || (`HTTP ${res.status}`);
-      throw new Error(msg);
+    if (!res.ok){
+      const errMsg = (data && (data.error || data.message)) || textRes || (`HTTP ${res.status}`);
+      throw new Error(errMsg);
     }
 
-    setStatus((data && (data.message || "Row added successfully")) || "Row added successfully", true);
+    const message = (data && (data.message || data.result)) || "Submission successful";
+    setStatus(message, true);
     e.target.reset();
   } catch(err){
     console.error(err);
@@ -595,7 +597,5 @@ document.getElementById("customer-intake-form").addEventListener("submit", async
   }
 });
 </script>
-
-</body></html>
 
 </body></html>
