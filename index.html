@@ -227,13 +227,22 @@ thead th:last-child {
     </div>
     <div class="pad-after-title-block"></div>
 
-    <p class="note">
-      Note: Please complete all applicable sections. If a field does not apply to your project, and is not compulsory, please leave it blank.
-    </p>
-    <div class="pad-after-note"></div>
+<p class="note">
+  Note: Please complete all applicable sections. If a field does not apply to your project, and is not compulsory, please leave it blank.
+</p>
+<div class="pad-after-note"></div>
 
-    <form id="customer-intake-form" novalidate="">
-      <div id="form-container">
+<form id="customer-intake-form" novalidate="">
+  <div id="form-container">
+    <!-- all form fields and tables go here -->
+  </div>
+</form>
+
+<div id="confirmation-message" style="display:none;">
+  <h2>✅ Form successfully completed</h2>
+  <p>Thank you for submitting your project intake form. We’ll be in touch shortly.</p>
+</div>
+    
       <!-- ============== Customer Details ============== -->
       <div class="section-bar">Customer Details</div>
       <table>
@@ -261,7 +270,7 @@ thead th:last-child {
           <tr>
             <td><span class="req">Email</span></td>
             <td>–</td>
-            <td><input type="email" id="contactEmail" name="contactEmail" required="" aria-required="true"></td>
+            <td><input type="email" id="email" name="email" required aria-required="true"></td>
           </tr>
         </tbody>
       </table>
@@ -479,13 +488,16 @@ thead th:last-child {
           <b>Privacy &amp; Confidentiality.</b> Information you provide will be used to assess project requirements and budgetary pricing and may be stored in Aggreko systems in accordance with Aggreko’s privacy practices. © Aggreko.
         </p>
       </footer>
-    </form>
-    <div id="confirmation-message" style="display:none;">
+</div> <!-- closes #form-container -->
+</form>
+
+<!-- ✅ Confirmation message shown after successful submission -->
+<div id="confirmation-message" style="display:none;">
   <h2>✅ Form successfully completed</h2>
   <p>Thank you for submitting your project intake form. We’ll be in touch shortly.</p>
 </div>
-``
-  </main>
+
+</main>
 
 <script>
 const FLOW_URL = "https://default5cb01ea241604f87afc65e72e6b82a.d1.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/0f422bbcb71f4f06a6e42ee74aa5b776/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=uoPMJp8FLgPGZgu_yZtEchRN65A-105UHltuzQnn_Ko"; // <-- replace me
