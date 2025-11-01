@@ -20,7 +20,12 @@
       src:url("./assets/fonts/ArialNova-Bold.woff2") format("woff2");
       font-weight:700; font-style:normal; font-display:swap;
     }
-
+    
+/* highlight invalid inputs unobtrusively */
+.invalid {
+  border-color: #b00020 !important;
+  box-shadow: 0 0 0 3px rgba(176,0,32,.12) !important;
+}
     :root{
       --orange:#ff6a00;
       --navy:#0b1a2b;
@@ -476,149 +481,113 @@ thead th:last-child {
     </form>
   </main>
 
-  <script>
-    // ===== FLOW URL (use & characters, not &amp;) =====
-    const FLOW_URL =
-      "https://default5cb01ea241604f87afc65e72e6b82a.d1.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/0f422bbcb71f4f06a6e42ee74aa5b776/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=uoPMJp8FLgPGZgu_yZtEchRN65A-105UHltuzQnn_Ko";
+<script>
+const FLOW_URL = "https://YOUR-FLOW-HTTP-TRIGGER-URL"; // <-- replace me
 
-    // Helpers
-    function numOrText(v){
-      const s = (v ?? "").toString().trim();
-      if (!s) return "";
-      const n = Number(s.replace(/,/g,""));
-      return Number.isFinite(n) ? n : s;
-    }
-    function text(v){ return (v ?? "").toString().trim(); }
-    function dateDDMMYYYY(yyyy_mm_dd){
-      if(!yyyy_mm_dd) return "";
-      const [y,m,d] = yyyy_mm_dd.split("-");
-      if(!y||!m||!d) return yyyy_mm_dd;
-      return `${d}/${m}/${y}`;
-    }
-    function setStatus(msg, ok=true){
-      const el = document.getElementById("submit-status");
-      el.textContent = msg;
-      el.className = ok ? "ok" : "err";
-    }
+function setStatus(msg, ok){
+  const el = document.getElementById("submit-status");
+  el.textContent = msg;
+  el.style.color = ok ? "#0b7a37" : "#b00020";
+}
 
-    // Required validation
-    function validateRequired(){
-      const ids = [
-        "customerCompany","contactName","contactEmail",
-        "siteName","siteLocation",
-        "contractTerm",
-        "targetCOD",
-        "cmdMW",
-        "redundancy",
-        "fuelType",
-        "landAvailability",
-        "maxTemp"
-      ];
-      let first=null, missing=[];
-      const label = {
-        customerCompany:"Customer company",
-        contactName:"Primary contact name",
-        contactEmail:"Email",
-        siteName:"Site name",
-        siteLocation:"Site location",
-        contractTerm:"Contract term",
-        targetCOD:"Target COD date",
-        cmdMW:"CMD (MW)",
-        redundancy:"Redundancy",
-        fuelType:"Fuel type",
-        landAvailability:"Land availability",
-        maxTemp:"Maximum temperature (°C)"
-      };
-      ids.forEach(id=>{
-        const el = document.getElementById(id);
-        const val = (el?.value ?? "").toString().trim();
-        const invalid = (el?.tagName==="SELECT") ? (val==="") : (val.length===0);
-        if(invalid){ el?.classList.add("invalid"); missing.push(label[id]||id); if(!first) first = el; }
-        else el?.classList.remove("invalid");
-      });
-      if(missing.length){
-        setStatus("Please complete the required fields:\n• " + missing.join("\n• "), false);
-        first?.focus();
-        return false;
-      }
-      setStatus(""); // clear
-      return true;
-    }
+function markInvalid(el, on) {
+  if (!el) return;
+  if (on) el.classList.add("invalid"); else el.classList.remove("invalid");
+}
 
-    // Submit
-    document.getElementById("customer-intake-form").addEventListener("submit", async (e)=>{
-      e.preventDefault();
-      if (!validateRequired()) return;
+function validateRequired() {
+  const req = [
+    { id: "customerCompany", label: "Customer company" },
+    { id: "contactName",     label: "Primary contact name" },
+    { id: "email",           label: "Email", pattern: /^[^@\s]+@[^@\s]+\.[^@\s]+$/ },
+    { id: "contractTerm",    label: "Contract Term" },
+    // COD is the planned target date for the project (not the form date)
+    { id: "codDate",         label: "Target COD Date", pattern: /^\d{4}-\d{2}-\d{2}$/ },
+    { id: "cmd",             label: "CMD (MW)" },
+    { id: "redundancy",      label: "Redundancy" },
+    { id: "fuelType",        label: "Fuel Type" },
+    { id: "landDescription", label: "Land Description" },
+    { id: "landDelivered",   label: "Land Delivered?" }
+  ];
 
-      setStatus("Submitting…", true);
-      const btn = document.getElementById("submitBtn");
-      btn.disabled = true;
+  const errors = [];
+  for (const r of req) {
+    const el = document.getElementById(r.id);
+    const val = (el?.value || "").trim();
+    const ok = val !== "" && (!r.pattern || r.pattern.test(val));
+    markInvalid(el, !ok);
+    if (!ok) errors.push(r.label);
+  }
+  return { ok: errors.length === 0, errors };
+}
 
-      const payload = {
-        // Existing mapped columns (as before)
-        customerCompany: text(document.getElementById("customerCompany").value),
-        contactName: text(document.getElementById("contactName").value),
-        contactEmail: text(document.getElementById("contactEmail").value),
+document.getElementById("submitBtn").addEventListener("click", async () => {
+  const btn = document.getElementById("submitBtn");
+  btn.disabled = true;
+  setStatus("Submitting...", true);
 
-        siteName: text(document.getElementById("siteName").value),
-        siteLocation: text(document.getElementById("siteLocation").value),
+  const check = validateRequired();
+  if (!check.ok) {
+    setStatus("Please complete: " + check.errors.join(", "), false);
+    btn.disabled = false;
+    return;
+  }
 
-        contractTerm: text(document.getElementById("contractTerm").value),
-        contractExtension: text(document.getElementById("contractExtension").value),
-        targetCOD: dateDDMMYYYY(document.getElementById("targetCOD").value),
+  const payload = {
+    customerCompany: document.getElementById("customerCompany").value.trim(),
+    contactName:     document.getElementById("contactName").value.trim(),
+    email:           document.getElementById("email").value.trim(),
 
-        cmdMW: numOrText(document.getElementById("cmdMW").value),
-        redundancy: text(document.getElementById("redundancy").value),
-        avgDemandMW: numOrText(document.getElementById("avgDemandMW").value),
+    projectName:     document.getElementById("projectName").value.trim(),
+    siteLocation:    document.getElementById("siteLocation").value.trim(),
+    contractTerm:    document.getElementById("contractTerm").value.trim(),
+    codDate:         document.getElementById("codDate").value,  // browser gives YYYY-MM-DD
 
-        wind: text(document.getElementById("wind").value),
-        windCapacityMWp: numOrText(document.getElementById("windCapacityMWp").value),
-        solarPV: text(document.getElementById("solarPV").value),
-        solarCapacityMWp: numOrText(document.getElementById("solarCapacityMWp").value),
-        bess: text(document.getElementById("bess").value),
-        refPercent: numOrText(document.getElementById("refPercent").value),
+    cmd:             document.getElementById("cmd").value.trim(),
+    redundancy:      document.getElementById("redundancy").value,
+    fuelType:        document.getElementById("fuelType").value,
+    fuelPrice:       document.getElementById("fuelPrice").value.trim(),
+    fuelFacility:    document.getElementById("fuelFacility").value.trim(),
+    landDescription: document.getElementById("landDescription").value,
+    landDelivered:   document.getElementById("landDelivered").value,
+    maxTemp:         document.getElementById("maxTemp").value.trim(),
+    voltageV:        document.getElementById("voltageV").value,
+    accommodation:   document.getElementById("accommodation").value,
 
-        fuelType: text(document.getElementById("fuelType").value),
-        fuelPrice: numOrText(document.getElementById("fuelPrice").value),
-        fuelFacility: text(document.getElementById("fuelFacility").value),
+    wind:            document.getElementById("wind").value,
+    solar:           document.getElementById("solar").value,
+    bess:            document.getElementById("bess").value,
+    ref:             document.getElementById("ref").value.trim(),
+    notes:           document.getElementById("notes").value.trim()
+  };
 
-        landAvailability: text(document.getElementById("landAvailability").value),
-        maxTemp: numOrText(document.getElementById("maxTemp").value),
-
-        // Newly included optional fields (add columns in Excel + map if you want to store them)
-        altitudeM: numOrText(document.getElementById("altitudeM").value),
-        voltageV: text(document.getElementById("voltageV").value),
-        accommodation: text(document.getElementById("accommodation").value),
-
-        // Notes are not currently mapped to Excel—enable later if needed:
-        // notes: text(document.getElementById("notes").value)
-      };
-
-      try{
-        const res = await fetch(FLOW_URL, {
-          method:"POST",
-          headers:{ "Content-Type":"application/json" },
-          body: JSON.stringify(payload)
-        });
-
-        const textRes = await res.text();
-        let data; try{ data = JSON.parse(textRes); } catch{ data = null; }
-
-        if(!res.ok){
-          const msg = (data && (data.message || data.error)) || textRes || (`HTTP ${res.status}`);
-          throw new Error(msg);
-        }
-
-        const okMsg = (data && (data.message || "Row added successfully")) || "Row added successfully";
-        setStatus(okMsg, true);
-        e.target.reset();
-      } catch(err){
-        console.error(err);
-        setStatus("Submission failed: " + (err?.message || String(err)), false);
-      } finally {
-        btn.disabled = false;
-      }
+  try {
+    const res = await fetch(FLOW_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
     });
-  </script>
+
+    const textRes = await res.text();
+    let data; try { data = JSON.parse(textRes); } catch { data = null; }
+
+    if (!res.ok) {
+      const msg = (data && (data.message || data.error)) || textRes || `HTTP ${res.status}`;
+      throw new Error(msg);
+    }
+
+    const okMsg = (data && (data.message || "Row added successfully")) || "Row added successfully";
+    setStatus(okMsg, true);
+
+    // Optional: clear after success
+    // document.querySelectorAll("input, select, textarea").forEach(el => el.value = "");
+  } catch (err) {
+    setStatus("Submission failed: " + (err?.message || String(err)), false);
+    console.error(err);
+  } finally {
+    btn.disabled = false;
+  }
+});
+</script>
 
 </body></html>
