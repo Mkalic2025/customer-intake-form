@@ -92,15 +92,22 @@
     colgroup col.col-unit  { width:15%; }
     colgroup col.col-input { width:55%; }
 
-    thead th{
-      background:var(--navy); color:#1C2E39;
-      padding:12px 10px;
-      font-family:var(--font-bold); font-weight:700;
-      font-size:12pt;
-      border-right:1px solid rgba(255,255,255,.12);
-      text-align:left; vertical-align:middle;
-    }
-    thead th:last-child{ border-right:none; }
+
+thead th {
+  background: #1C2E39; /* Aggreko Dark Blue/Grey */
+  color: #ffffff;      /* White text */
+  padding: 12px 10px;
+  font-family: var(--font-bold);
+  font-weight: 700;
+  font-size: 12pt;
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+  text-align: left;
+  vertical-align: middle;
+}
+
+thead th:last-child {
+  border-right: none;
+}
 
     /* Uniform row height & alignment */
     tbody tr{ height:46px; }
