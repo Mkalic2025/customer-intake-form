@@ -2,13 +2,6 @@
 <!-- saved from url=(0076)file:///C:/Users/MariaKali/Downloads/Customer%20Project%20Intake%20Form.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<div class="logo-row">
-  <img
-    src="https://raw.githubusercontent.com/Mkalic2025/customer-intake-form/0ff3fb501559e9f4f333ff070d26a092b49ff47e/Logo%20Published%20Online.png"
-    alt="Aggreko Logo"
-  />
-</div>
-  
   <title>Customer Project Intake Form</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -49,26 +42,41 @@
     }
     main{ max-width:1000px; margin:20px auto 48px; padding:0 14px; }
 
-/* ===== Logo: flush right with the form content; 30px padding below ===== */
+/* ===== Logo: flush right with the form content; increased padding below ===== */
+/* Logo positioned inside #form-root so it aligns with the form right edge/top */
 .logo-row{
+  position: absolute;          /* position relative to #form-root */
+  top: 0;
+  right: 0;
   display:flex;
   justify-content:flex-end;   /* right-align to the same content edge as the tables */
   align-items:flex-start;     /* top-align */
-  width:100%;                 /* span the same width as the form content */
-  margin:0;                   /* no extra margins */
-  padding:0 0 30px 0;         /* 30px padding below the logo */
+  width:auto;
+  margin:0;
+  padding:0 0 48px 0;         /* increased padding below the logo */
+  z-index: 20;
 }
 
 .logo-row img{
   display:block;
   height:auto;
-  max-width:195px;            /* keep your size; adjust if needed */
+  max-width:130px;             /* changed to 130px as requested */
+}
+
+/* Ensure the form-root has top padding so the logo doesn't overlap the heading */
+#form-root {
+  position: relative; /* keep existing inline style but adding here to ensure */
+  padding-top: 8px;   /* small buffer so logo doesn't overlap heading; adjust if needed */
 }
 
 /* ===== Title + Subtitle (together) ===== */
+/* Title left-aligned to content/table; subtitle restored left-aligned */
 .title-block {
   margin-top: 20px;
   margin-left: 0; /* flush left */
+  width: 100%;
+  display: block;
+  text-align: left;          /* left-align title and subtitle to match tables */
 }
 
 .title {
@@ -88,6 +96,8 @@
   color: #111111;
   margin: 0;
   padding: 0; /* remove extra padding */
+  display: block;
+  padding-left: 10px; /* align with title padding for consistent left edge */
 }
 
 .pad-after-title-block {
@@ -197,7 +207,15 @@ thead th:last-child {
  <!-- Form container: relative so the logo positions to this, not the page -->
   <div id="form-root" style="position:relative;">
 
-    <!-- Title & subtitle -->
+    <!-- Logo placed inside the form-root so it aligns to the form right edge/top -->
+    <div class="logo-row" aria-hidden="true">
+      <img
+        src="https://raw.githubusercontent.com/Mkalic2025/customer-intake-form/0ff3fb501559e9f4f333ff070d26a092b49ff47e/Logo%20Published%20Online.png"
+        alt="Aggreko Logo"
+      />
+    </div>
+
+    <!-- Title & subtitle (left-aligned to be flush with table content) -->
     <div class="title-block">
       <h1 class="title">Customer Project Intake Form</h1>
       <div class="subtitle">Thermal and Hybrid</div>
