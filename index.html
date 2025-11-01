@@ -233,6 +233,7 @@ thead th:last-child {
     <div class="pad-after-note"></div>
 
     <form id="customer-intake-form" novalidate="">
+      <div id="form-container">
       <!-- ============== Customer Details ============== -->
       <div class="section-bar">Customer Details</div>
       <table>
@@ -479,6 +480,11 @@ thead th:last-child {
         </p>
       </footer>
     </form>
+    <div id="confirmation-message" style="display:none;">
+  <h2>✅ Form successfully completed</h2>
+  <p>Thank you for submitting your project intake form. We’ll be in touch shortly.</p>
+</div>
+``
   </main>
 
 <script>
@@ -561,31 +567,40 @@ document.getElementById("submitBtn").addEventListener("click", async () => {
     notes:           document.getElementById("notes").value.trim()
   };
 
+try {
+  const res = await fetch(FLOW_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+
+  const textRes = await res.text();
+  let data;
   try {
-    const res = await fetch(FLOW_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
+    data = JSON.parse(textRes);
+  } catch {
+    data = null;
+  }
 
-    const textRes = await res.text();
-    let data; try { data = JSON.parse(textRes); } catch { data = null; }
+  if (!res.ok) {
+    const msg = (data && (data.message || data.error)) || textRes || `HTTP ${res.status}`;
+    throw new Error(msg);
+  }
 
-    if (!res.ok) {
-      const msg = (data && (data.message || data.error)) || textRes || `HTTP ${res.status}`;
-      throw new Error(msg);
-    }
+  // ✅ Show confirmation message and hide form
+  document.getElementById("form-container").style.display = "none";
+  document.getElementById("confirmation-message").style.display = "block";
 
-    const okMsg = (data && (data.message || "Row added successfully")) || "Row added successfully";
-    setStatus(okMsg, true);
+  // Optional: clear form fields
+  // document.querySelectorAll("input, select, textarea").forEach(el => el.value = "");
 
-    // Optional: clear after success
-    // document.querySelectorAll("input, select, textarea").forEach(el => el.value = "");
-  } catch (err) {
-    setStatus("Submission failed: " + (err?.message || String(err)), false);
-    console.error(err);
-  } finally {
-    btn.disabled = false;
+} catch (err) {
+  setStatus("Submission failed: " + (err?.message || String(err)), false);
+  console.error(err);
+} finally {
+  btn.disabled = false;
+}
+``
   }
 });
 </script>
