@@ -48,25 +48,52 @@
   justify-content: flex-end;
 }
 .logo-row img {
-  max-width: 195px; /* reduced from 260px to ~25% smaller */
+  max-width: 195px; /* reduced from 260px to ~40% smaller */
   height: auto;
   display: block;
 }
 
-    /* ===== Title + Subtitle (together) ===== */
-    .title-block{ margin-top:10px; }
-    .title{
-      font-family:var(--font-bold); font-weight:700;
-      font-size:22pt; line-height:1.25; color:#1C2E39;
-      margin:0; padding:4px;
-    }
-    .subtitle{
-      font-family:var(--font-bold); font-weight:500;
-      font-size:13pt; /* 1pt smaller */
-      color:#111111;  /* same as title */
-      margin:0; padding-top:2px;
-    }
-    .pad-after-title-block{ height:20pt; } /* after subtitle */
+/* ===== Title + Subtitle (together) ===== */
+.title-block {
+  margin-top: 20px;
+  margin-left: 0; /* flush left */
+}
+
+.title {
+  font-family: var(--font-bold);
+  font-weight: 700;
+  font-size: 22pt;
+  line-height: 1.25;
+  color: #1C2E39;
+  margin: 0;
+  padding: 0; /* remove extra padding */
+}
+
+.subtitle {
+  font-family: var(--font-bold);
+  font-weight: 500;
+  font-size: 13pt; /* 1pt smaller */
+  color: #111111;
+  margin: 0;
+  padding: 0; /* remove extra padding */
+}
+
+.pad-after-title-block {
+  height: 20pt;
+}
+
+/* ===== Logo alignment ===== */
+.logo-row {
+  display: flex;
+  justify-content: flex-start; /* left-align logo */
+  margin-left: 0; /* flush to left */
+}
+
+.logo-row img {
+  display: block;
+  height: auto;
+  max-width: 195px; /* keep your 1/4 smaller size */
+}
 
     .note{
       color:#475569; margin:0;
