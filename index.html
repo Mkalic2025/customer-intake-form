@@ -42,31 +42,38 @@
     }
     main{ max-width:1000px; margin:20px auto 48px; padding:0 14px; }
 
-    /* ===== Logo FIRST ===== */
-    .logo-row{ display:flex; justify-content:flex-end; }
-    .logo-row img{ max-width:260px; height:auto; display:block; } /* doubled size */
+/* ===== Logo FIRST ===== */
+.logo-row {
+  display: flex;
+  justify-content: flex-end;
+}
+.logo-row img {
+  max-width: 195px; /* reduced from 260px to ~25% smaller */
+  height: auto;
+  display: block;
+}
 
     /* ===== Title + Subtitle (together) ===== */
     .title-block{ margin-top:10px; }
     .title{
       font-family:var(--font-bold); font-weight:700;
       font-size:22pt; line-height:1.25; color:#1C2E39;
-      margin:0; padding:6px;
+      margin:0; padding:4px;
     }
     .subtitle{
-      font-family:var(--font-bold); font-weight:300;
+      font-family:var(--font-bold); font-weight:500;
       font-size:13pt; /* 1pt smaller */
       color:#111111;  /* same as title */
       margin:0; padding-top:2px;
     }
-    .pad-after-title-block{ height:18pt; } /* after subtitle */
+    .pad-after-title-block{ height:20pt; } /* after subtitle */
 
     .note{
       color:#475569; margin:0;
       font-family:var(--font-regular); font-weight:400;
       font-size:9pt; line-height:1.45;
     }
-    .pad-after-note{ height:14pt; }
+    .pad-after-note{ height:8pt; }
 
     /* ===== Section headers ===== */
     .section-bar{
