@@ -2,11 +2,11 @@
 <!-- saved from url=(0076)file:///C:/Users/MariaKali/Downloads/Customer%20Project%20Intake%20Form.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-  <div class="logo-row">
+<div class="logo-row">
   <img
     src="https://raw.githubusercontent.com/Mkalic2025/customer-intake-form/0ff3fb501559e9f4f333ff070d26a092b49ff47e/Logo%20Published%20Online.png"
     alt="Aggreko Logo"
-  >
+  />
 </div>
   
   <title>Customer Project Intake Form</title>
@@ -49,18 +49,20 @@
     }
     main{ max-width:1000px; margin:20px auto 48px; padding:0 14px; }
 
-/* Logo: right/top aligned with ~20px space after; half-size */
+/* ===== Logo: flush right with the form content; 30px padding below ===== */
 .logo-row{
   display:flex;
-  justify-content:flex-end;   /* right align */
-  align-items:flex-start;     /* top align */
-  padding-bottom:20px;        /* ~20px spacing after the logo */
-  margin-bottom:0;            /* use padding for spacing, not margin */
+  justify-content:flex-end;   /* right-align to the same content edge as the tables */
+  align-items:flex-start;     /* top-align */
+  width:100%;                 /* span the same width as the form content */
+  margin:0;                   /* no extra margins */
+  padding:0 0 30px 0;         /* 30px padding below the logo */
 }
+
 .logo-row img{
-  max-width:130px;            /* half-size logo */
-  height:auto;
   display:block;
+  height:auto;
+  max-width:195px;            /* keep your size; adjust if needed */
 }
 
 /* ===== Title + Subtitle (together) ===== */
@@ -91,22 +93,7 @@
 .pad-after-title-block {
   height: 30pt;
 }
-
-/* ===== Logo aligned to the top-right of the form ===== */
-.logo-row{
-  display:flex;
-  justify-content:flex-end;   /* right align within the form */
-  align-items:flex-start;     /* top align */
-  padding-bottom:20px;        /* spacing after the logo */
-  margin:0;
-}
-
-.logo-row img{
-  display:block;
-  height:auto;
-  max-width:180px;            /* adjust if needed */
-}
-``
+    
     .note{
       color:#475569; margin:0;
       font-family:var(--font-regular); font-weight:400;
