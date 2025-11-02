@@ -1,17 +1,24 @@
 <!DOCTYPE html>
-<!-- saved from url=(0076)file:///C:/Users/MariaKali/Downloads/Customer%20Project%20Intake%20Form.html -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<!-- Customer Project Intake Form — visible SharePoint URL removed per request.
+     Developer note (kept in source as comment): Excel workbook (SharePoint) path:
+     https://aggreko.sharepoint.com/:x:/r/teams/Comm_AusPac_MajorProjects/_layouts/15/Doc.aspx?sourcedoc=%7BDDF01710-2150-4F82-8710-B0503B66BDB3%7D&file=CustomerIntakeData.xlsx
+     Excel Table expected by Flow: IntakeData
+     Ensure Flow Add a row into a table action points to IntakeData and Static result is OFF.
+-->
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Customer Project Intake Form</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  
+
   <style>
     /* ===========================
-       Self-hosted fonts
+       Self-hosted fonts + original typography
        =========================== */
     @font-face{
       font-family:"Arial Nova";
+      /* If you have local webfonts, keep these URLs; else browser will fallback to Arial */
       src:url("./assets/fonts/ArialNova-Regular.woff2") format("woff2");
       font-weight:400; font-style:normal; font-display:swap;
     }
@@ -20,12 +27,13 @@
       src:url("./assets/fonts/ArialNova-Bold.woff2") format("woff2");
       font-weight:700; font-style:normal; font-display:swap;
     }
-    
-/* highlight invalid inputs unobtrusively */
-.invalid {
-  border-color: #b00020 !important;
-  box-shadow: 0 0 0 3px rgba(176,0,32,.12) !important;
-}
+
+    /* highlight invalid inputs unobtrusively (kept) */
+    .invalid {
+      border-color: #b00020 !important;
+      box-shadow: 0 0 0 3px rgba(176,0,32,.12) !important;
+    }
+
     :root{
       --orange:#ff6a00;
       --navy:#0b1a2b;
@@ -45,557 +53,357 @@
       margin:0; color:var(--text); background:#fff;
       font-family:var(--font-regular); font-weight:400;
     }
-    main{ max-width:1000px; margin:20px auto 48px; padding:0 14px; }
+    main{ max-width:1000px; margin:20px auto 48px; padding:0 14px; position:relative; }
 
-/* ===== Logo: flush right with the form content; increased padding below ===== */
-.logo-row{
-  position: absolute;
-  top: 0;
-  right: 0;
-  display:flex;
-  justify-content:flex-end;
-  align-items:flex-start;
-  width:auto;
-  margin:0;
-  padding:0 0 48px 0;
-  z-index: 20;
-}
+    /* Logo flush-right and safe top padding so it doesn't overlap */
+    .logo-row{
+      position: absolute;
+      top: 0;
+      right: 0;
+      display:flex;
+      justify-content:flex-end;
+      align-items:flex-start;
+      width:auto;
+      margin:0;
+      padding:0 0 48px 0;
+      z-index: 20;
+    }
+    .logo-row img{ display:block; height:auto; max-width:130px; }
 
-.logo-row img{
-  display:block;
-  height:auto;
-  max-width:130px;
-}
+    /* Keep a small buffer at the top to avoid overlap with the logo */
+    #form-root { position: relative; padding-top: 8px; }
 
-/* Ensure the form-root has top padding so the logo doesn't overlap the heading */
-#form-root {
-  position: relative;
-  padding-top: 8px;
-}
+    /* Title + subtitle styling */
+    .title-block { margin-top: 20px; margin-left: 0; width: 100%; display: block; text-align: left; }
+    .title { font-family: var(--font-bold); font-weight:700; font-size:22pt; line-height:1.25; color:#1C2E39; margin:0; padding:10px; }
+    .subtitle { font-family:var(--font-bold); font-weight:500; font-size:13pt; color:#111; margin:0; padding-left:10px; display:block; }
+    .pad-after-title-block { height:30pt; }
 
-/* Title + Subtitle */
-.title-block {
-  margin-top: 20px;
-  margin-left: 0;
-  width: 100%;
-  display: block;
-  text-align: left;
-}
+    .note{ color:#475569; margin:0; font-family:var(--font-regular); font-weight:400; font-size:9pt; line-height:1.45; }
+    .pad-after-note{ height:8pt; }
 
-.title {
-  font-family: var(--font-bold);
-  font-weight: 700;
-  font-size: 22pt;
-  line-height: 1.25;
-  color: #1C2E39;
-  margin: 0;
-  padding: 10px;
-}
+    .section-bar{ width:100%; background:var(--section-bg); border:1px solid var(--section-border); color:var(--orange); font-family:var(--font-bold); font-weight:700; font-size:13pt; padding:10px 12px; border-radius:var(--radius); margin:18px 0 10px; }
 
-.subtitle {
-  font-family: var(--font-bold);
-  font-weight: 500;
-  font-size: 13pt;
-  color: #111111;
-  margin: 0;
-  padding: 0;
-  display: block;
-  padding-left: 10px;
-}
+    /* ===== Tables (consistent widths) ===== */
+    table{ width:100%; border-collapse:separate; border-spacing:0; margin-bottom:16px; table-layout:fixed; font-family:var(--font-regular); font-weight:400; }
+    colgroup col.col-desc  { width:30%; }
+    colgroup col.col-unit  { width:15%; }
+    colgroup col.col-input { width:55%; }
 
-.pad-after-title-block {
-  height: 30pt;
-}
-    
-.note{
-  color:#475569; margin:0;
-  font-family:var(--font-regular); font-weight:400;
-  font-size:9pt; line-height:1.45;
-}
-.pad-after-note{ height:8pt; }
+    /* Capacity/Unit column: smaller font as requested (applies to tables with 'has-capacity') */
+    table.has-capacity thead th:nth-child(2) { text-align:center; font-size:9.5pt; }
+    table.has-capacity thead th:nth-child(2), table.has-capacity tbody td:nth-child(2) { font-size:9.5pt; }
 
-.section-bar{
-  width:100%;
-  background:var(--section-bg);
-  border:1px solid var(--section-border);
-  color:var(--orange);
-  font-family:var(--font-bold); font-weight:700;
-  font-size:13pt;
-  padding:10px 12px;
-  border-radius:var(--radius);
-  margin:18px 0 10px;
-}
+    thead th {
+      background: #1C2E39;
+      color: #ffffff;
+      padding: 12px 10px;
+      font-family: var(--font-bold);
+      font-weight: 700;
+      font-size: 12pt;
+      border-right: 1px solid rgba(255,255,255,0.12);
+      text-align: left;
+      vertical-align: middle;
+    }
+    thead th:last-child { border-right:none; }
 
-table{
-  width:100%; border-collapse:separate; border-spacing:0;
-  margin-bottom:16px; table-layout:fixed;
-  font-family:var(--font-regular); font-weight:400;
-}
-colgroup col.col-desc  { width:30%; }
-colgroup col.col-unit  { width:15%; }
-colgroup col.col-input { width:55%; }
-
-/* Center the "Capacity / Unit" header only for tables that have that column */
-table.has-capacity thead th:nth-child(2) {
-  text-align: center;
-}
-table.has-capacity thead th:nth-child(2),
-table.has-capacity tbody td:nth-child(2) {
-  font-size: 9.5pt;
-}
-
-thead th {
-  background: #1C2E39;
-  color: #ffffff;
-  padding: 12px 10px;
-  font-family: var(--font-bold);
-  font-weight: 700;
-  font-size: 12pt;
-  border-right: 1px solid rgba(255,255,255,0.12);
-  text-align: left;
-  vertical-align: middle;
-}
-thead th:last-child { border-right: none; }
-
-tbody tr{ height:46px; }
-tbody td{
-  border:1px solid var(--border); border-top:none;
-  padding:10px; background:#ffffff;
-  vertical-align:middle;
-  text-align:left;
-  font-family:var(--font-regular); font-weight:400;
-  font-size:11pt; color:#000000;
-}
-
-input[type="text"], input[type="email"], input[type="date"], select, textarea{
-  width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:8px;
-  font-family:var(--font-regular); font-weight:400;
-  font-size:11pt; color:#000; background:#fff; outline:none; line-height:1.3;
-}
-input:focus, select:focus, textarea:focus{
-  border-color:#2563eb; box-shadow:0 0 0 3px rgba(37,99,235,.15);
-}
-textarea{ resize:vertical; min-height:100px; }
-
-.muted{ color:var(--muted); font-size:11pt; margin-top:6px; }
-.req::after{ content:" *"; color:var(--orange); font-family:var(--font-bold); font-weight:700; }
-.invalid{ border-color:#ef4444 !important; box-shadow:0 0 0 2px rgba(239,68,68,.12); }
-
-.input-grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
-
-.actions{ display:flex; gap:12px; align-items:center; margin-top:12px; }
-#submitBtn{
-  background:var(--navy); color:#fff; border:none; padding:12px 22px; border-radius:8px;
-  font-family:var(--font-bold); font-weight:700; font-size:12pt; cursor:pointer;
-  transition: background .15s ease;
-}
-#submitBtn:hover, #submitBtn:active{ background:var(--orange); }
-#submit-status{ white-space:pre-wrap; font-size:11pt; }
-.ok{ color:#0b7a37; } .err{ color:#b00020; }
-
-footer{ color:#111; margin-top:24px; }
-.footer-text{
-  font-family:var(--font-regular); font-weight:400; font-size:8pt;
-  line-height:1.5; color:#111;
-}
-.footer-text b{ font-family:var(--font-bold); font-weight:700; }
-  </style>
-</head>
-<body>
-  <main>
-
- <!-- Form container -->
-  <div id="form-root" style="position:relative;">
-
-    <div class="logo-row" aria-hidden="true">
-      <img
-        src="https://raw.githubusercontent.com/Mkalic2025/customer-intake-form/0ff3fb501559e9f4f333ff070d26a092b49ff47e/Logo%20Published%20Online.png"
-        alt="Aggreko Logo"
-      />
-    </div>
-
-    <div class="title-block">
-      <h1 class="title">Customer Project Intake Form</h1>
-      <div class="subtitle">Thermal and Hybrid</div>
-    </div>
-    <div class="pad-after-title-block"></div>
-
-    <p class="note">
-      Note: Please complete all applicable sections. If a field does not apply to your project, and is not compulsory, please leave it blank.
-    </p>
-    <div class="pad-after-note"></div>
-
-<form id="customer-intake-form" novalidate="">
-  <div id="form-container"></div>
-
-  <!-- Customer Details (2 cols) -->
-  <div class="section-bar">Customer Details</div>
-  <table>
-    <colgroup>
-      <col class="col-desc">
-      <col class="col-input" style="width:70%;">
-    </colgroup>
-    <thead>
-      <tr>
-        <th>Description</th>
-        <th>Customer to Populate</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="req">Customer company</span></td>
-        <td><input type="text" id="customerCompany" name="customerCompany" required aria-required="true"></td>
-      </tr>
-      <tr>
-        <td><span class="req">Primary contact name</span></td>
-        <td><input type="text" id="contactName" name="contactName" required aria-required="true"></td>
-      </tr>
-      <tr>
-        <td><span class="req">Email</span></td>
-        <td><input type="email" id="email" name="email" required aria-required="true"></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <!-- Project, Site & Contract -->
-  <div class="section-bar">Project, Site &amp; Contract</div>
-  <table class="has-capacity">
-    <colgroup>
-      <col class="col-desc"><col class="col-unit"><col class="col-input">
-    </colgroup>
-    <thead>
-      <tr>
-        <th>Description</th>
-        <th>Capacity / Unit</th>
-        <th>Customer to Populate</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="req">Project Name</span></td>
-        <td>Name</td>
-        <td><input type="text" id="projectName" name="projectName" required aria-required="true"></td>
-      </tr>
-      <tr>
-        <td><span class="req">Site Location</span></td>
-        <td>Location</td>
-        <td><input type="text" id="siteLocation" name="siteLocation" required aria-required="true"></td>
-      </tr>
-      <tr>
-        <td><span class="req">Contract Term</span></td>
-        <td>Years</td>
-        <td><input type="text" id="contractTerm" name="contractTerm" required aria-required="true"></td>
-      </tr>
-      <tr>
-        <td><span class="req">Target COD Date</span></td>
-        <td>DD/MM/YYYY</td>
-        <td><input type="date" id="codDate" name="codDate" required aria-required="true"></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <!-- Power & Energy -->
-  <div class="section-bar">Power &amp; Energy</div>
-  <table class="has-capacity">
-    <colgroup>
-      <col class="col-desc"><col class="col-unit"><col class="col-input">
-    </colgroup>
-    <thead>
-      <tr>
-        <th>Description</th>
-        <th>Capacity / Unit</th>
-        <th>Customer to Populate</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="req">CMD (Contracted Maximum Demand)</span></td>
-        <td>MW</td>
-        <td><input type="text" id="cmd" name="cmd" required aria-required="true"></td>
-      </tr>
-      <tr>
-        <td><span class="req">Redundancy</span></td>
-        <td>N+1 or N+2</td>
-        <td>
-          <select id="redundancy" name="redundancy" required aria-required="true">
-            <option value="">Select…</option>
-            <option>N+1</option>
-            <option>N+2</option>
-            <option>Other</option>
-          </select>
-        </td>
-      </tr>
-      <tr>
-        <td><span class="req">Fuel Type</span></td>
-        <td>Type</td>
-        <td>
-          <select id="fuelType" name="fuelType" required aria-required="true">
-            <option value="">Select fuel…</option>
-            <option>Diesel</option>
-            <option>Gas</option>
-            <option>LNG</option>
-            <option>Other</option>
-          </select>
-        </td>
-      </tr>
-      <tr>
-        <td>Assumed Fuel Price</td>
-        <td>$/L or $/GJ</td>
-        <td><input type="text" id="fuelPrice" name="fuelPrice"></td>
-      </tr>
-      <tr>
-        <td>Fuel Facility</td>
-        <td>Description / Delivered?</td>
-        <td><input type="text" id="fuelFacility" name="fuelFacility" placeholder="e.g., Onsite tanks, delivered fuel"></td>
-      </tr>
-      <tr>
-        <td><span class="req">Land Availability</span></td>
-        <td>Area + Status</td>
-        <td><input type="text" id="landDescription" name="landDescription" required aria-required="true" placeholder="e.g., 5 ha / In principle"></td>
-      </tr>
-      <tr>
-        <td><span class="req">Maximum Temperature</span></td>
-        <td>°C</td>
-        <td><input type="text" id="maxTemp" name="maxTemp" required aria-required="true"></td>
-      </tr>
-      <tr>
-        <td>Voltage</td>
-        <td>V</td>
-        <td>
-          <select id="voltageV" name="voltageV">
-            <option>Select voltage...</option>
-            <option>6.5kV</option>
-            <option>11kV</option>
-            <option>22kV</option>
-            <option>33kV</option>
-            <option>66kV</option>
-          </select>
-        </td>
-      </tr>
-      <tr>
-        <td>Accommodation</td>
-        <td>Scope / Responsibility</td>
-        <td>
-          <select id="accommodation" name="accommodation">
-            <option value="">Select…</option>
-            <option>Customer</option>
-            <option>Aggreko</option>
-            <option>Shared</option>
-            <option>Not required</option>
-          </select>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-  <!-- Renewables -->
-  <div class="section-bar">Renewables</div>
-  <table class="has-capacity">
-    <colgroup>
-      <col class="col-desc"><col class="col-unit"><col class="col-input">
-    </colgroup>
-    <thead>
-      <tr>
-        <th>Description</th>
-        <th>Capacity / Unit</th>
-        <th>Customer to Populate</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Wind</td>
-        <td>Capacity (MWp)</td>
-        <td>
-          <div class="input-grid-2">
-            <select id="wind" name="wind">
-              <option value="">Select…</option>
-              <option>Optimised</option>
-              <option>Will specify</option>
-              <option>Not applicable</option>
-            </select>
-            <input type="text" id="windCapacityMWp" name="windCapacityMWp">
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td>Solar PV</td>
-        <td>Capacity (MWp)</td>
-        <td>
-          <div class="input-grid-2">
-            <select id="solar" name="solar">
-              <option value="">Select…</option>
-              <option>Optimised</option>
-              <option>Will specify</option>
-              <option>Not applicable</option>
-            </select>
-            <input type="text" id="solarCapacityMWp" name="solarCapacityMWp">
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td>Battery Energy Storage System (BESS)</td>
-        <td>–</td>
-        <td>
-          <select id="bess" name="bess">
-            <option value="">Select…</option>
-            <option>Optimised</option>
-            <option>Yes</option>
-            <option>No</option>
-            <option>Considering</option>
-          </select>
-        </td>
-      </tr>
-      <tr>
-        <td>Renewable Energy Fraction (REF%)</td>
-        <td>%</td>
-        <td><input type="text" id="ref" name="ref"></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div class="section-bar">Additional Project Details</div>
-  <textarea id="notes" name="notes" placeholder="Any additional context, timelines, or constraints…"></textarea>
-
-  <div class="actions">
-    <button type="submit" id="submitBtn">Submit Form</button>
-    <div id="submit-status" role="status" aria-live="polite"></div>
-  </div>
-
-  <footer>
-    <p class="footer-text">
-      <b>Privacy &amp; Confidentiality.</b> Information you provide will be used to assess project requirements and budgetary pricing and may be stored in Aggreko systems in accordance with Aggreko’s privacy practices. © Aggreko.
-    </p>
-  </footer>
-</form>
-
-</main>
-
-<script>
-/* FLOW URL set to the value you provided */
-const FLOW_URL = "https://default5cb01ea241604f87afc65e72e6b82a.d1.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/0f422bbcb71f4f06a6e42ee74aa5b776/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=uoPMJp8FLgPGZgu_yZtEchRN65A-105UHltuzQnn_Ko";
-
-/* helpers */
-function numOrText(v){
-  const s = (v ?? "").toString().trim();
-  if (!s) return "";
-  const n = Number(s.replace(/,/g,""));
-  return Number.isFinite(n) ? n : s;
-}
-function text(v){ return (v ?? "").toString().trim(); }
-
-function setStatus(msg, ok=true){
-  const el = document.getElementById("submit-status");
-  if (!el) return;
-  el.textContent = msg;
-  el.className = ok ? "ok" : "err";
-}
-
-/* validation (same required fields as before) */
-function validateRequired(){
-  const ids = [
-    "customerCompany","contactName","email",
-    "projectName","siteLocation","contractTerm","codDate",
-    "cmd","redundancy","fuelType","landDescription","maxTemp"
-  ];
-  let first=null, missing=[];
-  const label = {
-    customerCompany:"CustomerCompany",
-    contactName:"PrimaryContactName",
-    email:"ContactEmail",
-    projectName:"ProjectName",
-    siteLocation:"SiteLocation",
-    contractTerm:"Contract Term",
-    codDate:"Target COD Date",
-    cmd:"CMD (MW)",
-    redundancy:"Redundancy",
-    fuelType:"Fuel Type",
-    landDescription:"Land Description",
-    maxTemp:"Maximum Temperature"
-  };
-  ids.forEach(id=>{
-    const el = document.getElementById(id);
-    const val = (el?.value ?? "").toString().trim();
-    const invalid = (el?.tagName==="SELECT") ? (val==="") : (val.length===0);
-    if(invalid){ el?.classList.add("invalid"); missing.push(label[id]||id); if(!first) first = el; }
-    else el?.classList.remove("invalid");
-  });
-  if(missing.length){
-    setStatus("Please complete the required fields:\n• " + missing.join("\n• "), false);
-    first?.focus();
-    return false;
-  }
-  setStatus("");
-  return true;
-}
-
-/* submit handler: sends JSON, waits for Flow Response (success or failure) */
-document.getElementById("customer-intake-form").addEventListener("submit", async (e)=>{
-  e.preventDefault();
-  if (!validateRequired()) return;
-
-  setStatus("Submitting…", true);
-  const btn = document.getElementById("submitBtn");
-  btn.disabled = true;
-
-  const payload = {
-    CustomerCompany: text(document.getElementById("customerCompany").value),
-    PrimaryContactName: text(document.getElementById("contactName").value),
-    ContactEmail: text(document.getElementById("email").value),
-
-    ProjectName: text(document.getElementById("projectName").value),
-    SiteLocation: text(document.getElementById("siteLocation").value),
-    "Contract Term": text(document.getElementById("contractTerm").value),
-    "Target COD Date": document.getElementById("codDate").value,
-
-    "CMD (MW)": numOrText(document.getElementById("cmd").value),
-    Redundancy: text(document.getElementById("redundancy").value),
-    "Fuel Type": text(document.getElementById("fuelType").value),
-
-    "Assumed Fuel Price": numOrText(document.getElementById("fuelPrice").value),
-    "Fuel Facility": text(document.getElementById("fuelFacility").value),
-
-    "Land Description": text(document.getElementById("landDescription").value),
-    "Maximum Temperature": numOrText(document.getElementById("maxTemp").value),
-    Voltage: text(document.getElementById("voltageV").value),
-    Accommodation: text(document.getElementById("accommodation").value),
-
-    Wind: text(document.getElementById("wind")?.value),
-    WindCapacity_MWp: numOrText(document.getElementById("windCapacityMWp")?.value),
-    "Solar PV": text(document.getElementById("solar")?.value),
-    SolarCapacity_MWp: numOrText(document.getElementById("solarCapacityMWp")?.value),
-
-    "Battery Energy Storage System (BESS)": text(document.getElementById("bess")?.value),
-    "Renewable Energy Fraction (REF%)": numOrText(document.getElementById("ref").value),
-
-    "Additional Project Details": text(document.getElementById("notes").value)
-  };
-
-  try{
-    const res = await fetch(FLOW_URL, {
-      method:"POST",
-      headers:{ "Content-Type":"application/json" },
-      body: JSON.stringify(payload)
-    });
-
-    const textRes = await res.text();
-    let data = null;
-    try{ data = JSON.parse(textRes); } catch(e){ data = null; }
-
-    if (!res.ok){
-      const errMsg = (data && (data.error || data.message)) || textRes || (`HTTP ${res.status}`);
-      throw new Error(errMsg);
+    tbody tr{ height:46px; }
+    tbody td{
+      border:1px solid var(--border); border-top:none;
+      padding:10px; background:#ffffff;
+      vertical-align:middle;
+      text-align:left;
+      font-family:var(--font-regular); font-weight:400;
+      font-size:11pt; color:#000000;
     }
 
-    const message = (data && (data.message || data.result)) || "Submission successful";
-    setStatus(message, true);
-    e.target.reset();
-  } catch(err){
-    console.error(err);
-    setStatus("Submission failed: " + (err?.message || String(err)), false);
-  } finally {
-    btn.disabled = false;
-  }
-});
-</script>
+    /* Inputs */
+    input[type="text"], input[type="email"], input[type="date"], select, textarea{
+      width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:8px;
+      font-family:var(--font-regular); font-weight:400;
+      font-size:11pt; color:#000; background:#fff; outline:none; line-height:1.3;
+    }
+    input:focus, select:focus, textarea:focus{ border-color:#2563eb; box-shadow:0 0 0 3px rgba(37,99,235,.15); }
+    textarea{ resize:vertical; min-height:100px; }
 
-</body></html>
+    .muted{ color:var(--muted); font-size:11pt; margin-top:6px; }
+    .req::after{ content:" *"; color:var(--orange); font-family:var(--font-bold); font-weight:700; }
+    .invalid{ border-color:#ef4444 !important; box-shadow:0 0 0 2px rgba(239,68,68,.12); }
+
+    .input-grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+
+    .actions{ display:flex; gap:12px; align-items:center; margin-top:12px; }
+    #submitBtn{
+      background:var(--navy); color:#fff; border:none; padding:12px 22px; border-radius:8px;
+      font-family:var(--font-bold); font-weight:700; font-size:12pt; cursor:pointer;
+      transition: background .15s ease;
+    }
+    #submitBtn:hover, #submitBtn:active{ background:var(--orange); }
+    #submit-status{ white-space:pre-wrap; font-size:11pt; }
+    .ok{ color:#0b7a37; } .err{ color:#b00020; }
+
+    footer{ color:#111; margin-top:24px; }
+    .footer-text{ font-family:var(--font-regular); font-weight:400; font-size:8pt; line-height:1.5; color:#111; }
+    .footer-text b{ font-family:var(--font-bold); font-weight:700; }
+    .small{ font-size:12px; color:var(--muted) }
+  </style>
+</head>
+
+<body>
+  <main>
+    <!-- Form container -->
+    <div id="form-root" style="position:relative;">
+
+      <!-- Logo -->
+      <div class="logo-row" aria-hidden="true">
+        <img src="https://raw.githubusercontent.com/Mkalic2025/customer-intake-form/0ff3fb501559e9f4f333ff070d26a092b49ff47e/Logo%20Published%20Online.png" alt="Aggreko Logo" />
+      </div>
+
+      <!-- Title -->
+      <div class="title-block">
+        <h1 class="title">Customer Project Intake Form</h1>
+        <div class="subtitle">Thermal and Hybrid</div>
+      </div>
+      <div class="pad-after-title-block"></div>
+
+      <p class="note">Note: Please complete all applicable sections. If a field does not apply to your project, and is not compulsory, please leave it blank.</p>
+      <div class="pad-after-note"></div>
+
+      <form id="customer-intake-form" novalidate>
+        <!-- Customer Details -->
+        <div class="section-bar">Customer Details</div>
+        <table>
+          <colgroup>
+            <col class="col-desc">
+            <col class="col-input" style="width:70%;">
+          </colgroup>
+          <thead>
+            <tr><th>Description</th><th>Customer to Populate</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><span class="req">Customer company</span></td><td><input type="text" id="customerCompany" name="customerCompany" required aria-required="true"></td></tr>
+            <tr><td><span class="req">Primary contact name</span></td><td><input type="text" id="contactName" name="contactName" required aria-required="true"></td></tr>
+            <tr><td><span class="req">Email</span></td><td><input type="email" id="email" name="email" required aria-required="true"></td></tr>
+          </tbody>
+        </table>
+
+        <!-- Project, Site & Contract -->
+        <div class="section-bar">Project, Site &amp; Contract</div>
+        <table class="has-capacity">
+          <colgroup><col class="col-desc"><col class="col-unit"><col class="col-input"></colgroup>
+          <thead><tr><th>Description</th><th>Capacity / Unit</th><th>Customer to Populate</th></tr></thead>
+          <tbody>
+            <tr><td><span class="req">Project Name</span></td><td>Name</td><td><input type="text" id="projectName" name="projectName" required aria-required="true"></td></tr>
+            <tr><td><span class="req">Site Location</span></td><td>Location</td><td><input type="text" id="siteLocation" name="siteLocation" required aria-required="true"></td></tr>
+            <tr><td><span class="req">Contract Term</span></td><td>Years</td><td><input type="text" id="contractTerm" name="contractTerm" required aria-required="true"></td></tr>
+            <tr><td><span class="req">Target COD Date</span></td><td>DD/MM/YYYY</td><td><input type="date" id="codDate" name="codDate" required aria-required="true"></td></tr>
+          </tbody>
+        </table>
+
+        <!-- Power & Energy -->
+        <div class="section-bar">Power &amp; Energy</div>
+        <table class="has-capacity">
+          <colgroup><col class="col-desc"><col class="col-unit"><col class="col-input"></colgroup>
+          <thead><tr><th>Description</th><th>Capacity / Unit</th><th>Customer to Populate</th></tr></thead>
+          <tbody>
+            <tr><td><span class="req">CMD (Contracted Maximum Demand)</span></td><td>MW</td><td><input type="text" id="cmd" name="cmd" required aria-required="true"></td></tr>
+            <tr><td><span class="req">Redundancy</span></td><td>N+1 or N+2</td><td>
+              <select id="redundancy" name="redundancy" required aria-required="true"><option value="">Select…</option><option>N+1</option><option>N+2</option><option>Other</option></select>
+            </td></tr>
+            <tr><td><span class="req">Fuel Type</span></td><td>Type</td><td>
+              <select id="fuelType" name="fuelType" required aria-required="true"><option value="">Select fuel…</option><option>Diesel</option><option>Gas</option><option>LNG</option><option>Other</option></select>
+            </td></tr>
+            <tr><td>Assumed Fuel Price</td><td>$/L or $/GJ</td><td><input type="text" id="fuelPrice" name="fuelPrice"></td></tr>
+            <tr><td>Fuel Facility</td><td>Description / Delivered?</td><td><input type="text" id="fuelFacility" name="fuelFacility" placeholder="e.g., Onsite tanks, delivered fuel"></td></tr>
+            <tr><td><span class="req">Land Availability</span></td><td>Area + Status</td><td><input type="text" id="landDescription" name="landDescription" required aria-required="true" placeholder="e.g., 5 ha / In principle"></td></tr>
+            <tr><td><span class="req">Maximum Temperature</span></td><td>°C</td><td><input type="text" id="maxTemp" name="maxTemp" required aria-required="true"></td></tr>
+            <tr><td>Voltage</td><td>V</td><td>
+              <select id="voltageV" name="voltageV"><option>Select voltage...</option><option>6.5kV</option><option>11kV</option><option>22kV</option><option>33kV</option><option>66kV</option></select>
+            </td></tr>
+            <tr><td>Accommodation</td><td>Scope / Responsibility</td><td>
+              <select id="accommodation" name="accommodation"><option value="">Select…</option><option>Customer</option><option>Aggreko</option><option>Shared</option><option>Not required</option></select>
+            </td></tr>
+          </tbody>
+        </table>
+
+        <!-- Renewables -->
+        <div class="section-bar">Renewables</div>
+        <table class="has-capacity">
+          <colgroup><col class="col-desc"><col class="col-unit"><col class="col-input"></colgroup>
+          <thead><tr><th>Description</th><th>Capacity / Unit</th><th>Customer to Populate</th></tr></thead>
+          <tbody>
+            <tr><td>Wind</td><td>Capacity (MWp)</td><td>
+              <div class="input-grid-2">
+                <select id="wind" name="wind"><option value="">Select…</option><option>Optimised</option><option>Will specify</option><option>Not applicable</option></select>
+                <input type="text" id="windCapacityMWp" name="windCapacityMWp">
+              </div>
+            </td></tr>
+
+            <tr><td>Solar PV</td><td>Capacity (MWp)</td><td>
+              <div class="input-grid-2">
+                <select id="solar" name="solar"><option value="">Select…</option><option>Optimised</option><option>Will specify</option><option>Not applicable</option></select>
+                <input type="text" id="solarCapacityMWp" name="solarCapacityMWp">
+              </div>
+            </td></tr>
+
+            <tr><td>Battery Energy Storage System (BESS)</td><td>–</td><td>
+              <select id="bess" name="bess"><option value="">Select…</option><option>Optimised</option><option>Yes</option><option>No</option><option>Considering</option></select>
+            </td></tr>
+
+            <tr><td>Renewable Energy Fraction (REF%)</td><td>%</td><td><input type="text" id="ref" name="ref"></td></tr>
+          </tbody>
+        </table>
+
+        <div class="section-bar">Additional Project Details</div>
+        <textarea id="notes" name="notes" placeholder="Any additional context, timelines, or constraints…"></textarea>
+
+        <div class="actions">
+          <button type="submit" id="submitBtn">Submit Form</button>
+          <div id="submit-status" role="status" aria-live="polite"></div>
+        </div>
+      </form>
+
+      <footer>
+        <p class="footer-text"><b>Privacy &amp; Confidentiality.</b> Information you provide will be used to assess project requirements and budgetary pricing and may be stored in Aggreko systems in accordance with Aggreko’s privacy practices. © Aggreko.</p>
+        <p class="small">Note: Ensure workbook CustomerIntakeData.xlsx (table name: IntakeData) is available and accessible to the Flow.</p>
+      </footer>
+    </div>
+  </main>
+
+  <script>
+  /* FLOW URL set to the value you provided.
+     If you regenerate the trigger URL in Power Automate, replace the value below. */
+  const FLOW_URL = "https://default5cb01ea241604f87afc65e72e6b82a.d1.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/0f422bbcb71f4f06a6e42ee74aa5b776/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=uoPMJp8FLgPGZgu_yZtEchRN65A-105UHltuzQnn_Ko";
+
+  /* helpers */
+  function numOrText(v){
+    const s = (v ?? "").toString().trim();
+    if (!s) return "";
+    const n = Number(s.replace(/,/g,""));
+    return Number.isFinite(n) ? n : s;
+  }
+  function text(v){ return (v ?? "").toString().trim(); }
+
+  function setStatus(msg, ok=true){
+    const el = document.getElementById("submit-status");
+    if (!el) return;
+    el.textContent = msg;
+    el.className = ok ? "ok" : "err";
+  }
+
+  /* validation */
+  function validateRequired(){
+    const ids = [
+      "customerCompany","contactName","email",
+      "projectName","siteLocation","contractTerm","codDate",
+      "cmd","redundancy","fuelType","landDescription","maxTemp"
+    ];
+    let first=null, missing=[];
+    const label = {
+      customerCompany:"CustomerCompany",
+      contactName:"PrimaryContactName",
+      email:"ContactEmail",
+      projectName:"ProjectName",
+      siteLocation:"SiteLocation",
+      contractTerm:"Contract Term",
+      codDate:"Target COD Date",
+      cmd:"CMD (MW)",
+      redundancy:"Redundancy",
+      fuelType:"Fuel Type",
+      landDescription:"Land Description",
+      maxTemp:"Maximum Temperature"
+    };
+    ids.forEach(id=>{
+      const el = document.getElementById(id);
+      const val = (el?.value ?? "").toString().trim();
+      const invalid = (el?.tagName==="SELECT") ? (val==="") : (val.length===0);
+      if(invalid){ el?.classList.add("invalid"); missing.push(label[id]||id); if(!first) first = el; }
+      else el?.classList.remove("invalid");
+    });
+    if(missing.length){
+      setStatus("Please complete the required fields:\n• " + missing.join("\n• "), false);
+      first?.focus();
+      return false;
+    }
+    setStatus("");
+    return true;
+  }
+
+  /* build payload exactly matching Flow trigger schema */
+  function buildPayload(){
+    return {
+      CustomerCompany: text(document.getElementById("customerCompany").value),
+      PrimaryContactName: text(document.getElementById("contactName").value),
+      ContactEmail: text(document.getElementById("email").value),
+
+      ProjectName: text(document.getElementById("projectName").value),
+      SiteLocation: text(document.getElementById("siteLocation").value),
+      "Contract Term": text(document.getElementById("contractTerm").value),
+      "Target COD Date": document.getElementById("codDate").value,
+
+      "CMD (MW)": numOrText(document.getElementById("cmd").value),
+      Redundancy: text(document.getElementById("redundancy").value),
+      "Fuel Type": text(document.getElementById("fuelType").value),
+
+      "Assumed Fuel Price": numOrText(document.getElementById("fuelPrice")?.value),
+      "Fuel Facility": text(document.getElementById("fuelFacility")?.value),
+
+      "Land Description": text(document.getElementById("landDescription")?.value),
+      "Land Delivered?": text(document.getElementById("landDelivered")?.value || ""),
+      "Maximum Temperature": numOrText(document.getElementById("maxTemp")?.value),
+      "Voltage": text(document.getElementById("voltageV")?.value),
+      "Accommodation": text(document.getElementById("accommodation")?.value),
+
+      "Wind": text(document.getElementById("wind")?.value),
+      "WindCapacity_MWp": numOrText(document.getElementById("windCapacityMWp")?.value),
+      "Solar PV": text(document.getElementById("solar")?.value),
+      "SolarCapacity_MWp": numOrText(document.getElementById("solarCapacityMWp")?.value),
+
+      "Battery Energy Storage System (BESS)": text(document.getElementById("bess")?.value),
+      "Renewable Energy Fraction (REF%)": numOrText(document.getElementById("ref")?.value),
+
+      "Additional Project Details": text(document.getElementById("notes")?.value)
+    };
+  }
+
+  /* submit handler with robust error parsing */
+  document.getElementById("customer-intake-form").addEventListener("submit", async (e)=>{
+    e.preventDefault();
+    if (!validateRequired()) return;
+
+    setStatus("Submitting…", true);
+    const btn = document.getElementById("submitBtn");
+    btn.disabled = true;
+
+    const payload = buildPayload();
+
+    try{
+      const res = await fetch(FLOW_URL, {
+        method:"POST",
+        headers:{ "Content-Type":"application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      const textRes = await res.text();
+      let data = null;
+      try{ data = JSON.parse(textRes); } catch(e){ data = null; }
+
+      if (!res.ok){
+        const errMsg = (data && (data.error || data.message)) || textRes || (`HTTP ${res.status}`);
+        throw new Error(errMsg);
+      }
+
+      const message = (data && (data.message || data.result)) || "Submission successful";
+      setStatus(message, true);
+      e.target.reset();
+    } catch(err){
+      console.error("Submission error (full):", err);
+      const pretty = (err && err.message) ? err.message : (typeof err === "string" ? err : JSON.stringify(err, null, 2));
+      setStatus("Submission failed: " + pretty, false);
+    } finally {
+      btn.disabled = false;
+    }
+  });
+  </script>
+</body>
+</html>
