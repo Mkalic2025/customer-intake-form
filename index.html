@@ -1,24 +1,16 @@
-<!DOCTYPE html>
-<!-- Customer Project Intake Form — visible SharePoint URL removed per request.
-     Developer note (kept in source as comment): Excel workbook (SharePoint) path:
-     https://aggreko.sharepoint.com/:x:/r/teams/Comm_AusPac_MajorProjects/_layouts/15/Doc.aspx?sourcedoc=%7BDDF01710-2150-4F82-8710-B0503B66BDB3%7D&file=CustomerIntakeData.xlsx
-     Excel Table expected by Flow: IntakeData
-     Ensure Flow Add a row into a table action points to IntakeData and Static result is OFF.
--->
+<!doctype html>
 <html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Customer Project Intake Form</title>
-
   <style>
     /* ===========================
        Self-hosted fonts + original typography
        =========================== */
     @font-face{
       font-family:"Arial Nova";
-      /* If you have local webfonts, keep these URLs; else browser will fallback to Arial */
       src:url("./assets/fonts/ArialNova-Regular.woff2") format("woff2");
       font-weight:400; font-style:normal; font-display:swap;
     }
@@ -28,7 +20,7 @@
       font-weight:700; font-style:normal; font-display:swap;
     }
 
-    /* highlight invalid inputs unobtrusively (kept) */
+    /* highlight invalid inputs unobtrusively */
     .invalid {
       border-color: #b00020 !important;
       box-shadow: 0 0 0 3px rgba(176,0,32,.12) !important;
@@ -235,14 +227,14 @@
             <tr><td>Wind</td><td>Capacity (MWp)</td><td>
               <div class="input-grid-2">
                 <select id="wind" name="wind"><option value="">Select…</option><option>Optimised</option><option>Will specify</option><option>Not applicable</option></select>
-                <input type="text" id="windCapacityMWp" name="windCapacityMWp">
+                <input type="text" id="windCapacityMWp" name="windCapacityMWp" placeholder="MWp">
               </div>
             </td></tr>
 
             <tr><td>Solar PV</td><td>Capacity (MWp)</td><td>
               <div class="input-grid-2">
                 <select id="solar" name="solar"><option value="">Select…</option><option>Optimised</option><option>Will specify</option><option>Not applicable</option></select>
-                <input type="text" id="solarCapacityMWp" name="solarCapacityMWp">
+                <input type="text" id="solarCapacityMWp" name="solarCapacityMWp" placeholder="MWp">
               </div>
             </td></tr>
 
@@ -270,140 +262,117 @@
     </div>
   </main>
 
-  <script>
-  /* FLOW URL set to the value you provided.
-     If you regenerate the trigger URL in Power Automate, replace the value below. */
-  const FLOW_URL = "https://default5cb01ea241604f87afc65e72e6b82a.d1.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/0f422bbcb71f4f06a6e42ee74aa5b776/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=uoPMJp8FLgPGZgu_yZtEchRN65A-105UHltuzQnn_Ko";
+<script>
+/* FLOW URL — replace if you regenerate the trigger in Power Automate */
+const FLOW_URL = "https://default5cb01ea241604f87afc65e72e6b82a.d1.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/0f422bbcb71f4f06a6e42ee74aa5b776/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=uoPMJp8FLgPGZgu_yZtEchRN65A-105UHltuzQnn_Ko";
 
-  /* helpers */
-  function numOrText(v){
-    const s = (v ?? "").toString().trim();
-    if (!s) return "";
-    const n = Number(s.replace(/,/g,""));
-    return Number.isFinite(n) ? n : s;
-  }
-  function text(v){ return (v ?? "").toString().trim(); }
+/* helpers */
+function text(v){ return (v ?? "").toString().trim(); }
+function numOrText(v){ const s=(v ?? "").toString().trim(); if(!s) return ""; const n=Number(s.replace(/,/g,"")); return Number.isFinite(n)? n : s; }
+function setStatus(msg, ok=true){ const el=document.getElementById("submit-status"); if(!el) return; el.textContent = msg; el.className = ok ? "ok" : "err"; }
 
-  function setStatus(msg, ok=true){
-    const el = document.getElementById("submit-status");
-    if (!el) return;
-    el.textContent = msg;
-    el.className = ok ? "ok" : "err";
-  }
-
-  /* validation */
-  function validateRequired(){
-    const ids = [
-      "customerCompany","contactName","email",
-      "projectName","siteLocation","contractTerm","codDate",
-      "cmd","redundancy","fuelType","landDescription","maxTemp"
-    ];
-    let first=null, missing=[];
-    const label = {
-      customerCompany:"CustomerCompany",
-      contactName:"PrimaryContactName",
-      email:"ContactEmail",
-      projectName:"ProjectName",
-      siteLocation:"SiteLocation",
-      contractTerm:"Contract Term",
-      codDate:"Target COD Date",
-      cmd:"CMD (MW)",
-      redundancy:"Redundancy",
-      fuelType:"Fuel Type",
-      landDescription:"Land Description",
-      maxTemp:"Maximum Temperature"
-    };
-    ids.forEach(id=>{
-      const el = document.getElementById(id);
-      const val = (el?.value ?? "").toString().trim();
-      const invalid = (el?.tagName==="SELECT") ? (val==="") : (val.length===0);
-      if(invalid){ el?.classList.add("invalid"); missing.push(label[id]||id); if(!first) first = el; }
-      else el?.classList.remove("invalid");
-    });
-    if(missing.length){
-      setStatus("Please complete the required fields:\n• " + missing.join("\n• "), false);
-      first?.focus();
-      return false;
-    }
-    setStatus("");
-    return true;
-  }
-
-  /* build payload exactly matching Flow trigger schema */
-  function buildPayload(){
-    return {
-      CustomerCompany: text(document.getElementById("customerCompany").value),
-      PrimaryContactName: text(document.getElementById("contactName").value),
-      ContactEmail: text(document.getElementById("email").value),
-
-      ProjectName: text(document.getElementById("projectName").value),
-      SiteLocation: text(document.getElementById("siteLocation").value),
-      "Contract Term": text(document.getElementById("contractTerm").value),
-      "Target COD Date": document.getElementById("codDate").value,
-
-      "CMD (MW)": numOrText(document.getElementById("cmd").value),
-      Redundancy: text(document.getElementById("redundancy").value),
-      "Fuel Type": text(document.getElementById("fuelType").value),
-
-      "Assumed Fuel Price": numOrText(document.getElementById("fuelPrice")?.value),
-      "Fuel Facility": text(document.getElementById("fuelFacility")?.value),
-
-      "Land Description": text(document.getElementById("landDescription")?.value),
-      "Land Delivered?": text(document.getElementById("landDelivered")?.value || ""),
-      "Maximum Temperature": numOrText(document.getElementById("maxTemp")?.value),
-      "Voltage": text(document.getElementById("voltageV")?.value),
-      "Accommodation": text(document.getElementById("accommodation")?.value),
-
-      "Wind": text(document.getElementById("wind")?.value),
-      "WindCapacity_MWp": numOrText(document.getElementById("windCapacityMWp")?.value),
-      "Solar PV": text(document.getElementById("solar")?.value),
-      "SolarCapacity_MWp": numOrText(document.getElementById("solarCapacityMWp")?.value),
-
-      "Battery Energy Storage System (BESS)": text(document.getElementById("bess")?.value),
-      "Renewable Energy Fraction (REF%)": numOrText(document.getElementById("ref")?.value),
-
-      "Additional Project Details": text(document.getElementById("notes")?.value)
-    };
-  }
-
-  /* submit handler with robust error parsing */
-  document.getElementById("customer-intake-form").addEventListener("submit", async (e)=>{
-    e.preventDefault();
-    if (!validateRequired()) return;
-
-    setStatus("Submitting…", true);
-    const btn = document.getElementById("submitBtn");
-    btn.disabled = true;
-
-    const payload = buildPayload();
-
-    try{
-      const res = await fetch(FLOW_URL, {
-        method:"POST",
-        headers:{ "Content-Type":"application/json" },
-        body: JSON.stringify(payload)
-      });
-
-      const textRes = await res.text();
-      let data = null;
-      try{ data = JSON.parse(textRes); } catch(e){ data = null; }
-
-      if (!res.ok){
-        const errMsg = (data && (data.error || data.message)) || textRes || (`HTTP ${res.status}`);
-        throw new Error(errMsg);
-      }
-
-      const message = (data && (data.message || data.result)) || "Submission successful";
-      setStatus(message, true);
-      e.target.reset();
-    } catch(err){
-      console.error("Submission error (full):", err);
-      const pretty = (err && err.message) ? err.message : (typeof err === "string" ? err : JSON.stringify(err, null, 2));
-      setStatus("Submission failed: " + pretty, false);
-    } finally {
-      btn.disabled = false;
-    }
+/* validation */
+function validateRequired(){
+  const ids = ["customerCompany","contactName","email","projectName","siteLocation","contractTerm","codDate","cmd","redundancy","fuelType","landDescription","maxTemp"];
+  const labels = {
+    customerCompany:"CustomerCompany", contactName:"PrimaryContactName", email:"ContactEmail",
+    projectName:"ProjectName", siteLocation:"SiteLocation", contractTerm:"Contract Term", codDate:"Target COD Date",
+    cmd:"CMD (MW)", redundancy:"Redundancy", fuelType:"Fuel Type", landDescription:"Land Description", maxTemp:"Maximum Temperature"
+  };
+  let first=null, missing=[];
+  ids.forEach(id=>{
+    const el=document.getElementById(id);
+    const v=(el?.value ?? "").toString().trim();
+    if(!v){ missing.push(labels[id]||id); el?.classList.add("invalid"); if(!first) first=el; } else el?.classList.remove("invalid");
   });
-  </script>
+  if(missing.length){
+    setStatus("Please complete the required fields:\n• " + missing.join("\n• "), false);
+    first?.focus();
+    return false;
+  }
+  setStatus("");
+  return true;
+}
+
+/* build the payload to match the Flow trigger schema exactly */
+function buildPayload(){
+  return {
+    CustomerCompany: text(document.getElementById("customerCompany").value),
+    PrimaryContactName: text(document.getElementById("contactName").value),
+    ContactEmail: text(document.getElementById("email").value),
+
+    ProjectName: text(document.getElementById("projectName").value),
+    SiteLocation: text(document.getElementById("siteLocation").value),
+    "Contract Term": text(document.getElementById("contractTerm").value),
+    "Target COD Date": document.getElementById("codDate").value,
+
+    "CMD (MW)": numOrText(document.getElementById("cmd").value),
+    Redundancy: text(document.getElementById("redundancy").value),
+    "Fuel Type": text(document.getElementById("fuelType").value),
+
+    "Assumed Fuel Price": numOrText(document.getElementById("fuelPrice")?.value),
+    "Fuel Facility": text(document.getElementById("fuelFacility")?.value),
+
+    "Land Description": text(document.getElementById("landDescription")?.value),
+    "Land Delivered?": text(document.getElementById("landDelivered")?.value || ""),
+    "Maximum Temperature": numOrText(document.getElementById("maxTemp")?.value),
+    "Voltage": text(document.getElementById("voltageV")?.value),
+    "Accommodation": text(document.getElementById("accommodation")?.value),
+
+    "Wind": text(document.getElementById("wind")?.value),
+    "WindCapacity_MWp": numOrText(document.getElementById("windCapacityMWp")?.value),
+    "Solar PV": text(document.getElementById("solar")?.value),
+    "SolarCapacity_MWp": numOrText(document.getElementById("solarCapacityMWp")?.value),
+
+    "Battery Energy Storage System (BESS)": text(document.getElementById("bess")?.value),
+    "Renewable Energy Fraction (REF%)": numOrText(document.getElementById("ref")?.value),
+
+    "Additional Project Details": text(document.getElementById("notes")?.value)
+  };
+}
+
+/* submit handler with robust error parsing and redirect to thank-you page */
+document.getElementById("customer-intake-form").addEventListener("submit", async (e)=>{
+  e.preventDefault();
+  if (!validateRequired()) return;
+
+  const btn = document.getElementById("submitBtn");
+  btn.disabled = true;
+  setStatus("Submitting…", true);
+
+  const payload = buildPayload();
+
+  // Debug: log the payload so you can inspect values in DevTools before sending
+  console.log("Payload preview:", JSON.stringify(payload, null, 2));
+
+  try{
+    const res = await fetch(FLOW_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    const textRes = await res.text();
+    let data = null;
+    try{ data = JSON.parse(textRes); } catch(err){ data = null; }
+
+    if (!res.ok){
+      const errMsg = data && (data.message || data.error || data.details) ? (data.message || data.error || JSON.stringify(data)) : (textRes || `HTTP ${res.status}`);
+      throw new Error(errMsg);
+    }
+
+    // On success redirect to a friendly page for customers
+    // ensure thankyou.html exists in the same folder (I provided one earlier)
+    window.location.href = 'thankyou.html';
+    return;
+  } catch(err){
+    console.error("Submission error (full):", err);
+    const pretty = (err && err.message) ? err.message : (typeof err === "string" ? err : JSON.stringify(err, null, 2));
+    setStatus("Submission failed: " + pretty, false);
+  } finally {
+    btn.disabled = false;
+  }
+});
+</script>
 </body>
 </html>
