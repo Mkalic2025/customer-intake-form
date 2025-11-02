@@ -173,9 +173,9 @@
             <tr><th>Description</th><th>Customer to Populate</th></tr>
           </thead>
           <tbody>
-            <tr><td><span class="req">Customer company</span></td><td><input type="text" id="customerCompany" name="customerCompany" required aria-required="true"></td></tr>
-            <tr><td><span class="req">Primary contact name</span></td><td><input type="text" id="contactName" name="contactName" required aria-required="true"></td></tr>
-            <tr><td><span class="req">Email</span></td><td><input type="email" id="email" name="email" required aria-required="true"></td></tr>
+            <tr><td><span class="req">Customer company</span></td><td><input type="text" id="customerCompany" name="customerCompany" required aria-required="true" autocomplete="organization"></td></tr>
+            <tr><td><span class="req">Primary contact name</span></td><td><input type="text" id="contactName" name="contactName" required aria-required="true" autocomplete="name"></td></tr>
+            <tr><td><span class="req">Email</span></td><td><input type="email" id="email" name="email" required aria-required="true" autocomplete="email"></td></tr>
           </tbody>
         </table>
 
@@ -185,10 +185,10 @@
           <colgroup><col class="col-desc"><col class="col-unit"><col class="col-input"></colgroup>
           <thead><tr><th>Description</th><th>Capacity / Unit</th><th>Customer to Populate</th></tr></thead>
           <tbody>
-            <tr><td><span class="req">Project Name</span></td><td>Name</td><td><input type="text" id="projectName" name="projectName" required aria-required="true"></td></tr>
-            <tr><td><span class="req">Site Location</span></td><td>Location</td><td><input type="text" id="siteLocation" name="siteLocation" required aria-required="true"></td></tr>
-            <tr><td><span class="req">Contract Term</span></td><td>Years</td><td><input type="text" id="contractTerm" name="contractTerm" required aria-required="true"></td></tr>
-            <tr><td><span class="req">Target COD Date</span></td><td>DD/MM/YYYY</td><td><input type="date" id="codDate" name="codDate" required aria-required="true"></td></tr>
+            <tr><td><span class="req">Project Name</span></td><td>Name</td><td><input type="text" id="projectName" name="projectName" required aria-required="true" autocomplete="organization-title"></td></tr>
+            <tr><td><span class="req">Site Location</span></td><td>Location</td><td><input type="text" id="siteLocation" name="siteLocation" required aria-required="true" autocomplete="off"></td></tr>
+            <tr><td><span class="req">Contract Term</span></td><td>Years</td><td><input type="text" id="contractTerm" name="contractTerm" required aria-required="true" autocomplete="off"></td></tr>
+            <tr><td><span class="req">Target COD Date</span></td><td>DD/MM/YYYY</td><td><input type="date" id="codDate" name="codDate" required aria-required="true" autocomplete="off"></td></tr>
           </tbody>
         </table>
 
@@ -198,22 +198,22 @@
           <colgroup><col class="col-desc"><col class="col-unit"><col class="col-input"></colgroup>
           <thead><tr><th>Description</th><th>Capacity / Unit</th><th>Customer to Populate</th></tr></thead>
           <tbody>
-            <tr><td><span class="req">CMD (Contracted Maximum Demand)</span></td><td>MW</td><td><input type="text" id="cmd" name="cmd" required aria-required="true"></td></tr>
+            <tr><td><span class="req">CMD (Contracted Maximum Demand)</span></td><td>MW</td><td><input type="text" id="cmd" name="cmd" required aria-required="true" autocomplete="off"></td></tr>
             <tr><td><span class="req">Redundancy</span></td><td>N+1 or N+2</td><td>
-              <select id="redundancy" name="redundancy" required aria-required="true"><option value="">Select…</option><option>N+1</option><option>N+2</option><option>Other</option></select>
+              <select id="redundancy" name="redundancy" required aria-required="true" autocomplete="off"><option value="">Select…</option><option>N+1</option><option>N+2</option><option>Other</option></select>
             </td></tr>
             <tr><td><span class="req">Fuel Type</span></td><td>Type</td><td>
-              <select id="fuelType" name="fuelType" required aria-required="true"><option value="">Select fuel…</option><option>Diesel</option><option>Gas</option><option>LNG</option><option>Other</option></select>
+              <select id="fuelType" name="fuelType" required aria-required="true" autocomplete="off"><option value="">Select fuel…</option><option>Diesel</option><option>Gas</option><option>LNG</option><option>Other</option></select>
             </td></tr>
-            <tr><td>Assumed Fuel Price</td><td>$/L or $/GJ</td><td><input type="text" id="fuelPrice" name="fuelPrice"></td></tr>
-            <tr><td>Fuel Facility</td><td>Description / Delivered?</td><td><input type="text" id="fuelFacility" name="fuelFacility" placeholder="e.g., Onsite tanks, delivered fuel"></td></tr>
-            <tr><td><span class="req">Land Availability</span></td><td>Area + Status</td><td><input type="text" id="landDescription" name="landDescription" required aria-required="true" placeholder="e.g., 5 ha / In principle"></td></tr>
-            <tr><td><span class="req">Maximum Temperature</span></td><td>°C</td><td><input type="text" id="maxTemp" name="maxTemp" required aria-required="true"></td></tr>
+            <tr><td>Assumed Fuel Price</td><td>$/L or $/GJ</td><td><input type="text" id="fuelPrice" name="fuelPrice" autocomplete="off"></td></tr>
+            <tr><td>Fuel Facility</td><td>Description / Delivered?</td><td><input type="text" id="fuelFacility" name="fuelFacility" placeholder="e.g., Onsite tanks, delivered fuel" autocomplete="off"></td></tr>
+            <tr><td><span class="req">Land Availability</span></td><td>Area + Status</td><td><input type="text" id="landDescription" name="landDescription" required aria-required="true" placeholder="e.g., 5 ha / In principle" autocomplete="off"></td></tr>
+            <tr><td><span class="req">Maximum Temperature</span></td><td>°C</td><td><input type="text" id="maxTemp" name="maxTemp" required aria-required="true" autocomplete="off"></td></tr>
             <tr><td>Voltage</td><td>V</td><td>
-              <select id="voltageV" name="voltageV"><option>Select voltage...</option><option>6.5kV</option><option>11kV</option><option>22kV</option><option>33kV</option><option>66kV</option></select>
+              <select id="voltageV" name="voltageV" autocomplete="off"><option>Select voltage...</option><option>6.5kV</option><option>11kV</option><option>22kV</option><option>33kV</option><option>66kV</option></select>
             </td></tr>
             <tr><td>Accommodation</td><td>Scope / Responsibility</td><td>
-              <select id="accommodation" name="accommodation"><option value="">Select…</option><option>Customer</option><option>Aggreko</option><option>Shared</option><option>Not required</option></select>
+              <select id="accommodation" name="accommodation" autocomplete="off"><option value="">Select…</option><option>Customer</option><option>Aggreko</option><option>Shared</option><option>Not required</option></select>
             </td></tr>
           </tbody>
         </table>
@@ -226,28 +226,28 @@
           <tbody>
             <tr><td>Wind</td><td>Capacity (MWp)</td><td>
               <div class="input-grid-2">
-                <select id="wind" name="wind"><option value="">Select…</option><option>Optimised</option><option>Will specify</option><option>Not applicable</option></select>
-                <input type="text" id="windCapacityMWp" name="windCapacityMWp" placeholder="MWp">
+                <select id="wind" name="wind" autocomplete="off"><option value="">Select…</option><option>Optimised</option><option>Will specify</option><option>Not applicable</option></select>
+                <input type="text" id="windCapacityMWp" name="windCapacityMWp" placeholder="MWp" autocomplete="off">
               </div>
             </td></tr>
 
             <tr><td>Solar PV</td><td>Capacity (MWp)</td><td>
               <div class="input-grid-2">
-                <select id="solar" name="solar"><option value="">Select…</option><option>Optimised</option><option>Will specify</option><option>Not applicable</option></select>
-                <input type="text" id="solarCapacityMWp" name="solarCapacityMWp" placeholder="MWp">
+                <select id="solar" name="solar" autocomplete="off"><option value="">Select…</option><option>Optimised</option><option>Will specify</option><option>Not applicable</option></select>
+                <input type="text" id="solarCapacityMWp" name="solarCapacityMWp" placeholder="MWp" autocomplete="off">
               </div>
             </td></tr>
 
             <tr><td>Battery Energy Storage System (BESS)</td><td>–</td><td>
-              <select id="bess" name="bess"><option value="">Select…</option><option>Optimised</option><option>Yes</option><option>No</option><option>Considering</option></select>
+              <select id="bess" name="bess" autocomplete="off"><option value="">Select…</option><option>Optimised</option><option>Yes</option><option>No</option><option>Considering</option></select>
             </td></tr>
 
-            <tr><td>Renewable Energy Fraction (REF%)</td><td>%</td><td><input type="text" id="ref" name="ref"></td></tr>
+            <tr><td>Renewable Energy Fraction (REF%)</td><td>%</td><td><input type="text" id="ref" name="ref" autocomplete="off"></td></tr>
           </tbody>
         </table>
 
         <div class="section-bar">Additional Project Details</div>
-        <textarea id="notes" name="notes" placeholder="Any additional context, timelines, or constraints…"></textarea>
+        <textarea id="notes" name="notes" placeholder="Any additional context, timelines, or constraints…" autocomplete="off"></textarea>
 
         <div class="actions">
           <button type="submit" id="submitBtn">Submit Form</button>
@@ -263,7 +263,7 @@
   </main>
 
 <script>
-/* FLOW URL — replace if you regenerate the trigger in Power Automate */
+/* FLOW URL — updated to your provided trigger URL */
 const FLOW_URL = "https://default5cb01ea241604f87afc65e72e6b82a.d1.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/0f422bbcb71f4f06a6e42ee74aa5b776/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=uoPMJp8FLgPGZgu_yZtEchRN65A-105UHltuzQnn_Ko";
 
 /* helpers */
@@ -331,8 +331,8 @@ function buildPayload(){
   };
 }
 
-/* submit handler with robust error parsing and redirect to thank-you page */
-document.getElementById("customer-intake-form").addEventListener("submit", async (e)=>{
+/* improved submit handler that shows readable server errors */
+document.getElementById("customer-intake-form").addEventListener("submit", async (e) => {
   e.preventDefault();
   if (!validateRequired()) return;
 
@@ -345,28 +345,35 @@ document.getElementById("customer-intake-form").addEventListener("submit", async
   // Debug: log the payload so you can inspect values in DevTools before sending
   console.log("Payload preview:", JSON.stringify(payload, null, 2));
 
-  try{
+  try {
     const res = await fetch(FLOW_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     });
 
+    // read response text and attempt to parse JSON
     const textRes = await res.text();
     let data = null;
-    try{ data = JSON.parse(textRes); } catch(err){ data = null; }
+    try { data = textRes ? JSON.parse(textRes) : null; } catch (ex) { data = null; }
 
-    if (!res.ok){
-      const errMsg = data && (data.message || data.error || data.details) ? (data.message || data.error || JSON.stringify(data)) : (textRes || `HTTP ${res.status}`);
+    if (!res.ok) {
+      const errDetail = data ? (data.error || data.message || data) : textRes || `HTTP ${res.status}`;
+      const errMsg = `HTTP ${res.status} ${res.statusText}` + (errDetail ? ` — ${typeof errDetail === 'string' ? errDetail : JSON.stringify(errDetail)}` : "");
+      console.error("Flow error response:", { status: res.status, body: textRes, parsed: data });
+      setStatus("Submission failed: " + errMsg, false);
       throw new Error(errMsg);
     }
 
-    // On success redirect to a friendly page for customers
-    // ensure thankyou.html exists in the same folder (I provided one earlier)
+    // success path: try to read any success message and redirect
+    const successMessage = (data && (data.message || data.result)) || "Submission successful";
+    console.log("Flow success response:", data ?? textRes);
+    // redirect to friendly page
     window.location.href = 'thankyou.html';
     return;
-  } catch(err){
-    console.error("Submission error (full):", err);
+
+  } catch (err) {
+    console.error("Submission error (exception):", err);
     const pretty = (err && err.message) ? err.message : (typeof err === "string" ? err : JSON.stringify(err, null, 2));
     setStatus("Submission failed: " + pretty, false);
   } finally {
