@@ -61,13 +61,14 @@
       z-index: 20;
     }
 
-    /* Responsive logo: keep aspect ratio, max dimensions, and 18px bottom padding */
+    /* Responsive logo: keep aspect ratio, cap to ~1/4 of previous large size,
+       keep alignment and 18px bottom padding */
     .logo-row img{
       display:block;
       width:100%;
-      max-width:1500px;   /* cap width */
-      height:auto;        /* preserve aspect ratio */
-      padding-bottom:18px;
+      max-width:375px;   /* ~1/4 of 1500px as requested */
+      height:auto;       /* preserve aspect ratio, no stretching */
+      padding-bottom:18px; /* keep padding as requested */
     }
 
     /* Keep a small buffer at the top to avoid overlap with the logo */
