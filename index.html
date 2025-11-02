@@ -48,10 +48,7 @@
     main{ max-width:1000px; margin:20px auto 48px; padding:0 14px; position:relative; }
 
     /* ---- Logo: wrapper approach to control visual size and keep alignment ----
-       We wrap the big intrinsic image inside .logo-wrapper. The wrapper
-       enforces a visual width so the image cannot overflow or appear massive.
-       The image itself is width:100% height:auto so it preserves aspect ratio.
-       The wrapper is right-aligned via .logo-row and keeps padding-bottom:18px.
+       Logo remains right-aligned and visually constrained. Users requested 220px width.
     */
     .logo-row{
       position: absolute;
@@ -67,11 +64,10 @@
       pointer-events: none; /* non-interactive */
     }
 
-    /* Desktop visual size */
     .logo-wrapper{
       display:block;
-      width: 375px;           /* visual width: adjust if you want slightly larger/smaller */
-      padding-bottom: 18px;   /* requested padding under the logo */
+      width: 220px;           /* requested logo width */
+      padding-bottom: 18px;   /* keep the 18px bottom padding */
       overflow: hidden;
       box-sizing: content-box;
     }
@@ -86,36 +82,46 @@
       -webkit-user-drag: none;
     }
 
-    /* Tablet: shrink wrapper */
+    /* Tablet: shrink wrapper slightly */
     @media (max-width: 1024px) {
-      .logo-wrapper { width: 260px; }
+      .logo-wrapper { width: 180px; }
     }
 
-    /* Mobile: keep logo small and non-intrusive */
+    /* Mobile: keep logo small */
     @media (max-width: 640px) {
-      .logo-wrapper { width: 140px; padding-bottom:18px; }
+      .logo-wrapper { width: 120px; padding-bottom:18px; }
       .logo-row { padding: 0 0 20px 0; } /* reduce top padding on small screens */
     }
 
-    /* Keep a larger buffer at the top to create more space between the logo and the titles.
-       Increased to double the previous spacing as requested. */
-    #form-root { position: relative; padding-top: 96px; }
-
-    /* Title + subtitle styling
-       - Right-align titles to the form (align text to the main column)
-       - Keep the existing spacing between title and subtitle unchanged
-       - Do not change other layout or sizes
+    /* Header layout: split logo and titles visually.
+       Titles live in their own wrapper (.header-titles) aligned with the main form's left edge.
+       Increase top buffer so the logo does not overlap the titles (double the previous spacing).
     */
+    #form-root { position: relative; padding-top: 140px; } /* increased spacing to separate logo and titles */
+
+    /* Title + subtitle container aligned to the form border (left edge).
+       This wrapper sits inside main and aligns its left edge with the form content.
+       Keep titles left-aligned to the form (not centered) as requested.
+    */
+    .header-titles {
+      width:100%;
+      max-width:1000px;
+      margin: 0 auto 0;        /* center the block inside main but content aligned left */
+      padding: 0 14px;         /* match main's horizontal padding so left edge aligns */
+      box-sizing: border-box;
+    }
+
     .title-block {
-      margin-top: 20px;
+      margin-top: 0;
       margin-left: 0;
       width: 100%;
       display: block;
-      text-align: right;       /* right-align titles to the form */
-      padding-right: 14px;     /* align with main's horizontal padding so there's no small indent */
+      text-align: left;        /* left-align titles to the form border */
+      padding-right: 0;
     }
-    .title { font-family: var(--font-bold); font-weight:700; font-size:22pt; line-height:1.25; color:#1C2E39; margin:0; padding:10px 0; }
-    .subtitle { font-family:var(--font-bold); font-weight:500; font-size:13pt; color:#111; margin:0; padding-left:0; display:block; text-align:right; }
+    .title { font-family: var(--font-bold); font-weight:700; font-size:22pt; line-height:1.25; color:#1C2E39; margin:0; padding:6px 0 4px 0; }
+    .subtitle { font-family:var(--font-bold); font-weight:500; font-size:13pt; color:#111; margin:0; padding:0 0 8px 0; display:block; text-align:left; }
+
     .pad-after-title-block { height:30pt; }
 
     .note{ color:#475569; margin:0; font-family:var(--font-regular); font-weight:400; font-size:9pt; line-height:1.45; }
@@ -193,18 +199,21 @@
     <!-- Form container -->
     <div id="form-root" style="position:relative;">
 
-      <!-- Logo (wrapped so visual size is constrained) -->
+      <!-- Logo (right, wrapped so visual size is constrained) -->
       <div class="logo-row" aria-hidden="true">
         <div class="logo-wrapper" role="img" aria-label="Aggreko logo">
           <img src="https://raw.githubusercontent.com/Mkalic2025/customer-intake-form/0ff3fb501559e9f4f333ff070d26a092b49ff47e/Logo%20Published%20Online.png" alt="Aggreko Logo">
         </div>
       </div>
 
-      <!-- Title -->
-      <div class="title-block">
-        <h1 class="title">Customer Project Intake Form</h1>
-        <div class="subtitle">Thermal and Hybrid</div>
+      <!-- Titles: split into their own wrapper and aligned to the form's left edge -->
+      <div class="header-titles">
+        <div class="title-block">
+          <h1 class="title">Customer Project Intake Form</h1>
+          <div class="subtitle">Thermal and Hybrid</div>
+        </div>
       </div>
+
       <div class="pad-after-title-block"></div>
 
       <p class="note">Note: Please complete all applicable sections. If a field does not apply to your project, and is not compulsory, please leave it blank.</p>
@@ -355,8 +364,8 @@ function buildPayload(){
     "Target COD Date": document.getElementById("codDate").value,
 
     "CMD (MW)": numOrText(document.getElementById("cmd").value),
-    Redundancy: text(document.getElementById("redundancy").value),
-    "Fuel Type": text(document.getElementById("fuelType").value),
+    Redundancy: text(document.getElementById("redundancy")?.value),
+    "Fuel Type": text(document.getElementById("fuelType")?.value),
 
     "Assumed Fuel Price": numOrText(document.getElementById("fuelPrice")?.value),
     "Fuel Facility": text(document.getElementById("fuelFacility")?.value),
