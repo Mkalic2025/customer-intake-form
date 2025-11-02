@@ -60,7 +60,15 @@
       padding:0 0 48px 0;
       z-index: 20;
     }
-    .logo-row img{ display:block; height:auto; max-width:150px; }
+
+    /* Responsive logo: keep aspect ratio, max dimensions, and 18px bottom padding */
+    .logo-row img{
+      display:block;
+      width:100%;
+      max-width:1500px;   /* cap width */
+      height:auto;        /* preserve aspect ratio */
+      padding-bottom:18px;
+    }
 
     /* Keep a small buffer at the top to avoid overlap with the logo */
     #form-root { position: relative; padding-top: 8px; }
