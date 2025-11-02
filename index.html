@@ -38,6 +38,13 @@
 
       --font-regular:"Arial Nova", Arial, Helvetica, sans-serif;
       --font-bold:"Arial Nova", Arial, Helvetica, sans-serif;
+
+      /* Logo sizing variables (used to compute spacing dynamically) */
+      --logo-visual-width: 220px;    /* desktop visual width requested */
+      --logo-padding-bottom: 18px;   /* requested space under the logo */
+      /* set an accurate aspect ratio if you know it; fallback 90/220 used here */
+      --logo-aspect-ratio: 90/220;
+      --logo-visual-height: calc(var(--logo-visual-width) * var(--logo-aspect-ratio));
     }
 
     *{ box-sizing:border-box; }
@@ -48,7 +55,7 @@
     main{ max-width:1000px; margin:20px auto 48px; padding:0 14px; position:relative; }
 
     /* ---- Logo: wrapper approach to control visual size and keep alignment ----
-       Logo remains right-aligned and visually constrained. Users requested 220px width.
+       Logo remains right-aligned and visually constrained.
     */
     .logo-row{
       position: absolute;
@@ -59,17 +66,19 @@
       align-items:flex-start;
       width:auto;
       margin:0;
-      padding:0 0 48px 0;
+      padding:0 0 calc(var(--logo-padding-bottom) + 30px) 0; /* extra bottom safe area for overlap avoidance */
       z-index: 20;
       pointer-events: none; /* non-interactive */
     }
 
     .logo-wrapper{
       display:block;
-      width: 220px;           /* requested logo width */
-      padding-bottom: 18px;   /* keep the 18px bottom padding */
+      width: var(--logo-visual-width); /* desktop visual width */
+      padding-bottom: var(--logo-padding-bottom);   /* keep the requested bottom padding */
       overflow: hidden;
       box-sizing: content-box;
+      /* set computed height variable for spacing below; fallback to estimated value */
+      --logo-height: var(--logo-visual-height, 90px);
     }
 
     .logo-wrapper img{
@@ -82,26 +91,23 @@
       -webkit-user-drag: none;
     }
 
-    /* Tablet: shrink wrapper slightly */
+    /* Tablet: shrink wrapper slightly and update computed height */
     @media (max-width: 1024px) {
-      .logo-wrapper { width: 180px; }
+      .logo-wrapper { width: 180px; --logo-height: calc(180px * var(--logo-aspect-ratio)); }
     }
 
-    /* Mobile: keep logo small */
+    /* Mobile: keep logo small and update computed height */
     @media (max-width: 640px) {
-      .logo-wrapper { width: 120px; padding-bottom:18px; }
-      .logo-row { padding: 0 0 20px 0; } /* reduce top padding on small screens */
+      .logo-wrapper { width: 120px; padding-bottom:var(--logo-padding-bottom); --logo-height: calc(120px * var(--logo-aspect-ratio)); }
+      .logo-row { padding: 0 0 20px 0; } /* reduce top padding on very small screens */
     }
 
-    /* Header layout: split logo and titles visually.
-       Titles live in their own wrapper (.header-titles) aligned with the main form's left edge.
-       Increase top buffer so the logo does not overlap the titles (double the previous spacing).
-    */
-    #form-root { position: relative; padding-top: 140px; } /* increased spacing to separate logo and titles */
+    /* Header spacing: compute padding-top dynamically from logo visual height + logo padding.
+       This ensures the space exactly matches the logo + requested padding and avoids excess gap. */
+    #form-root { position: relative; padding-top: calc(var(--logo-height) + var(--logo-padding-bottom) + 8px); }
 
     /* Title + subtitle container aligned to the form border (left edge).
        This wrapper sits inside main and aligns its left edge with the form content.
-       Keep titles left-aligned to the form (not centered) as requested.
     */
     .header-titles {
       width:100%;
@@ -127,7 +133,19 @@
     .note{ color:#475569; margin:0; font-family:var(--font-regular); font-weight:400; font-size:12pt; line-height:1.45; }
     .pad-after-note{ height:8pt; }
 
-    .section-bar{ width:100%; background:var(--section-bg); border:1px solid var(--section-border); color:var(--orange); font-family:var(--font-bold); font-weight:700; font-size:13pt; padding:10px 12px; border-radius:var(--radius); margin:18px 0 10px; }
+    /* Section bar - reduce the top margin to ~12px above each section as requested */
+    .section-bar{
+      width:100%;
+      background:var(--section-bg);
+      border:1px solid var(--section-border);
+      color:var(--orange);
+      font-family:var(--font-bold);
+      font-weight:700;
+      font-size:13pt;
+      padding:10px 12px;
+      border-radius:var(--radius);
+      margin:12px 0 10px; /* ~12px above, keep 10px below */
+    }
 
     /* ===== Tables (consistent widths) ===== */
     table{ width:100%; border-collapse:separate; border-spacing:0; margin-bottom:16px; table-layout:fixed; font-family:var(--font-regular); font-weight:400; }
@@ -187,7 +205,7 @@
     #submit-status{ white-space:pre-wrap; font-size:11pt; }
     .ok{ color:#0b7a37; } .err{ color:#b00020; }
 
-    footer{ color:#111; margin-top:24px; }
+    footer{ color:#111; margin-top:30px; }
     .footer-text{ font-family:var(--font-regular); font-weight:400; font-size:10pt; line-height:1.5; color:#111; }
     .footer-text b{ font-family:var(--font-bold); font-weight:700; }
     .small{ font-size:12px; color:var(--muted) }
@@ -208,11 +226,11 @@
 
       <!-- Titles: split into their own wrapper and aligned to the form's left edge -->
       <div class="header-titles">
-      <div class="title-block">
-        <h1 class="title">Customer Project Intake Form</h1>
-        <div class="subtitle">Thermal and Hybrid</div>
-          </div>
+        <div class="title-block">
+          <h1 class="title">Customer Project Intake Form</h1>
+          <div class="subtitle">Thermal and Hybrid</div>
         </div>
+      </div>
 
       <div class="pad-after-title-block"></div>
 
