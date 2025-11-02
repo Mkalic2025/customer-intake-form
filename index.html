@@ -39,14 +39,11 @@
       --font-regular:"Arial Nova", Arial, Helvetica, sans-serif;
       --font-bold:"Arial Nova", Arial, Helvetica, sans-serif;
 
-      /* Logo sizing variables */
-      --logo-width-desktop: 220px;
-      --logo-width-tablet: 180px;
-      --logo-width-mobile: 120px;
-      --logo-padding-bottom: 18px;
-
-      /* small breathing space between logo and titles */
-      --header-breath: 8px;
+      /* Logo sizing variables (used to compute spacing dynamically) */
+      --logo-visual-width: 220px;    /* desktop visual width requested */
+      --logo-padding-bottom: 18px;   /* requested space under the logo */
+      --logo-aspect-ratio: 90/220;   /* use actual logo height/width ratio; adjust if needed */
+      --logo-visual-height: calc(var(--logo-visual-width) * var(--logo-aspect-ratio));
     }
 
     *{ box-sizing:border-box; }
@@ -56,106 +53,88 @@
     }
     main{ max-width:1000px; margin:20px auto 48px; padding:0 14px; position:relative; }
 
-    /* Header layout uses a two-column grid:
-       - left column: titles (aligned to form left edge)
-       - right column: logo (right aligned)
-       This keeps the titles independent of the logo and preserves spacing on all viewports.
+    /* ---- Logo: wrapper approach to control visual size and keep alignment ----
+       Logo remains right-aligned and visually constrained.
     */
-    .page-header {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      align-items: start;
-      gap: 16px; /* small horizontal gap between titles and logo */
-      width: 100%;
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 0 14px;
-    }
-
-    /* Titles container (left column) - keeps title and subtitle stacked with original spacing */
-    .header-titles {
-      display: block;
-      text-align: left;    /* align left to the form border */
-    }
-    .title {
-      font-family: var(--font-bold);
-      font-weight:750;
-      font-size:30pt;
-      line-height:1.05;
-      color:#1C2E39;
-      margin: 0 0 6px 0;   /* keep spacing between title and subtitle */
-      padding: 0;
-    }
-    .subtitle {
-      font-family:var(--font-bold);
-      font-weight:550;
-      font-size:16pt;
-      color:#111;
-      margin: 0;
-      padding: 0;
-      display:block;
-      line-height:1.15;
-    }
-
-    /* Logo container (right column) - wrapped to enforce visual size.
-       Keeps 18px bottom padding and doesn't affect title layout. */
-    .logo-col {
+    .logo-row{
+      position: absolute;
+      top: 0;
+      right: 0;
       display:flex;
-      align-items:flex-start;
       justify-content:flex-end;
-      padding-top: calc(var(--logo-padding-bottom)); /* offsets visual baseline - keeps vertical spacing */
+      align-items:flex-start;
+      width:auto;
+      margin:0;
+      padding:0 0 calc(var(--logo-padding-bottom) + 30px) 0; /* extra bottom safe area for overlap avoidance */
+      z-index: 20;
       pointer-events: none; /* non-interactive */
     }
-    .logo-wrapper {
-      width: var(--logo-width-desktop);
-      padding-bottom: var(--logo-padding-bottom);
+
+    .logo-wrapper{
+      display:block;
+      width: var(--logo-visual-width); /* desktop visual width */
+      padding-bottom: var(--logo-padding-bottom);   /* keep the requested bottom padding */
       overflow: hidden;
       box-sizing: content-box;
+      /* set computed height variable for spacing below; fallback to estimated value */
+      --logo-height: var(--logo-visual-height, 90px);
     }
+
     .logo-wrapper img{
       display:block;
       width:100%;
       height:auto;
+      max-width:100%;
       object-fit:contain;
+      pointer-events: none;
       -webkit-user-drag: none;
-      pointer-events:none;
     }
 
-    /* Tablet and mobile adjustments */
-    @media (max-width:1024px) {
-      .logo-wrapper { width: var(--logo-width-tablet); }
-    }
-    @media (max-width:640px) {
-      .page-header { grid-template-columns: 1fr auto; gap:12px; }
-      .logo-wrapper { width: var(--logo-width-mobile); }
-      /* On very small screens we want the logo to remain visible but not too large */
+    /* Tablet: shrink wrapper slightly and update computed height */
+    @media (max-width: 1024px) {
+      .logo-wrapper { width: 180px; --logo-height: calc(180px * var(--logo-aspect-ratio)); }
     }
 
-    /* Ensure a small vertical gap below header to separate from note/sections:
-       compute from logo visual height approximation plus breathing space.
-       We can't compute exact pixel height without measuring the image, so use a safe CSS spacing:
-       a) set a top margin under header titles equal to logo padding + small gap */
-    .header-spacing {
-      margin-top: calc(var(--logo-padding-bottom) + var(--header-breath));
+    /* Mobile: keep logo small and update computed height */
+    @media (max-width: 640px) {
+      .logo-wrapper { width: 120px; padding-bottom:var(--logo-padding-bottom); --logo-height: calc(120px * var(--logo-aspect-ratio)); }
+      .logo-row { padding: 0 0 20px 0; } /* reduce top padding on very small screens */
     }
 
-    /* Note (instructional) */
-    .note{ color:#475569; margin:0; font-family:var(--font-regular); font-weight:400; font-size:12pt; line-height:1.45; }
-    .pad-after-note{ height:8px; }
+    /* Header spacing: compute padding-top dynamically from logo visual height + logo padding.
+       This replaces the fixed large padding and removes the extra gap while keeping the logo
+       separated from the titles by the requested amount. Add a small 8px breathing gap. */
+    #form-root { position: relative; padding-top: calc(var(--logo-height) + var(--logo-padding-bottom) + 8px); }
 
-    /* Section bar - add ~12px above each section as requested */
-    .section-bar{
+    /* Title + subtitle container aligned to the form border (left edge).
+       This wrapper sits inside main and aligns its left edge with the form content.
+       Keep titles left-aligned to the form (not centered) as requested.
+    */
+    .header-titles {
       width:100%;
-      background:var(--section-bg);
-      border:1px solid var(--section-border);
-      color:var(--orange);
-      font-family:var(--font-bold);
-      font-weight:700;
-      font-size:13pt;
-      padding:10px 12px;
-      border-radius:var(--radius);
-      margin:12px 0 10px; /* 12px above each title, 10px below */
+      max-width:1000px;
+      margin: 0 auto 0;        /* center the block inside main but content aligned left */
+      padding: 0 14px;         /* match main's horizontal padding so left edge aligns */
+      box-sizing: border-box;
     }
+
+    .title-block {
+      margin-top: 0;
+      margin-left: 0;
+      width: 100%;
+      display: block;
+      text-align:left;        /* left-align titles to the form border */
+      padding-right: 0;
+    }
+    .title { font-family: var(--font-bold); font-weight:750; font-size:30pt; line-height:1.25; color:#1C2E39; margin:0; padding:0 0 6px 0; }
+    .subtitle { font-family:var(--font-bold); font-weight:550; font-size:16pt; color:#111; margin:0; padding:0 0 8px 0; display:block; text-align:left; }
+
+    .pad-after-title-block { height:30pt; }
+
+    .note{ color:#475569; margin:0; font-family:var(--font-regular); font-weight:400; font-size:12pt; line-height:1.45; }
+    .pad-after-note{ height:8pt; }
+
+    .section-bar{ width:100%; background:var(--section-bg); border:1px solid var(--section-border); color:var(--orange); font-family:var(--font-bold); font-weight:700; font-size:13pt; padding:10px 12px; border-radius:var(--radius); margin:18px 0 10px; }
 
     /* ===== Tables (consistent widths) ===== */
     table{ width:100%; border-collapse:separate; border-spacing:0; margin-bottom:16px; table-layout:fixed; font-family:var(--font-regular); font-weight:400; }
@@ -163,6 +142,7 @@
     colgroup col.col-unit  { width:15%; }
     colgroup col.col-input { width:55%; }
 
+    /* Capacity/Unit column: smaller font as requested (applies to tables with 'has-capacity') */
     table.has-capacity thead th:nth-child(2) { text-align:center; font-size:9.5pt; }
     table.has-capacity thead th:nth-child(2), table.has-capacity tbody td:nth-child(2) { font-size:9.5pt; }
 
@@ -223,25 +203,26 @@
 
 <body>
   <main>
+    <!-- Form container -->
+    <div id="form-root" style="position:relative;">
 
-    <!-- Header: grid with titles on left and logo on right -->
-    <div class="page-header" role="banner">
-      <div class="header-titles" aria-hidden="false">
-        <h1 class="title">Customer Project Intake Form</h1>
-        <div class="subtitle">Thermal and Hybrid</div>
-      </div>
-
-      <div class="logo-col" aria-hidden="true">
+      <!-- Logo (right, wrapped so visual size is constrained) -->
+      <div class="logo-row" aria-hidden="true">
         <div class="logo-wrapper" role="img" aria-label="Aggreko logo">
           <img src="https://raw.githubusercontent.com/Mkalic2025/customer-intake-form/0ff3fb501559e9f4f333ff070d26a092b49ff47e/Logo%20Published%20Online.png" alt="Aggreko Logo">
         </div>
       </div>
-    </div>
 
-    <!-- small spacing below header to separate from the note -->
-    <div class="header-spacing" aria-hidden="true"></div>
+      <!-- Titles: split into their own wrapper and aligned to the form's left edge -->
+      <div class="header-titles">
+        <div class="title-block">
+          <h1 class="title">Customer Project Intake Form</h1>
+          <div class="subtitle">Thermal and Hybrid</div>
+        </div>
+      </div>
 
-    <div style="max-width:1000px;margin:0 auto;padding:0 14px;">
+      <div class="pad-after-title-block"></div>
+
       <p class="note">Note: Please complete all applicable sections. If a field does not apply to your project, and is not compulsory, please leave it blank.</p>
       <div class="pad-after-note"></div>
 
