@@ -51,7 +51,7 @@
        We wrap the big intrinsic image inside .logo-wrapper. The wrapper
        enforces a visual width so the image cannot overflow or appear massive.
        The image itself is width:100% height:auto so it preserves aspect ratio.
-       The wrapper is right-aligned via .logo-row and keeps padding-bottom:40px.
+       The wrapper is right-aligned via .logo-row and keeps padding-bottom:18px.
     */
     .logo-row{
       position: absolute;
@@ -70,7 +70,7 @@
     /* Desktop visual size */
     .logo-wrapper{
       display:block;
-      width: 200px;           /* visual width: adjust if you want slightly larger/smaller */
+      width: 375px;           /* visual width: adjust if you want slightly larger/smaller */
       padding-bottom: 18px;   /* requested padding under the logo */
       overflow: hidden;
       box-sizing: content-box;
@@ -97,13 +97,25 @@
       .logo-row { padding: 0 0 20px 0; } /* reduce top padding on small screens */
     }
 
-    /* Keep a small buffer at the top to avoid overlap with the logo */
-    #form-root { position: relative; padding-top: 8px; }
+    /* Keep a larger buffer at the top to create more space between the logo and the titles.
+       Increased to double the previous spacing as requested. */
+    #form-root { position: relative; padding-top: 96px; }
 
-    /* Title + subtitle styling */
-    .title-block { margin-top: 20px; margin-left: 0; width: 100%; display: block; text-align: left; }
-    .title { font-family: var(--font-bold); font-weight:700; font-size:22pt; line-height:1.25; color:#1C2E39; margin:0; padding:10px; }
-    .subtitle { font-family:var(--font-bold); font-weight:500; font-size:13pt; color:#111; margin:0; padding-left:10px; display:block; }
+    /* Title + subtitle styling
+       - Right-align titles to the form (align text to the main column)
+       - Keep the existing spacing between title and subtitle unchanged
+       - Do not change other layout or sizes
+    */
+    .title-block {
+      margin-top: 20px;
+      margin-left: 0;
+      width: 100%;
+      display: block;
+      text-align: right;       /* right-align titles to the form */
+      padding-right: 14px;     /* align with main's horizontal padding so there's no small indent */
+    }
+    .title { font-family: var(--font-bold); font-weight:700; font-size:22pt; line-height:1.25; color:#1C2E39; margin:0; padding:10px 0; }
+    .subtitle { font-family:var(--font-bold); font-weight:500; font-size:13pt; color:#111; margin:0; padding-left:0; display:block; text-align:right; }
     .pad-after-title-block { height:30pt; }
 
     .note{ color:#475569; margin:0; font-family:var(--font-regular); font-weight:400; font-size:9pt; line-height:1.45; }
